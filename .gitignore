@@ -1,1 +1,4 @@
 node_modules
+.idea
+/images/$_FILES[H_Obrazek][tmp_name]
+/images/{$_FILES[H_Obrazek][tmp_name]}
