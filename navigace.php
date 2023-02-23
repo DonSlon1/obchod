@@ -29,7 +29,7 @@ function navigace(): void
         </form>
     </div>
     <div>
-        <a class="position-relative pr-3" >
+        <a class="position-relative pr-3" href="basket.php">
             <i class="fas fa-shopping-basket green_icon" style="font-size: 1.8rem"></i>
             <span class="count" style="display: none" id="count"></span>
         </a>
@@ -89,8 +89,10 @@ function navigace(): void
                             <!-- Tab panes -->
                             <div class="tab-content">
 
-                                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                                    <form id="login-form" method="post" onsubmit="login()">
+                                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab">');
+                                //! preventDefault nemazat zajisti aby se formulář neodeslal
+                                echo ('
+                                    <form id="login-form" class="preventDefault" method="post" onsubmit="login()">
                                         <input type="hidden" name="log_reg" value="login">
                                         <div class="form-group">
                                             <label for="loginEmail">Email address</label>
@@ -116,8 +118,10 @@ function navigace(): void
                                     </form>
                                 </div>
 
-                                <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="register-tab">
-                                    <form id="reg-form" method="post" onsubmit="registration()">
+                                <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="register-tab">');
+                                //! preventDefault nemazat zajisti aby se formulář neodeslal
+                                echo ('
+                                    <form id="reg-form" class="preventDefault" method="post" onsubmit="registration()">
                                         <input type="hidden" name="log_reg" value="registration">
                                         <div class="form-group">
                                             <label for="registerEmail">Email address</label>

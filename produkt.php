@@ -15,16 +15,6 @@
 
     <?php
 
-    session_start();
-    $json_array_first = json_decode('[{"Id_p":"DzC7F7fd24_0oWwGEXslX167396977663c6c0701d61e4.96152136","Cena":"245","Pocet":32}]', true);
-    $json_array_second = json_decode('[{"Id_p":"TUwq2GNsgq_wiCqLtFZCa167701444563f535ade3a903.16760167","Cena":"985","Pocet":1}]', true);
-
-    //The array_merge combines both the JSON objects.
-    $merged_json_object = array_merge($json_array_first, $json_array_second);
-
-    $encoded_merged_json = json_encode($merged_json_object);
-    print_r(var_dump($_SESSION["basket"]));
-//    var_dump(json_decode('[{"Id_p":"TUwq2GNsgq_wiCqLtFZCa167701444563f535ade3a903.16760167","Cena":"985","Pocet":1}]'));
     include "connection.php";
     include "navigace.php";
 
@@ -206,7 +196,7 @@
                             <button  type="submit" class="btn btn-primary btn-lg btn-block" onclick="add_To_cart()">Přidat do košíku
                             </button>
                         </div>
-                <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-hidden="true" >
                     <div class="modal-dialog  modal-dialog-centered " role="document" >
                         <div class="modal-content align-content-center p-3">
                             <div class="w-auto m-auto">
