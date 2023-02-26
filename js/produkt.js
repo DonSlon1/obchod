@@ -3,16 +3,17 @@
 const stars = document.querySelectorAll('#rating img');
 
 // Add click event listener to each star image
-
-window.onload = () =>{
+$(window).on("load",function (){
+    console.log(1)
     document.getElementById("positive").addEventListener('input',function (){
         add_new_textarea(this)
     },{ once: true })
+
     document.getElementById("negative").addEventListener('input',function (){
         add_new_textarea(this)
     },{ once: true })
-    document.getElementById("recene").reset()
-}
+    document.getElementById("recene").reset()})
+
 
 const stardiv = document.getElementById('rating');
 
@@ -162,7 +163,8 @@ const recenze = () => {
         data.img_type=file.type
     }
     let formData = new FormData();
-    if(file.size>=10*1024) {
+
+    if( file.size<= 10485760 ) {
         if  (!(file.type in ['image/jpeg','image/png'])) {
             axios.post('review.php', data).then(function (response) {
                 console.log(response.data)

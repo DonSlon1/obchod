@@ -50,9 +50,14 @@
                     <!-- Product image -->
                     <div class="d-flex align-items-center" >
                         <div style="height: 100px ; max-height: 100px" class="d-flex align-items-center">
-                            <img src="images/'.$item_data["H_Obrazek"].'" alt="Product 1" style="width: 100px">
+                            <a  href="http://localhost/Obchod/produkt.php?ID_P='.$item["Id_p"].'">
+                                <img src="images/'.$item_data["H_Obrazek"].'" alt="Product 1" style="width: 100px">
+                            </a>
                         </div>
-                        <span class="ml-3">'.$item_data["Nazev"].'</span>
+                        <a  href="http://localhost/Obchod/produkt.php?ID_P='.$item["Id_p"].'">
+                            <span class="ml-3">'.$item_data["Nazev"].'</span>
+                        </a>
+                        
                     </div>
                 </td>
                 <td class="text-center align-middle" >
@@ -66,7 +71,7 @@
                    
                     <input type="number" class="form-control"  min="0" oninput="validity.valid||(value=\'\')" onchange="update_basket(\''.$item["Id_p"].'\' , this)" value="'.$item["Pocet"].'">
                 </td>
-                <td class="text-center align-middle">$50.00</td>
+                <td class="text-center align-middle">'.$item["Cena"]*$item["Pocet"].',-</td>
             </tr>');
             }
         ?>

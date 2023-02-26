@@ -16,7 +16,9 @@
 }
 
 .img-dislpay{
-    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
     height: auto;
 }
 .recenze_obrazek{
@@ -34,7 +36,7 @@
     fill: #a1c900;
 }
 .fitcont{
-    max-width: fit-content;
+    max-width: fit-content !important;
 }
 .rev-icon{
     width: 30px;
@@ -43,9 +45,9 @@
 textarea{
 
     box-shadow: none !important;
-    resize: none;
+    resize: none !important;
 
-    overflow: hidden;
+    overflow: hidden !important;
 
 }
 .mousefocus{
@@ -89,8 +91,15 @@ textarea{
     height: 25px;
 }
 a {
-    color: #495057;
-
+    color: #495057 !important;
+}
+a:hover{
+    color: #495057 !important;
+    text-decoration: none !important;
+}
+a:visited{
+    color: #495057 !important;
+    text-decoration: none !important;
 }
 .nav-tabs .nav-link.active {
     color: #007bff;
@@ -107,7 +116,7 @@ a {
     border: 2px solid transparent;
 }
 .empty-stars-element {
-    background: url("svg/empty-star.svg") repeat-x;
+    background: url("../svg/empty-star.svg") repeat-x;
     background-size: 25px auto;
     height: 100%;
     width: 125px;
@@ -118,7 +127,7 @@ a {
     position: relative;
 }
 .stars-element {
-    background: url("svg/star.svg") repeat-x;
+    background: url("../svg/star.svg") repeat-x;
     background-size: 25px auto;
     height: 100%;
     left: 0;
@@ -157,4 +166,11 @@ a {
     background-color: #a1c900;
     font-size: 50px;
     border-radius: 100%;
+}
+
+.image_galery{
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
 }
