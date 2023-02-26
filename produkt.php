@@ -54,14 +54,14 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="container d-flex justify-content-center align-items-center" style="height: 525px">
-                <img src="./images/'.$himage['H_Obrazek'].'" alt="'.$himage["Nazev"].'" class="d-block mx-auto w-100  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
+                <img src="./images/'.$himage['H_Obrazek'].'" alt="'.$himage["Nazev"].'" class="d-block image_galery  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
             </div>
           </div>');
         $ii=$images;
         while ($image = $images->fetch_assoc()) {
             echo ('<div class="carousel-item">
                         <div class="container d-flex justify-content-center align-items-center" style="height: 525px">
-                            <img src="./images/'. $image['Obrazek'] .'" alt="'.$image["Nazev"] .'" class="d-block mx-auto w-100  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
+                            <img src="./images/'. $image['Obrazek'] .'" alt="'.$image["Nazev"] .'" class="d-block image_galery  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
                         </div>
                    </div>');
         }
@@ -83,7 +83,7 @@
             </a>
         </div>
 
-<!--    * div ve kterém se budou zobrazovat obrázky od produktu ve velkém-->
+<!--    * div ve kterém se  zobrazovat obrázky od produktu ve velkém-->
 <div class="modal fade" id="images-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered " role="document" >
         <div class="modal-content" >
@@ -101,7 +101,7 @@
                                 echo('
                                         <div class="carousel-item active vertical-center">
                                             <div class="container d-flex justify-content-center align-items-center" >
-                                                <img src="./images/'.$himage['H_Obrazek'].'" alt="'.$himage["Nazev"].'" class="d-block mx-auto w-100 img-dislpay"  style="max-width: 50vw" >
+                                                <img src="./images/'.$himage['H_Obrazek'].'" alt="'.$himage["Nazev"].'" class="d-block   img-dislpay"  style="max-width: 50vw" >
                                             </div>
                                         </div>');
                                 $images = mysqli_query($conn,$sql2);
@@ -110,7 +110,7 @@
                                     echo('
                                         <div class="carousel-item  vertical-center ">
                                             <div class="container d-flex justify-content-center align-items-center"  >
-                                                <img src="./images/'.$image['Obrazek'].'" alt="'.$image["Nazev"].'" class="d-block mx-auto w-100 img-dislpay"  style="max-width: 50vw ">
+                                                <img src="./images/'.$image['Obrazek'].'" alt="'.$image["Nazev"].'" class="d-block  img-dislpay"  style="max-width: 50vw ">
                                             </div>
                                         </div>');
                                 }
@@ -135,7 +135,7 @@
                         echo ('
                             <div class="p-2 ">
                             <div class=" d-flex  align-items-center w-fitcontent borde bg-white p-1 blue-border" >
-                                <img src="./images/'. $himage['H_Obrazek'] .'" alt="'.$himage["Nazev"] .'" class="d-block mx-auto   cursor_pointer" style="width: 150px" data-slide-to="0" data-target="#big-product-gallery">
+                                <img src="./images/'. $himage['H_Obrazek'] .'" alt="'.$himage["Nazev"] .'" class="d-block mx-auto image_galery  cursor_pointer" style="width: 150px" data-slide-to="0" data-target="#big-product-gallery">
                             </div>
                             </div>');
                         $images = mysqli_query($conn,$sql2);
@@ -228,7 +228,44 @@
         </li>
     </ul>
     <div class="tab-content p-3" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Product Parameters</h2>
+
+                        <table class="table table-bordered">
+                            <tbody>
+                            <?php
+                            $sql2 = "SELECT Parametry FROM predmety WHERE ID_P = '".$_GET["ID_P"]."'";
+                            $res = mysqli_fetch_all(mysqli_query($conn,$sql2));
+                            $res = $res[0][0];
+
+                            $produkt_parameters = json_decode($res,true);
+                            foreach ($produkt_parameters as $key=>$parameter) {
+                                echo '<tr class="table-primary">
+                                        <th colspan="2">'.$key.'</th>
+                                     </tr>';
+                                foreach ($parameter as $index => $item) {
+                                    echo '<tr>
+                                            <th>'.$index.'</th>
+                                            <td>'.$item.'</td>
+                                          </tr>';
+                                }
+
+                            }
+
+
+                            ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
         <div class="tab-pane fade" id="Hodnocení" role="tabpanel" aria-labelledby="Hodnocení-tab">
 
 
@@ -573,9 +610,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="js/produkt.js"></script>
 <script src="js/global_funcion.js"></script>
 <script src="js/login.js"></script>
-<script src="js/produkt.js"></script>
 <script src="js/Add_To_cart.js"></script>
 
 </body>
