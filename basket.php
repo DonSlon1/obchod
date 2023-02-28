@@ -13,8 +13,9 @@
 </head>
 <body>
 <?php
-    include "connection.php";
-    include "navigace.php";
+
+    require "connection.php";
+    require  "navigace.php";
     if (session_status() !== 2){
         session_start();
     }

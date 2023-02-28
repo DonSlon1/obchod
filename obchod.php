@@ -19,8 +19,8 @@
 
 
 <?php
-include "navigace.php";
-include "connection.php";
+require "navigace.php";
+require "connection.php";
 navigace();
 
 $conn = DbCon();
@@ -71,7 +71,7 @@ while ($row = $res->fetch_assoc()) {
             </div>
             <div class="sopdek">
                 <div class="cena">'.$row["Cena_Bez_DPH"].'</div>
-                <div class="stranka"><a href="http://localhost/Obchod/produkt.php?ID_P='.$row["ID_P"].'"><button>aaa</button></a></div>
+                <div class="stranka"><a href="./produkt.php?ID_P='.$row["ID_P"].'"><button>aaa</button></a></div>
             </div>
         </div>
     '
@@ -97,17 +97,6 @@ while ($row = $res->fetch_assoc()) {
 
 </body>
 <style>
-
-    .input-group-text {
-        cursor: pointer;
-    }
-
-    .fa-sign-out,
-    .fa-eye,
-    .fa-eye-slash {
-        width: 1em;
-        height: 1em;
-    }
 
     .nav-item > span{
         cursor: pointer;

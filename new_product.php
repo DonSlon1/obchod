@@ -15,9 +15,9 @@
 <body>
 <?php
 
-include "navigace.php";
-include "connection.php";
-include "randomstring.php";
+require "navigace.php";
+require "connection.php";
+require "randomstring.php";
 $conn = DbCon();
 mysqli_set_charset($conn,"utf8mb4");
 navigace();

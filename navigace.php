@@ -1,4 +1,9 @@
 <?php
+/**
+ * zobrazí defaultí navigaci sjtejná na všech stránkách
+ * @method navigace()
+ * @return void
+ * */
 function navigace(): void
 {
     echo('
@@ -89,9 +94,7 @@ function navigace(): void
                             <!-- Tab panes -->
                             <div class="tab-content">
 
-                                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab">');
-                                //! preventDefault nemazat zajisti aby se formulář neodeslal
-                                echo ('
+                                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab">
                                     <form id="login-form" class="preventDefault" method="post" onsubmit="login()">
                                         <input type="hidden" name="log_reg" value="login">
                                         <div class="form-group">
@@ -120,6 +123,7 @@ function navigace(): void
 
                                 <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="register-tab">');
                                 //! preventDefault nemazat zajisti aby se formulář neodeslal
+
                                 echo ('
                                     <form id="reg-form" class="preventDefault" method="post" onsubmit="registration()">
                                         <input type="hidden" name="log_reg" value="registration">

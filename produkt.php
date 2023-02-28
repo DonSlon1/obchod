@@ -15,8 +15,8 @@
 
     <?php
 
-    include "connection.php";
-    include "navigace.php";
+    require "connection.php";
+    require  "navigace.php";
 
     navigace();
     $conn = DbCon();

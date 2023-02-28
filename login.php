@@ -1,9 +1,20 @@
 <?php
 
-function set_cookie($ID_U) :void
+
+require "connection.php";
+require "randomstring.php";
+$conn = DbCon();
+/**
+ * @method set_cookies()
+ * @param string $ID_U id uživatele který má být přihlášený
+ * @param string $keepLogin určí jestli po ukončení js sesion se má uživatel odhlásit
+ * @return void
+ */
+
+function set_cookie(string $ID_U , string $keepLogin) :void
 {
-    print_r($_POST["keepLogin"]);
-    if ($_POST["keepLogin"] == 1){
+
+    if ($keepLogin == 1){
         setcookie('logged_in', true, [
                 'expires' => time() + (86400 * 30),
                 'path' => '/',
@@ -31,12 +42,11 @@ function set_cookie($ID_U) :void
         ); // Set the user ID
     }
 }
-include "connection.php";
-include "randomstring.php";
+
 $_POST=json_decode(file_get_contents('php://input'),true);
 if (!empty($_POST)){
 
-    $conn = DbCon();
+
 
     if ($_POST["log_reg"]=="login"){
         $email = $_POST["email"];
@@ -47,7 +57,7 @@ if (!empty($_POST)){
             $res = (mysqli_query($conn,$sql)->fetch_assoc());
             if (password_verify($Password,$res["Password"])){
 
-                set_cookie($res["ID_U"]);
+                set_cookie($res["ID_U"] ,$_POST["keepLogin"]);
                 echo "good";
             }else{
                 echo "notexist";
@@ -78,7 +88,7 @@ if (!empty($_POST)){
                 $sql = "INSERT INTO uzivatel (ID_U, Jmeno, Prijmeni, Email, Mesto, Ulice, PSC, Role, Password) VALUE ('$ID_U','$jmeno','$prijmeni','$email','$Mesto','$Ulice','$PSC','Uzivatel','$Password')";
                 mysqli_query($conn,$sql);
 
-                set_cookie($ID_U);
+                set_cookie($ID_U , $_POST["keepLogin"]);
                 echo "good_reg";
             }
         }else{

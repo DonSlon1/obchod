@@ -1,6 +1,6 @@
 <?php
-    include "connection.php";
-    include "randomstring.php";
+    require "connection.php";
+    require "randomstring.php";
     $con = DbCon();
     $data = array();
     $_POST=json_decode(file_get_contents('php://input'),true);
