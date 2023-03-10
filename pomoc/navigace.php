@@ -1,12 +1,12 @@
 <?php
-/**
- * zobrazí defaultí navigaci sjtejná na všech stránkách
- * @method navigace()
- * @return void
- * */
-function navigace(): void
-{
-    echo('
+    /**
+     * zobrazí defaultí navigaci sjtejná na všech stránkách
+     * @method navigace()
+     * @return void
+     * */
+    function navigace() : void
+    {
+        echo('
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">My Store</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,8 +42,8 @@ function navigace(): void
     <ul class="navbar-nav pr-2">');
 
 
-    if (array_key_exists("logged_in", $_COOKIE)) {
-        echo('
+        if (array_key_exists("logged_in", $_COOKIE)) {
+            echo('
                     <li class="nav-item">
                     
                         <span class="nav-link">Edit Profile</span>
@@ -53,43 +53,50 @@ function navigace(): void
                         
                      </li>');
 
-    } else {
-        echo('
+        } else {
+            echo('
                     <li class="nav-item">
-                    <span class="nav-link" data-toggle="modal" data-target="#myModal">Login</span>
+                        <span class="nav-link" data-toggle="modal" data-target="#LoginModal">Login</span>                      
+                    </li>
+        ');
+        }
 
-                        
-                     </li>');
-    }
 
-
-    echo('    </ul>
+        echo('    </ul>
 
 </nav>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
+<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog w-fitcontent" role="document">
+        <div class="modal-content w-fitcontent">
+            <!--<div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">Shop Login/Registration</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-            <div class="modal-body">
-                <div class="container mt-5 ">
-                    <div class="row">
-                        <div class="col-md-6 offset-md-3">
+            </div>-->
+            <ul class="nav nav-tabs " id="LoginTab" role="tablist">
+                    <li class="nav-item w-100" >
+                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" 
+                            role="tab" aria-controls="login" aria-selected="true" style="border-top-right-radius: 0 !important;">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item w-100" >
+                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" 
+                            role="tab" aria-controls="register" aria-selected="false" style="border-top-left-radius: 0 !important;">
+                            Register
+                        </a>
+                    </li>
+            </ul>
+            <div class="modal-body w-fitcontent mt-1 ml-4 mr-4 mb-1">
+                
+                <div class="container  w-fitcontent">
+                    <div class="row w-fitcontent">
+                        <div >
 
 
                             <!-- Nav tabs -->
-                            <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
-                                </li>
-                            </ul>
+                            
 
                             <!-- Tab panes -->
                             <div class="tab-content">
@@ -122,9 +129,9 @@ function navigace(): void
                                 </div>
 
                                 <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="register-tab">');
-                                //! preventDefault nemazat zajisti aby se formulář neodeslal
+        //! preventDefault nemazat zajisti aby se formulář neodeslal
 
-                                echo ('
+        echo('
                                     <form id="reg-form" class="preventDefault" method="post" onsubmit="registration()">
                                         <input type="hidden" name="log_reg" value="registration">
                                         <div class="form-group">
@@ -157,21 +164,22 @@ function navigace(): void
                                             <label for="prijmeni">Příjmení</label>
                                             <input type="text" class="form-control" id="prijmeni" name="prijmeni" aria-describedby="emailHelp">
                                         </div>
-
-                                        <div class="form-group">
-                                            <label for="Ulice">Ulice</label>
-                                            <input type="text" class="form-control" id="Ulice" name="Ulice" aria-describedby="emailHelp">
-                                        </div>
-
+                                        
                                         <div class="form-group">
                                             <label for="Mesto">Mesto</label>
                                             <input type="text" class="form-control" id="Mesto" name="Mesto" aria-describedby="emailHelp">
                                         </div>
-
+                                        
+                                        <div class="form-group">
+                                            <label for="Ulice">Ulice</label>
+                                            <input type="text" class="form-control" id="Ulice" name="Ulice" aria-describedby="emailHelp">
+                                        </div>
+                                      
                                         <div class="form-group">
                                             <label for="PSC">PSC</label>
                                             <input type="text" class="form-control" id="PSC" name="PSC" aria-describedby="emailHelp">
                                         </div>
+                                        
 
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input" id="reg_keep-logged-in" name="reg_keep-logged-in">
@@ -190,4 +198,4 @@ function navigace(): void
     </div>
 </div>
 ');
-}
+    }

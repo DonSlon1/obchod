@@ -1,46 +1,57 @@
-.mw-fitcontent{
+.mw-fitcontent {
     max-width: fit-content;
 }
-.w-fitcontent{
+
+.w-fitcontent {
     width: fit-content;
 }
 
-.font22{
+.font22 {
     font-size: 22px;
 }
-w-max-100{
+
+.w-max-100 {
     max-width: 100%;
 }
 
-.green_icon{
+.green_icon {
     color: #75b32b !important;
 }
-.blue_text{
-    color: #0094E7;
+
+.blue_text {
+    color: #0094e7;
 }
-.blue-border{
-    border: #0094E7 solid 3px !important;
+
+.blue-border {
+    border: #0094e7 solid 3px !important;
 }
-.cursor_pointer{
+
+.cursor_pointer {
     cursor: pointer;
 }
-.minw-100{
+
+.minw-100 {
     min-width: 100%;
 }
-.small-img{
+
+.small-img {
     width: 32px;
     height: 32px;
 
 }
-.lg-background{
-    background-color: #dfdfdf ;
+
+.lg-background {
+    background-color: #dfdfdf;
 }
-.borde{
-    border: #9d9d9d solid 1px ;
+
+.borde {
+    border: #9d9d9d solid 1px;
 }
-.bg-white{
+
+.bg-white {
     background-color: #e0e0e0;
 }
+
 .vertical-center {
     margin: 0;
     position: absolute;
@@ -48,7 +59,8 @@ w-max-100{
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-.close-button{
+
+.close-button {
     top: 6px;
     right: 6px;
     width: 22px;
@@ -59,4 +71,34 @@ w-max-100{
 
     background-color: rgb(255, 255, 255) !important;
 
+}
+
+#LoginTab {
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-flow: row !important;
+}
+
+.img-basket {
+    display: block;
+    margin: auto;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100px !important;
+    max-height: 100px !important;
+}
+
+.count {
+    color: #fff;
+    background: #1a3b6c;
+    border-radius: 14px;
+    bottom: 0;
+    font-size: 14px;
+    font-weight: 600;
+    left: 26px;
+    line-height: 12px;
+    min-width: 12px;
+    padding: 3px;
+    position: absolute;
+    text-align: center;
 }

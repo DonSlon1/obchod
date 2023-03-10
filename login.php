@@ -1,8 +1,8 @@
 <?php
 
 
-require "connection.php";
-require "randomstring.php";
+require "pomoc/connection.php";
+require "pomoc/randomstring.php";
 $conn = DbCon();
 /**
  * @method set_cookies()
@@ -70,7 +70,7 @@ if (!empty($_POST)){
 
         $email = $_POST["email"];
 
-        echo $email;
+
         $sql = "SELECT * FROM uzivatel WHERE Email= '$email' ";
         if (0==mysqli_num_rows(mysqli_query($conn,$sql))){
             if ($_POST["confirmPassword"]=="" && $_POST["Password"]==""){
@@ -85,11 +85,15 @@ if (!empty($_POST)){
                 $Mesto = $_POST["Mesto"];
                 $PSC = $_POST["PSC"];
                 $ID_U=generateRandomString(10)."_".uniqid(generateRandomString(10).time(),true);
-                $sql = "INSERT INTO uzivatel (ID_U, Jmeno, Prijmeni, Email, Mesto, Ulice, PSC, Role, Password) VALUE ('$ID_U','$jmeno','$prijmeni','$email','$Mesto','$Ulice','$PSC','Uzivatel','$Password')";
+                $sql = "INSERT INTO uzivatel (ID_U, Jmeno, Prijmeni, Email, Role, Password) VALUE ('$ID_U','$jmeno','$prijmeni','$email','Uzivatel','$Password')";
                 mysqli_query($conn,$sql);
-
+                $sql = "INSERT INTO adresa (ID_U, Mesto, Ulice, PSC) VALUE ('$ID_U','$Mesto','$Ulice','$PSC')";
+                mysqli_query($conn,$sql);
                 set_cookie($ID_U , $_POST["keepLogin"]);
                 echo "good_reg";
+            }
+            else {
+                echo "password!=password";
             }
         }else{
             echo "email_nonempty";

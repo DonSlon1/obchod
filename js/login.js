@@ -1,10 +1,8 @@
-
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const passwordField = document.getElementById('loginPassword');
     const showPassword = document.getElementById('show-password');
 
-    showPassword.addEventListener('click', function() {
+    showPassword.addEventListener('click', function () {
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
             this.innerHTML = '<i class="fa fa-eye-slash"></i>';
@@ -15,12 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const passwordRegistrationField = document.getElementById('confirmPassword');
     const registerPassword = document.getElementById('registerPassword');
     const showPasswordRegistration = document.getElementById('show-passwordRegister');
 
-    showPasswordRegistration.addEventListener('click', function() {
+    showPasswordRegistration.addEventListener('click', function () {
         if (passwordRegistrationField.type === 'password') {
             passwordRegistrationField.type = 'text';
             registerPassword.type = 'text';
@@ -34,27 +32,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-const login = () =>{
+const login = () => {
     const email = document.getElementById("loginEmail").value
     const Password = document.getElementById("loginPassword").value
     const keepLogin = document.getElementById("login_keep_logged_in").checked
-    axios.post('login.php', {
+    axios.post('login', {
         log_reg: "login",
-        keepLogin:keepLogin,
+        keepLogin: keepLogin,
         email: email,
         Password: Password
     }).then(function (response) {
-            console.log(response)
-            if (response.data === "good"){
-                console.log("good");
-                location.reload();
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
+        console.log(response)
+        if (response.data === "good") {
+            console.log("good");
+            location.reload();
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 
-const registration = () =>{
+const registration = () => {
     const email = document.getElementById("registerEmail").value
     const password = document.getElementById("registerPassword").value
     const confirmPassword = document.getElementById("confirmPassword").value
@@ -67,38 +65,41 @@ const registration = () =>{
     console.log(email)
     console.log(password)
     console.log(confirmPassword)
-    axios.post('login.php', {
+    axios.post('login', {
         log_reg: 'registration',
-        keepLogin:keepLogin,
+        keepLogin: keepLogin,
         email: email,
         Password: password,
         confirmPassword: confirmPassword,
-        jmeno:jmeno,
-        prijmeni:prijmeni,
-        Ulice:Ulice,
-        Mesto:Mesto,
-        PSC:PSC
+        jmeno: jmeno,
+        prijmeni: prijmeni,
+        Ulice: Ulice,
+        Mesto: Mesto,
+        PSC: PSC
 
     })
         .then(function (response) {
             console.log(response);
+            if (response.data === "good_reg") {
+                location.reload()
+            }
         })
         .catch(function (error) {
             console.log(error);
         });
 }
 const logout = () => {
-  axios.post('login.php',{
-      log_reg:'logout'
-  }).then(function (response) {
-      location.reload();
+    axios.post('login', {
+        log_reg: 'logout'
+    }).then(function (response) {
+        location.reload();
 
-  }).catch(function (error) {
-      console.log(error);
-  });
+    }).catch(function (error) {
+        console.log(error);
+    });
 
 }
-$("#myModal").on("hidden.bs.modal", function () {
+$("#LoginModal").on("hidden.bs.modal", function () {
     document.getElementById("login-form").reset()
     document.getElementById("reg-form").reset()
 
