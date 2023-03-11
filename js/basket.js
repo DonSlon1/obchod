@@ -53,3 +53,8 @@ function update_basket(Id_p, element) {
 
     }
 }
+
+
+function form(e) {
+    document.getElementById("del-pay-frm__submit").classList.contains("disabled") && e.preventDefault()
+}

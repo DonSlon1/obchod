@@ -28,7 +28,7 @@
 ?>
 
 <!-- Add item form -->
-<div class="container mt-5">
+<div class="container mt-5 h_container ">
     <h2>Add Item</h2>
     <form action="new_product.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
@@ -112,14 +112,14 @@
     if (!empty($_POST["nazev"])) {
 
 
-        $ActualId = generateRandomString(10) . "_" . uniqid(generateRandomString(10) . time(), true);
+        $ActualId = generateRandomString(10)."_".uniqid(generateRandomString(10).time(), true);
         if (getimagesize($_FILES["H_Obrazek"]["tmp_name"])) {
-            $HOb = generateRandomString(10) . "_" . generateRandomString(50) . "." . (mb_substr($_FILES["H_Obrazek"]["type"], mb_stripos($_FILES["H_Obrazek"]["type"], "/") + 1));
-            while (file_exists('./images/' . $HOb)) {
-                $HOb = generateRandomString(10) . "_" . generateRandomString(50) . "." . (mb_substr($_FILES["H_Obrazek"]["type"], mb_stripos($_FILES["H_Obrazek"]["type"], "/") + 1));
+            $HOb = generateRandomString(10)."_".generateRandomString(50).".".(mb_substr($_FILES["H_Obrazek"]["type"], mb_stripos($_FILES["H_Obrazek"]["type"], "/") + 1));
+            while (file_exists('./images/'.$HOb)) {
+                $HOb = generateRandomString(10)."_".generateRandomString(50).".".(mb_substr($_FILES["H_Obrazek"]["type"], mb_stripos($_FILES["H_Obrazek"]["type"], "/") + 1));
             }
 
-            move_uploaded_file($_FILES["H_Obrazek"]["tmp_name"], './images/' . $HOb);
+            move_uploaded_file($_FILES["H_Obrazek"]["tmp_name"], './images/'.$HOb);
             $nazev = $_POST["nazev"];
             $popis = $_POST["popis"];
             $cena = $_POST["Cena"];
@@ -132,9 +132,9 @@
                 foreach ($_POST["name_of"] as $key => $item) {
                     $helpobj = new stdClass();
 
-                    foreach ($_POST[$key . "J"] as $JKey => $value) {
+                    foreach ($_POST[$key."J"] as $JKey => $value) {
                         $value = addslashes($value);
-                        $helpobj->$value = addslashes($_POST[$key . "H"]["$JKey"]);
+                        $helpobj->$value = addslashes($_POST[$key."H"]["$JKey"]);
                     }
 
                     $item = addslashes($item);
@@ -146,9 +146,9 @@
 //                print_r($res);
 
             foreach (json_decode($res) as $key1 => $item) {
-                echo "<br/>" . $key1, "{";
+                echo "<br/>".$key1, "{";
                 foreach ($item as $key => $value) {
-                    echo "<br/>", $key . "=" . $value;
+                    echo "<br/>", $key."=".$value;
                 }
                 echo "} <br/>";
             }
@@ -169,13 +169,13 @@
 
             if (getimagesize($FILE["tmp_name"])) {
 
-                $data = generateRandomString(10) . "_" . generateRandomString(50) . "." . (mb_substr($FILE["type"], mb_stripos($FILE["type"], "/") + 1));
-                while (file_exists('./images/' . $data)) {
-                    $data = generateRandomString(10) . "_" . generateRandomString(50) . "." . (mb_substr($FILE["type"], mb_stripos($FILE["type"], "/") + 1));
+                $data = generateRandomString(10)."_".generateRandomString(50).".".(mb_substr($FILE["type"], mb_stripos($FILE["type"], "/") + 1));
+                while (file_exists('./images/'.$data)) {
+                    $data = generateRandomString(10)."_".generateRandomString(50).".".(mb_substr($FILE["type"], mb_stripos($FILE["type"], "/") + 1));
                 }
 
-                move_uploaded_file($FILE["tmp_name"], './images/' . $data);
-                $nazev = $_POST[$key . "name"];
+                move_uploaded_file($FILE["tmp_name"], './images/'.$data);
+                $nazev = $_POST[$key."name"];
                 echo $key, $nazev, "<br>";
                 $sql3 = "INSERT INTO `obrazky` (`ID_O`, `Obrazek`, `Nazev`, `ID_P`) VALUES (NULL,'$data', '$nazev', '$ActualId')";
                 mysqli_query($conn, $sql3);

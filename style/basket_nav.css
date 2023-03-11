@@ -1,31 +1,68 @@
+@media only screen  and (max-width: 900px) {
+
+    .navigace > li > a {
+        flex-direction: column;
+
+    }
+
+    .navigace > li > a::before {
+        margin: 0 !important;
+    }
+
+    .navigace > li > a > span {
+        text-align: center;
+    }
+}
+
 .navigace {
     list-style: none;
     display: flex;
     justify-content: space-between;
     counter-reset: li;
-    background-color: #00afff;
+
+    background-color: #75b32b;
     padding: 0;
+    margin-bottom: 2rem;
 }
 
 .navigace > li {
     width: 100%;
     padding: 10px 0;
     counter-increment: li;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.navigace > li:not(.active_li) {
+    margin-left: 1px;
+    background-color: #007bff;
+}
+
+.navigace > li.active_li::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -20px;
+    width: 0;
+    height: 0;
+    border-top: solid 1.5rem #75b32b;
+    border-left: solid 1.5rem transparent;
+    border-right: solid 1.5rem transparent;
 
 }
 
-.navigace > li:nth-child(2n+1) {
-    border: #1a3b6c 2px solid;
-}
-
-.navigace > li:nth-child(2n) {
-    border-top: #1a3b6c 2px solid;
-    border-bottom: #1a3b6c 2px solid;
-}
 
 .navigace > li > a {
     display: flex;
     justify-content: center;
+    color: black !important;
+    font-size: 25px;
+    align-items: center;
+    height: 100%;
+
 }
 
 .navigace > li > a > span {
@@ -36,7 +73,7 @@
 
 .navigace > li > a::before {
     align-items: inherit;
-    background-color: #67b2ea;
+    background-color: #79c3ff;
     border-radius: 50%;
     content: counter(li);
     display: inherit;
@@ -44,6 +81,8 @@
     justify-content: center;
     line-height: 1.25em;
     margin-right: 12px;
+    max-width: 1.25em;
+    max-height: 1.25em;
     min-height: 1.25em;
     min-width: 1.25em;
 }

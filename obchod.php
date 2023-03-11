@@ -18,11 +18,12 @@
 
 
 <?php
-    require "pomoc/navigace.php";
-    require "pomoc/connection.php";
     if (session_status() != PHP_SESSION_ACTIVE) {
         session_start();
     }
+    require "pomoc/navigace.php";
+    require "pomoc/connection.php";
+
     navigace();
 
     $conn = DbCon();
@@ -33,7 +34,7 @@
     $count = 0;
     while ($row = $res->fetch_assoc()) {
 
-        $sql2 = "SELECT * FROM recenze WHERE ID_P = '" . $row['ID_P'] . "'";
+        $sql2 = "SELECT * FROM recenze WHERE ID_P = '".$row['ID_P']."'";
         $hod_query = mysqli_query($conn, $sql2);
         $hod = 0;
         $pocet = 0;
@@ -58,21 +59,21 @@
         <div class="produkt input-group-sm mb-3 col-md-4 ">
             <div class="top">
 
-                <img class="image-produktu" title="' . $row["Nazev"] . '" alt="' . $row["Nazev"] . '" src="./images/' . $row['H_Obrazek'] . '"/>
+                <img class="image-produktu" title="'.$row["Nazev"].'" alt="'.$row["Nazev"].'" src="./images/'.$row['H_Obrazek'].'"/>
                 <div>
                 <div class="star-row">
-                    <div class="hvezdy" title="Hodnocení ' . $vls . '/5">
+                    <div class="hvezdy" title="Hodnocení '.$vls.'/5">
                         <div class="hvezdy-prazdne"></div>
-                        <div class="pocet-hvezd" style="width:' . ($vls * 20) . '%"></div>
+                        <div class="pocet-hvezd" style="width:'.($vls * 20).'%"></div>
                     </div>
                 </div>
                 </div>
-                <h2 class="nazev-produktu">' . $row["Nazev"] . '</h2>
-                ' . $row["Popis"] . '
+                <h2 class="nazev-produktu">'.$row["Nazev"].'</h2>
+                '.$row["Popis"].'
             </div>
             <div class="sopdek">
-                <div class="cena">' . $row["Cena_Bez_DPH"] . '</div>
-                <div class="stranka"><a href="./produkt.php?ID_P=' . $row["ID_P"] . '"><button>aaa</button></a></div>
+                <div class="cena">'.$row["Cena_Bez_DPH"].'</div>
+                <div class="stranka"><a href="./produkt.php?ID_P='.$row["ID_P"].'"><button>aaa</button></a></div>
             </div>
         </div>
     '

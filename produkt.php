@@ -22,8 +22,8 @@
 
         navigace();
         $conn = DbCon();
-        $sql1 = "SELECT * FROM predmety WHERE ID_P = '" . $_GET["ID_P"] . "'";
-        $sql2 = "SELECT * FROM obrazky WHERE ID_P = '" . $_GET["ID_P"] . "'";
+        $sql1 = "SELECT * FROM predmety WHERE ID_P = '".$_GET["ID_P"]."'";
+        $sql2 = "SELECT * FROM obrazky WHERE ID_P = '".$_GET["ID_P"]."'";
 
 
         $images = mysqli_query($conn, $sql1);
@@ -33,7 +33,8 @@
         $images = mysqli_query($conn, $sql2);
 
 
-        echo('<div class="container mt-5">
+        echo('
+<div class="container h_container  mt-5">
   <div class="row">
     <!-- Image gallery -->
     <div class="col-md-6">
@@ -43,7 +44,7 @@
         <li data-target="#product-gallery" data-slide-to="0" class="active"></li>');
 
         for ($i = 1; $i <= mysqli_num_rows($images); $i++) {
-            echo '<li data-target="#product-gallery" data-slide-to="' . $i . '"></li>';
+            echo '<li data-target="#product-gallery" data-slide-to="'.$i.'"></li>';
         }
 
         echo('
@@ -52,14 +53,14 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="container d-flex justify-content-center align-items-center" style="height: 525px">
-                <img src="./images/' . $himage['H_Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="d-block image_galery  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
+                <img src="./images/'.$himage['H_Obrazek'].'" alt="'.htmlspecialchars($himage["Nazev"]).'" class="d-block image_galery  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
             </div>
           </div>');
         $ii = $images;
         while ($image = $images->fetch_assoc()) {
             echo('<div class="carousel-item">
                         <div class="container d-flex justify-content-center align-items-center" style="height: 525px">
-                            <img src="./images/' . $image['Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="d-block image_galery  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
+                            <img src="./images/'.$image['Obrazek'].'" alt="'.htmlspecialchars($himage["Nazev"]).'" class="d-block image_galery  cursor_pointer"  data-toggle="modal" data-target="#images-modal">
                         </div>
                    </div>');
         }
@@ -101,7 +102,7 @@
                                             echo('
                                         <div class="carousel-item active vertical-center">
                                             <div class="container d-flex justify-content-center align-items-center" >
-                                                <img src="./images/' . $himage['H_Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="d-block   img-dislpay"  style="max-width: 50vw" >
+                                                <img src="./images/'.$himage['H_Obrazek'].'" alt="'.htmlspecialchars($himage["Nazev"]).'" class="d-block   img-dislpay"  style="max-width: 50vw" >
                                             </div>
                                         </div>');
                                             $images = mysqli_query($conn, $sql2);
@@ -110,7 +111,7 @@
                                                 echo('
                                         <div class="carousel-item  vertical-center ">
                                             <div class="container d-flex justify-content-center align-items-center"  >
-                                                <img src="./images/' . $image['Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="d-block  img-dislpay"  style="max-width: 50vw ">
+                                                <img src="./images/'.$image['Obrazek'].'" alt="'.htmlspecialchars($himage["Nazev"]).'" class="d-block  img-dislpay"  style="max-width: 50vw ">
                                             </div>
                                         </div>');
                                             }
@@ -138,7 +139,7 @@
                                     echo('
                             <div class="p-2 ">
                             <div class=" d-flex  align-items-center w-fitcontent borde bg-white p-1 blue-border" >
-                                <img src="./images/' . $himage['H_Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="d-block mx-auto image_galery  cursor_pointer" style="width: 150px" data-slide-to="0" data-target="#big-product-gallery">
+                                <img src="./images/'.$himage['H_Obrazek'].'" alt="'.htmlspecialchars($himage["Nazev"]).'" class="d-block mx-auto image_galery  cursor_pointer" style="width: 150px" data-slide-to="0" data-target="#big-product-gallery">
                             </div>
                             </div>');
                                     $images = mysqli_query($conn, $sql2);
@@ -148,7 +149,7 @@
                                         echo('
                             <div class="p-2 ">
                             <div class=" d-flex  align-items-center w-fitcontent borde bg-white p-1" >
-                                <img src="./images/' . $image['Obrazek'] . '" alt="' . htmlspecialchars($image["Nazev"]) . '" class="d-block mx-auto   cursor_pointer" style="width: 150px" data-slide-to="' . $index . '" data-target="#big-product-gallery" >
+                                <img src="./images/'.$image['Obrazek'].'" alt="'.htmlspecialchars($image["Nazev"]).'" class="d-block mx-auto   cursor_pointer" style="width: 150px" data-slide-to="'.$index.'" data-target="#big-product-gallery" >
                             </div>
                             </div>');
                                         $index = $index + 1;
@@ -172,10 +173,10 @@
         $popis = $himage['Popis'];
         $cena = $himage['Cena_Bez_DPH'];
         echo('
-                <input id="cena" type="hidden" value="' . $cena . '">
-                <h2>' . $nazev . '</h2>
-                <p>' . $popis . '</p>
-                <h3>' . number_format($cena, thousands_separator: ' ') . ' Kč</h3>')
+                <input id="cena" type="hidden" value="'.$cena.'">
+                <h2>'.$nazev.'</h2>
+                <p>'.$popis.'</p>
+                <h3>'.number_format($cena, thousands_separator: ' ').' Kč</h3>')
     ?>
     <form class="preventDefault">
         <!-- <div class="form-group">
@@ -234,9 +235,9 @@
            aria-selected="false">Foto a video</a>
     </li>
 </ul>
-<div class="tab-content p-3" id="myTabContent">
+<div class="tab-content pl-0 pr-0 pt-3" id="myTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="container">
+        <div class="container pl-0 pr-0">
             <div class="row">
                 <div class="col-md-12">
                     <h2>Product Parameters</h2>
@@ -244,19 +245,19 @@
                     <table class="table table-bordered">
                         <tbody>
                         <?php
-                            $sql2 = "SELECT Parametry FROM predmety WHERE ID_P = '" . $_GET["ID_P"] . "'";
+                            $sql2 = "SELECT Parametry FROM predmety WHERE ID_P = '".$_GET["ID_P"]."'";
                             $res = mysqli_fetch_all(mysqli_query($conn, $sql2));
                             $res = $res[0][0];
 
                             $produkt_parameters = json_decode($res, true);
                             foreach ($produkt_parameters as $key => $parameter) {
                                 echo '<tr class="table-primary">
-                                        <th colspan="2">' . $key . '</th>
+                                        <th colspan="2">'.$key.'</th>
                                      </tr>';
                                 foreach ($parameter as $index => $item) {
                                     echo '<tr>
-                                            <th>' . $index . '</th>
-                                            <td>' . $item . '</td>
+                                            <th>'.$index.'</th>
+                                            <td>'.$item.'</td>
                                           </tr>';
                                 }
 
@@ -273,13 +274,13 @@
 
 
     </div>
-    <div class="tab-pane fade" id="Hodnocení" role="tabpanel" aria-labelledby="Hodnocení-tab">
+    <div class="tab-pane fade pl-0 pr-0" id="Hodnocení" role="tabpanel" aria-labelledby="Hodnocení-tab">
 
 
         <?php
             //Hodnoceni
 
-            $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = '" . $_GET["ID_P"] . "'";
+            $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = '".$_GET["ID_P"]."'";
             $hod_query = mysqli_query($conn, $sql2);
             $hod = 0;
             $pocet = mysqli_num_rows($hod_query);
@@ -298,9 +299,9 @@
             } elseif ($pocet == 1) {
                 $veta = "Hodnotil 1 zákazník";
             } elseif ($pocet <= 4) {
-                $veta = "Hodnotili " . $pocet . " zákazníci";
+                $veta = "Hodnotili ".$pocet." zákazníci";
             } else {
-                $veta = "Hodnotilo " . $pocet . " zákazníků";
+                $veta = "Hodnotilo ".$pocet." zákazníků";
             }
 
             if ($pocet != 0) {
@@ -317,21 +318,21 @@
                 $pocethod["1"] = 0;
             }
             echo('
-            <div class="container">
+            <div class="container pl-0 pr-0">
                 <div class="row">
                     <div class="col-md-auto">
                         <div class="container">
                             <div class="row ml-auto mr-auto mb-2" >
-                                 <h1 class="m-auto">' . str_replace(".", ",", $vls) . '</h1>
+                                 <h1 class="m-auto">'.str_replace(".", ",", $vls).'</h1>
                              </div>
                             <div class="row ml-auto mr-auto mb-2">
-                                 <div class="star-rating-wrapper ml-auto mr-auto" title="Hodnocení ' . $vls . '/5">
+                                 <div class="star-rating-wrapper ml-auto mr-auto" title="Hodnocení '.$vls.'/5">
                                     <div class="empty-stars-element"></div>
-                                    <div class="stars-element" style="width:' . ($vls * 20) . '%"></div>
+                                    <div class="stars-element" style="width:'.($vls * 20).'%"></div>
                                  </div>
                              </div>
                              <div class="mt-2 ml-auto mr-auto mb-2 text-center">
-                                ' . $veta . '
+                                '.$veta.'
                             </div>
                             <div class="row ml-auto mr-auto mb-2">
                             <span data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-lg btn-block"><i class="fas fa-pencil-alt"></i> Napsat recenzi</span>   
@@ -345,32 +346,32 @@
                             <div class="row-cols-1 grid h-100">
                                 <div class="col d-flex text-center"><span class="m-auto">5</span><img src="svg/star.svg" alt="Star" class="m-auto Star20 " data-value="1" >
                                     <div class="bottom-backg m-auto">
-                                        <div class="top-backg" style="width: ' . ($pocethod["5"]) . '%"></div>
+                                        <div class="top-backg" style="width: '.($pocethod["5"]).'%"></div>
                                     </div>
                                 </div>
 
                                 
                                 <div class="col d-flex text-center"><span class="m-auto">4</span><img src="svg/star.svg" alt="Star" class="m-auto Star20 " data-value="1" >
                                     <div class="bottom-backg m-auto">
-                                        <div class="top-backg" style="width: ' . ($pocethod["4"]) . '%"></div>
+                                        <div class="top-backg" style="width: '.($pocethod["4"]).'%"></div>
                                     </div>
                                 </div>
 
                                 <div class="col d-flex text-center"><span class="m-auto">3</span><img src="svg/star.svg" alt="Star" class="m-auto Star20 " data-value="1" >
                                     <div class="bottom-backg m-auto">
-                                        <div class="top-backg" style="width: ' . ($pocethod["3"]) . '%"></div>
+                                        <div class="top-backg" style="width: '.($pocethod["3"]).'%"></div>
                                     </div>
                                 </div>
 
                                 <div class="col d-flex text-center"><span class="m-auto">2</span><img src="svg/star.svg" alt="Star" class="m-auto Star20 " data-value="1" >
                                     <div class="bottom-backg m-auto">
-                                        <div class="top-backg" style="width: ' . ($pocethod["2"]) . '%"></div>
+                                        <div class="top-backg" style="width: '.($pocethod["2"]).'%"></div>
                                     </div>
                                 </div>
 
                                 <div class="col d-flex text-center"><span class="m-auto">1</span><img src="svg/star.svg" alt="Star" class="m-auto Star20 " data-value="1" >
                                     <div class="bottom-backg m-auto">
-                                        <div class="top-backg" style="width: ' . ($pocethod["1"]) . '%"></div>
+                                        <div class="top-backg" style="width: '.($pocethod["1"]).'%"></div>
                                     </div>
                                 </div>
 
@@ -380,25 +381,25 @@
                     
                 </div>
             </div>
-          <div class="container mt-5">
+          <div class="container mt-5 pl-0 pr-0">
             <div class="row">
                 <div class="col-md-6 minw-100">');
 
-            $sql2 = "SELECT U.Jmeno , U.Prijmeni , R.Hodnoceni , R.Popis ,R.Zaporne,R.Kladne,R.Obrazek  FROM recenze R ,uzivatel U WHERE R.ID_U=U.ID_U AND ID_P =  '" . $_GET["ID_P"] . "'";
+            $sql2 = "SELECT U.Jmeno , U.Prijmeni , R.Hodnoceni , R.Popis ,R.Zaporne,R.Kladne,R.Obrazek  FROM recenze R ,uzivatel U WHERE R.ID_U=U.ID_U AND ID_P =  '".$_GET["ID_P"]."'";
             $hod_query = mysqli_query($conn, $sql2);
             $modalnumber = 0;
             while ($rov1 = $hod_query->fetch_assoc()) {
 
                 echo('
                          <div class="mb-3 border-bottom pb-2">
-                         <h5>' . $rov1["Jmeno"] . ' ' . $rov1["Prijmeni"] . ' </h5>
+                         <h5>'.$rov1["Jmeno"].' '.$rov1["Prijmeni"].' </h5>
                           <div class="d-flex align-items-center mb-3">
-                            <div class="star-rating-wrapper" title="Hodnocení ' . $rov1["Hodnoceni"] . '/5">
+                            <div class="star-rating-wrapper" title="Hodnocení '.$rov1["Hodnoceni"].'/5">
                                 <div class="empty-stars-element"></div>
-                                <div class="stars-element" style="width:' . ($rov1["Hodnoceni"] * 20) . '%"></div>
+                                <div class="stars-element" style="width:'.($rov1["Hodnoceni"] * 20).'%"></div>
                             </div>
                           </div>
-                          <p class="mb-0 minw-100 text-break">' . $rov1["Popis"] . '</p>
+                          <p class="mb-0 minw-100 text-break">'.$rov1["Popis"].'</p>
                           <div class="container">
                           <div class="row ">
                                 <div class="col pr-5 mt-2">');
@@ -411,7 +412,7 @@
                                                     </svg>
                                               </div>
                                               <div class="col pl-1">
-                                                ' . $value . '
+                                                '.$value.'
                                               </div>
                                             </div>');
                     }
@@ -428,7 +429,7 @@
                                                 </svg>
                                                 </div>
                                                 <div class="col pl-1">
-                                                ' . $value . '
+                                                '.$value.'
                                                 </div>
                                             </div>');
                     }
@@ -441,13 +442,13 @@
                     echo('
                                 <div class="container pt-2">
                                 <div class="row">
-                                    <img alt=" " class="recenze_obrazek cursor_pointer" src="images/' . $rov1["Obrazek"] . '" data-target="#modalimg' . $modalnumber . '" data-toggle="modal">
+                                    <img alt=" " class="recenze_obrazek cursor_pointer" src="images/'.$rov1["Obrazek"].'" data-target="#modalimg'.$modalnumber.'" data-toggle="modal">
                                 </div>
                                 </div>
-                                <div class="modal fade" id="modalimg' . $modalnumber . '" tabindex="-1" role="dialog"  aria-hidden="true">
+                                <div class="modal fade" id="modalimg'.$modalnumber.'" tabindex="-1" role="dialog"  aria-hidden="true">
                                     <div class="modal-dialog modal-xl modal-dialog-centered " role="document" >
                                         <div class="modal-content p-3" >
-                                            <img alt=" " src="images/' . $rov1["Obrazek"] . '">
+                                            <img alt=" " src="images/'.$rov1["Obrazek"].'">
                                             <button type="button" class="close mr-2 mt-2 close-button " data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" style="color: rgba(0, 0, 0, 0.87);">&times;</span>
                                             </button>
@@ -487,15 +488,15 @@
                 <div class="row row-cols-1">
                     <div style="max-width: fit-content;margin: auto;">
                         <?php
-                            $sql1 = " SELECT Nazev FROM predmety WHERE ID_P= '" . $_GET["ID_P"] . "'";
+                            $sql1 = " SELECT Nazev FROM predmety WHERE ID_P= '".$_GET["ID_P"]."'";
                             $res = mysqli_query($conn, $sql1);
                             $Nazev = $res->fetch_assoc();
                             echo '<div class="m-auto" style="max-width: fit-content">
-                                          <img src="./images/' . $himage['H_Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="mh-100 d-inline img-fluid " style="height: 10em;">
+                                          <img src="./images/'.$himage['H_Obrazek'].'" alt="'.htmlspecialchars($himage["Nazev"]).'" class="mh-100 d-inline img-fluid " style="height: 10em;">
                                       </div>
                                       <div class="w-100 text-center pt-2 pb-2 text-muted">
                                       
-                                       ' . $Nazev["Nazev"] . '
+                                       '.$Nazev["Nazev"].'
                                        </div>'
                         ?>
 
@@ -513,7 +514,7 @@
                 <form id="recene" method="post" enctype="multipart/form-data" onsubmit="recenze()">
                     <div class="container mt-4 ">
                         <?php
-                            echo '<input type="hidden" name="ID_P" id="ID_P" value="' . $_GET["ID_P"] . '">'
+                            echo '<input type="hidden" name="ID_P" id="ID_P" value="'.$_GET["ID_P"].'">'
                         ?>
 
                         <input type="hidden" id="rating-value" name="rating">

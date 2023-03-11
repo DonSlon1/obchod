@@ -2,45 +2,38 @@
     /**
      * zobrazí defaultí navigaci sjtejná na všech stránkách
      * @method navigace()
+     * @param int $full
      * @return void
      * */
-    function navigace() : void
+    function navigace(?int $full = 1) : void
     {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         echo('
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">My Store</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Categories</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
-            </li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light h_nav">
+    <a class="navbar-brand My_Store" href="obchod">My Store</a>
+    <div class="nav_div">');
+        if ($full == 1) {
+            echo('
+            <div class="mr-4 form_dov">
 
-        </ul>
-        <form class="form-inline my-2 my-lg-0 w-100">
-            <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" style="width: 85%">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-    <div>
-        <a class="position-relative pr-3" href="basket.php">
-            <i class="fas fa-shopping-basket green_icon" style="font-size: 1.8rem"></i>
-            <span class="count" style="display: none" id="count"></span>
-        </a>
-    </div>
-    <ul class="navbar-nav pr-2">');
-
+                <form class="form-inline my-2 my-lg-0 w-100">
+                    <input class="form-control mr-sm-2 search_bar" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            
+            </div>
+            ');
+        }
+        echo('
+            <div class="h-fit">
+                <a class="position-relative " href="basket.php">
+                    <i class="fas fa-shopping-basket green_icon basket_icon" ></i>
+                    <span class="count" style="display: none" id="count"></span>
+                </a>
+            </div>
+            <ul class="navbar-nav pr-2">');
 
         if (array_key_exists("logged_in", $_COOKIE)) {
             echo('
@@ -62,7 +55,7 @@
         }
 
 
-        echo('    </ul>
+        echo('    </ul></div>
 
 </nav>
 <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">

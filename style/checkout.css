@@ -1,0 +1,92 @@
+@media only screen  and (max-width: 900px) {
+    .cont {
+        flex-direction: column;
+    }
+
+    .kosik {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .kosik .cena {
+        justify-content: right;
+
+    }
+
+}
+
+
+.cont {
+    display: flex;
+
+}
+
+.kosik .cena {
+
+    word-break: keep-all;
+    min-width: fit-content;
+    align-self: center;
+    font-weight: 400;
+    color: #000000;
+    font-size: 1rem;
+    line-height: 1.2 !important;
+    display: flex;
+    margin-left: auto;
+    margin-bottom: .5em;
+}
+
+.kosik {
+    width: 65%;
+    max-width: 65%;
+    padding: 10px;
+    border: 1px #e4e4e4 solid;
+}
+
+.kosik > * {
+    padding: 5px;
+}
+
+
+.kosik > h2 {
+    font-size: 1.5rem;
+}
+
+.kosik img {
+    max-height: 100%;
+    max-width: 100%;
+    margin: auto;
+}
+
+.kosik > div {
+    display: flex;
+    border-bottom: 1px #e4e4e4 solid;
+}
+
+.kosik h3 {
+    align-self: center;
+    font-weight: 400;
+    color: #000000;
+    font-size: 1rem;
+
+}
+
+.kosik a:not(.obrazek) {
+    cursor: pointer;
+    word-break: break-word;
+}
+
+.kosik a:not(.obrazek):hover {
+    text-decoration: underline !important;
+}
+
+.kosik a.obrazek {
+    height: 4em;
+    width: 4em;
+    min-height: 4em;
+    min-width: 4em;
+    max-height: 4em;
+    max-width: 4em;
+    display: flex;
+    margin-right: 10px;
+
+}

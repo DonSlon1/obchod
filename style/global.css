@@ -1,3 +1,63 @@
+@media only screen  and (min-width: 1061px) {
+    .h_container {
+
+        width: 85%
+    }
+
+}
+
+@media only screen  and (min-width: 901px) {
+    .nav_div {
+        width: 100%;
+        justify-content: right;
+    }
+}
+
+@media only screen  and (max-width: 549px) {
+    .h_nav {
+        flex-direction: column;
+    }
+
+    .h_nav > .nav_div {
+        width: 100%;
+    }
+
+    .h_nav > .nav_div > .form_dov {
+        width: 100%;
+    }
+
+
+}
+
+
+@media only screen  and (max-width: 1100px) {
+    .h_container {
+
+        max-width: 100%;
+    }
+
+}
+
+.search_bar {
+    width: 70% !important;
+
+}
+
+.basket_icon {
+    margin-right: 1.2rem;
+    font-size: 1.8rem
+}
+
+.nav_div {
+    display: flex;
+    align-items: center;
+}
+
+.h-fit {
+    height: fit-content;
+}
+
+
 .mw-fitcontent {
     max-width: fit-content;
 }

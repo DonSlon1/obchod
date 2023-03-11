@@ -1,0 +1,22 @@
+.Checkout {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Checkout > a:hover {
+    text-decoration: underline !important;
+    color: black;
+}
+
+.Checkout > a {
+    align-self: center;
+}
+
+.cena {
+
+    word-break: keep-all;
+    min-width: fit-content;
+
+    font-weight: 400;
+    
+}
