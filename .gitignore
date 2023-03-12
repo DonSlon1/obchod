@@ -1,4 +1,5 @@
 node_modules
 .idea
+validate
 /images/$_FILES[H_Obrazek][tmp_name]
 /images/{$_FILES[H_Obrazek][tmp_name]}

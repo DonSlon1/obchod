@@ -192,3 +192,40 @@ a:visited {
     height: auto;
     width: auto;
 }
+
+@media only screen  and (max-width: 991px) {
+    .recenze {
+        max-width: 90% !important;
+    }
+
+    .recenze_body {
+        width: 100% !important;
+    }
+
+    .div_obraz {
+        max-width: 90% !important;
+    }
+
+    .obrazek_ccontainer {
+        max-width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 710px) {
+    #sideBar {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .big_in_small {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 519px)and (max-width: 767px) {
+    .w-fitcontent519 {
+        width: fit-content !important;
+    }
+}

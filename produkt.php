@@ -86,17 +86,17 @@
     <!--    * div ve kterém se  zobrazovat obrázky od produktu ve velkém-->
     <div class="modal fade" id="images-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered " role="document">
+        <div class="modal-dialog modal-xl modal-dialog-centered div_obraz" role="document">
             <div class="modal-content">
                 <div>
-                    <div class="container">
+                    <div class="container obrazek_ccontainer">
                         <div class="row">
                             <div class="col">
                                 <button type="button" class="close mr-2 mt-2" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <div id="big-product-gallery" class="carousel slide" data-ride="false">
-                                    <div class="carousel-inner " style="height: 40vw">
+                                    <div class="carousel-inner " style="height: 70vh">
                                         <?php
 
                                             echo('
@@ -237,7 +237,7 @@
 </ul>
 <div class="tab-content pl-0 pr-0 pt-3" id="myTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="container pl-0 pr-0">
+        <div class="container pl-0 pr-0 big_in_small">
             <div class="row">
                 <div class="col-md-12">
                     <h2>Product Parameters</h2>
@@ -279,9 +279,9 @@
 
         <?php
             //Hodnoceni
-
-            $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = '".$_GET["ID_P"]."'";
-            $hod_query = mysqli_query($conn, $sql2);
+            echo(phpinfo());
+            $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = ?";
+            $hod_query = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
             $hod = 0;
             $pocet = mysqli_num_rows($hod_query);
             $pocethod = array("1" => 0, "2" => 0, "3" => 0, "4" => 0, "5" => 0);
@@ -318,34 +318,35 @@
                 $pocethod["1"] = 0;
             }
             echo('
-            <div class="container pl-0 pr-0">
+            <div class="container pl-0 pr-0 ">
                 <div class="row">
-                    <div class="col-md-auto">
-                        <div class="container">
-                            <div class="row ml-auto mr-auto mb-2" >
+                    <div class="col-md-auto w-fitcontent519">
+                        <div class="container w-fitcontent519">
+                            <div class="row ml-auto mr-auto mb-2 w-fitcontent519" >
                                  <h1 class="m-auto">'.str_replace(".", ",", $vls).'</h1>
                              </div>
-                            <div class="row ml-auto mr-auto mb-2">
+                            <div class="row ml-auto mr-auto mb-2 w-fitcontent519">
                                  <div class="star-rating-wrapper ml-auto mr-auto" title="Hodnocení '.$vls.'/5">
                                     <div class="empty-stars-element"></div>
                                     <div class="stars-element" style="width:'.($vls * 20).'%"></div>
                                  </div>
                              </div>
-                             <div class="mt-2 ml-auto mr-auto mb-2 text-center">
+                             <div class="mt-2 ml-auto mr-auto mb-2 text-center w-fitcontent519">
                                 '.$veta.'
                             </div>
-                            <div class="row ml-auto mr-auto mb-2">
+                            <div class="row ml-auto mr-auto mb-2 w-fitcontent519">
                             <span data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-lg btn-block"><i class="fas fa-pencil-alt"></i> Napsat recenzi</span>   
                             </div>
                              
                         </div>
                     </div>
-                    <div class="col-md-auto">
-                        <div class="container h-100">
+                    <div class="col-md-auto w-fitcontent519">
+                        
+                        <div class="container h-100 w-fitcontent">
                             
                             <div class="row-cols-1 grid h-100">
                                 <div class="col d-flex text-center"><span class="m-auto">5</span><img src="svg/star.svg" alt="Star" class="m-auto Star20 " data-value="1" >
-                                    <div class="bottom-backg m-auto">
+                                    <div class="bottom-backg m-auto ">
                                         <div class="top-backg" style="width: '.($pocethod["5"]).'%"></div>
                                     </div>
                                 </div>
@@ -377,6 +378,7 @@
 
                             </div>
                         </div>
+                       
                     </div>
                     
                 </div>
@@ -476,8 +478,8 @@
 
 
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
-        <div class="modal-content" style="width: 90%">
+    <div class="modal-dialog modal-lg modal-dialog-centered recenze" role="document">
+        <div class="modal-content recenze_body" style="width: 90%">
             <div>
 
                 <button type="button" class="close mr-2 mt-2" data-dismiss="modal" aria-label="Close">

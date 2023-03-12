@@ -6,13 +6,54 @@
 
 }
 
-@media only screen  and (min-width: 901px) {
-    .nav_div {
-        width: 100%;
-        justify-content: right;
+@media only screen  and (min-width: 992px) {
+    .form_dov {
+
+        flex-basis: 76%;
+    }
+
+    .h_nav {
+        justify-content: space-between;
+    }
+
+    .user_div {
+        position: absolute;
+        top: calc(100% + 20px);
+        right: 0;
+        width: 320px;
+        background-color: #ffffff;
+        box-shadow: 0 0 4px 2px rgba(50, 50, 50, .3);
+        padding: 10px;
+        border-radius: 5px;
     }
 }
 
+@media only screen  and (max-width: 991px) {
+
+    .h_nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+
+    .form_dov {
+        order: 1;
+        flex-basis: 100%;
+    }
+
+    .user_div {
+        position: fixed;
+        right: 0;
+        top: 52px;
+        bottom: 0;
+        left: 0;
+        background-color: #ffffff;
+        padding: 10px;
+        border-radius: 5px;
+    }
+}
+
+/*
 @media only screen  and (max-width: 549px) {
     .h_nav {
         flex-direction: column;
@@ -28,6 +69,7 @@
 
 
 }
+*/
 
 
 @media only screen  and (max-width: 1100px) {
@@ -38,8 +80,26 @@
 
 }
 
+.user_div {
+    display: none;
+    z-index: 101
+}
+
+.fa-user {
+    font-size: 1.8rem;
+}
+
+.user_info {
+    display: flex;
+    flex-direction: row;
+}
+
+.form_dov > form {
+    flex-flow: unset;
+}
+
 .search_bar {
-    width: 70% !important;
+    width: 100% !important;
 
 }
 
@@ -146,6 +206,27 @@
     height: auto !important;
     max-width: 100px !important;
     max-height: 100px !important;
+}
+
+.user {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.check_user {
+    color: #fff;
+    background: #75b32b;
+    border-radius: 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+    top: -10px !important;
+    left: 18px !important;
+    line-height: 12px;
+    min-width: 12px;
+    padding: 3px;
+    position: absolute;
+    text-align: center;
 }
 
 .count {

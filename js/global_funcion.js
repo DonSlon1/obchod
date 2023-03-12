@@ -36,6 +36,35 @@ function Get_Basket() {
 
 window.onload = function () {
     Get_Basket()
+    $("#user_open").one("mousedown", function () {
+        show("#user")
+    })
+}
+
+
+function show(id) {
+
+    const container = $(id + "_div");
+    container.css('display', 'flex')
+    container.addClass('1')
+    console.log(1);
+    $(document).on("mousedown", function (e) {
+            const container = $(id + "_div");
+            if (container.hasClass('1')) {
+                container.removeClass('1')
+            } else {
+
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    $(document).off("mousedown")
+                    $(id + "_open").one("mousedown", function () {
+                        show(id)
+                    })
+                    container.css('display', 'none')
+                    return 0;
+                }
+            }
+        }
+    )
 
 }
 

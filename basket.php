@@ -52,16 +52,8 @@
         </li>
     </ul>
     <form action="basket" method="post" autocomplete="off">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div>
+
             <?php
                 $cena_celkem = 0;
                 $conn = DbCon();
@@ -76,9 +68,9 @@
                     $Id_P = $item["Id_p"];
                     $cena_celkem += $item["Cena"] * $item["Pocet"];
                     echo('
-            <tr>
+            <div>
                 
-                <td>
+                <div>
                     <!-- Product image -->
                     <div class="d-flex align-items-center" >
                         <div style="height: 100px ; max-height: 100px" class="d-flex align-items-center">
@@ -91,32 +83,30 @@
                         </a>
                         
                     </div>
-                </td>
-                <td class="text-center align-middle cena" >
+                </div>
+                <div class="text-center align-middle cena" >
                     <!-- Product image -->
                     
                         <span  >'.number_format($item["Cena"], thousands_separator: ' ').' Kč</span>
                     
-                </td>
+                </div>
 
-                <td class="text-center align-middle">
+                <div class="text-center align-middle">
                 
                    <input type="hidden" name="polozka['.$count.'][Obrazek]" value="'.$item_data["H_Obrazek"].'">
                    <input type="hidden" name="polozka['.$count.'][Cena]" value="'.$item["Cena"].'">
                    <input type="hidden" name="polozka['.$count.'][ID_P]" value="'.$item["Id_p"].'">
                    <input type="hidden" name="polozka['.$count.'][Nazev]" value="'.htmlspecialchars($item_data["Nazev"]).'">
                    <input type="number"  class="form-control" name="polozka['.$count.'][pocet]"  min="0" oninput="validity.valid||(value=\'\')" onchange="update_basket(\''.$item["Id_p"].'\' , this)" value="'.$item["Pocet"].'">
-                </td>
-                <td class="text-center align-middle cena">'.number_format($item["Cena"] * $item["Pocet"], thousands_separator: ' ').' Kč</td>
+                </div>
+                <div class="text-center align-middle cena">'.number_format($item["Cena"] * $item["Pocet"], thousands_separator: ' ').' Kč</div>
                 
-            </tr>');
+            </div>');
                     $count++;
                 }
 
             ?>
-
-            </tbody>
-        </table>
+        </div>
         <?php
             echo(' <p class="text-right">
                     Celkem k úhradě: <strong>'.number_format($cena_celkem, thousands_separator: ' ').' Kč</strong>
@@ -127,6 +117,7 @@
             <a href="obchod">Zpět do obchodu</a>
             <button type="submit" class="btn btn-primary btn-lg" id="del-pay-frm__submit">Checkout</button>
         </div>
+
     </form>
     <div class="modal  fade " id="delete_item" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
          data-keyboard="false">

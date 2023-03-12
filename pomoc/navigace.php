@@ -2,7 +2,7 @@
     /**
      * zobrazí defaultí navigaci sjtejná na všech stránkách
      * @method navigace()
-     * @param int $full
+     * @param ?int $full
      * @return void
      * */
     function navigace(?int $full = 1) : void
@@ -13,10 +13,10 @@
         echo('
 <nav class="navbar navbar-expand-lg navbar-light bg-light h_nav">
     <a class="navbar-brand My_Store" href="obchod">My Store</a>
-    <div class="nav_div">');
+    ');
         if ($full == 1) {
             echo('
-            <div class="mr-4 form_dov">
+            <div class=" form_dov">
 
                 <form class="form-inline my-2 my-lg-0 w-100">
                     <input class="form-control mr-sm-2 search_bar" type="search" placeholder="Search" aria-label="Search">
@@ -27,35 +27,61 @@
             ');
         }
         echo('
-            <div class="h-fit">
-                <a class="position-relative " href="basket.php">
-                    <i class="fas fa-shopping-basket green_icon basket_icon" ></i>
-                    <span class="count" style="display: none" id="count"></span>
-                </a>
+        <div class="user_info">
+            <div>
+                <div class="h-fit w-fitcontent pr-3">
+                    <a class="position-relative w-fitcontent " href="basket.php">
+                        <i class="fas fa-shopping-basket green_icon basket_icon" ></i>
+                        <span class="count" style="display: none;bottom: -8px !important;" id="count"></span>
+                    </a>
+                </div>
+                
             </div>
-            <ul class="navbar-nav pr-2">');
-
+            ');
         if (array_key_exists("logged_in", $_COOKIE)) {
             echo('
-                    <li class="nav-item">
-                    
-                        <span class="nav-link">Edit Profile</span>
-                     </li>
-                     <li class="nav-item" style="margin: auto">
-                        <span class="nav-link"  onclick="logout()"><i class="fas fa-sign-out-alt"></i></span>
-                        
-                     </li>');
-
+                    <div class="position-relative">
+                        <div class=" user" id="user_open" >
+                            <i class="fas fa-user"></i>
+                            <i class="fas fa-check check_user"></i>
+                        </div>
+                        <div class="user_div" id="user_div">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius fugit quis repellat. Aliquam aperiam architecto, doloremque earum iste iure laboriosam magni natus nesciunt quas quidem ratione veniam vitae voluptate.
+                        </div>
+                    </div>
+                    ');
         } else {
             echo('
-                    <li class="nav-item">
-                        <span class="nav-link" data-toggle="modal" data-target="#LoginModal">Login</span>                      
-                    </li>
-        ');
+                    <div class="position-relative user" data-toggle="modal" data-target="#LoginModal">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    ');
         }
 
+        /* if (array_key_exists("logged_in", $_COOKIE)) {
+             echo('<ul class="navbar-nav pr-2">
+                     <li class="nav-item">
 
-        echo('    </ul></div>
+                         <span class="nav-link">Edit Profile</span>
+                      </li>
+                      <li class="nav-item" style="margin: auto">
+                         <span class="nav-link"  onclick="logout()"><i class="fas fa-sign-out-alt"></i></span>
+
+                      </li>
+                    </ul>');
+
+
+         } else {
+             echo('<ul class="navbar-nav pr-2">
+                     <li class="nav-item">
+                         <span class="nav-link" data-toggle="modal" data-target="#LoginModal">Login</span>
+                     </li>
+                    </ul>
+         ');
+         }*/
+
+
+        echo('    </div>
 
 </nav>
 <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
