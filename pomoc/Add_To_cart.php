@@ -27,7 +27,7 @@
 
         pocet_itemu();
         return;
-    } elseif ($_POST["function"] === "add") {
+    } elseif ($_POST["function"] == "add") {
         $existuje = false;
         $decoded_sesion = json_decode($_SESSION["basket"], true);
         foreach ($decoded_sesion as $key => $value) {

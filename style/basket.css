@@ -1,3 +1,7 @@
+@media only screen and (max-width: 600px) {
+
+}
+
 .Checkout {
     display: flex;
     justify-content: space-between;
@@ -18,5 +22,73 @@
     min-width: fit-content;
 
     font-weight: 400;
-    
+
+}
+
+.kosik_div {
+    display: flex;
+    position: relative;
+    min-height: 122px;
+    background-color: #daeeff;
+    border: #daeeff 2px solid;
+    margin-top: 1.5em;
+
+}
+
+.kosik_informace > div > .obrazek > img {
+    height: 80px;
+    width: 80px;
+    aspect-ratio: 80/80 auto;
+
+
+}
+
+.kosik_informace > div > .obrazek {
+    padding: 5px;
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    margin: auto;
+    background-color: #ffffff;
+    border: #babdc3 1px solid;
+}
+
+.kosik_informace {
+    display: table;
+    width: 100%;
+    margin-left: 122px;
+    background-color: #ffffff;
+
+}
+
+.kosik_informace > div > div {
+    display: table-cell;
+
+
+}
+
+.pocet {
+    width: 7%;
+    padding-left: 15px;
+}
+
+.cena_za_kus {
+    width: 17%;
+    padding-left: 15px;
+}
+
+.cena_celkem {
+    width: 20%;
+    padding-left: 15px;
+}
+
+.nazev_item > a {
+    font-size: 1.5em;
+    color: #1162b9 !important;
+    font-weight: 600;
+
+}
+
+.kosik_informace > div {
+    padding-top: 10px;
 }

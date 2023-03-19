@@ -167,12 +167,6 @@ a:visited {
     top: 0;
 }
 
-.fa-sign-out,
-.fa-eye,
-.fa-eye-slash {
-    width: 1em;
-    height: 1em;
-}
 
 .nav-item > span {
     cursor: pointer;
@@ -180,10 +174,10 @@ a:visited {
 
 
 .check {
-    color: #fff;
-    background-color: #a1c900;
-    font-size: 50px;
-    border-radius: 100%;
+    width: 5rem !important;
+    height: 5rem !important;
+    margin-bottom: 10px;
+    display: block;
 }
 
 .image_galery {

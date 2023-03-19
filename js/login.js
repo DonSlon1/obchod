@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
     showPassword.addEventListener('click', function () {
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            this.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            this.innerHTML = '<i class="icon-eye-off"></i>';
         } else {
             passwordField.type = 'password';
-            this.innerHTML = '<i class="fa fa-eye"></i>';
+            this.innerHTML = '<i class="icon-eye"></i>';
         }
     });
 });
@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (passwordRegistrationField.type === 'password') {
             passwordRegistrationField.type = 'text';
             registerPassword.type = 'text';
-            this.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            this.innerHTML = '<i class="icon-eye-off"></i>';
         } else {
             registerPassword.type = 'password'
             passwordRegistrationField.type = 'password';
-            this.innerHTML = '<i class="fa fa-eye"></i>';
+            this.innerHTML = '<i class="icon-eye"></i>';
         }
     });
 });

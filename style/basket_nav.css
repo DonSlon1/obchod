@@ -14,26 +14,6 @@
     }
 }
 
-@media only screen  and (max-width: 549px) {
-    .h_nav {
-        flex-direction: column;
-    }
-
-    .h_nav > .nav_div {
-        width: 100%;
-    }
-
-    .h_nav > .nav_div > .form_dov {
-        width: 100%;
-    }
-
-
-}
-
-@media only screen  and (max-width: 800px) {
-
-}
-
 .navigace {
     list-style: none;
     display: flex;

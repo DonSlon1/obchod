@@ -1,17 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <meta name="description" content="Produkt">
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style/product.css" type="text/css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/global.css" type="text/css" crossorigin="anonymous">
+    <meta name="theme-color" content="white">
+    <link rel="shortcut icon" href="images/icon-maskable.png"/>
+    <link rel="apple-touch-icon" href="images/icon-apple.png">
+    <link rel="manifest" href="manifest.json"/>
     <title>Document</title>
+
+    <link rel="stylesheet" href="style/product.css" type="text/css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/global.css" type="text/css">
+
+
 </head>
 <div>
 
@@ -205,7 +212,7 @@
             <div class="modal-dialog  modal-dialog-centered " role="document">
                 <div class="modal-content align-content-center p-3">
                     <div class="w-auto m-auto">
-                        <i class="fas fa-check check p-3"></i>
+                        <i class="icon_check check p-3"></i>
                     </div>
                     <span class="green_icon align-self-center font22">
                                 Zboží bylo ůspěšně přidíno do košíku
@@ -279,7 +286,6 @@
 
         <?php
             //Hodnoceni
-            echo(phpinfo());
             $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = ?";
             $hod_query = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
             $hod = 0;
@@ -335,7 +341,7 @@
                                 '.$veta.'
                             </div>
                             <div class="row ml-auto mr-auto mb-2 w-fitcontent519">
-                            <span data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-lg btn-block"><i class="fas fa-pencil-alt"></i> Napsat recenzi</span>   
+                            <span data-toggle="modal" data-target="#myModal1" class="btn btn-primary btn-lg btn-block modal-recenze"><i class="icon-pencil"></i> Napsat recenzi</span>   
                             </div>
                              
                         </div>
@@ -612,10 +618,9 @@
 </div>
 </div>
 
-
+<script src="service-worker.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>

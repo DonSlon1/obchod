@@ -31,7 +31,7 @@
             <div>
                 <div class="h-fit w-fitcontent pr-3">
                     <a class="position-relative w-fitcontent " href="basket.php">
-                        <i class="fas fa-shopping-basket green_icon basket_icon" ></i>
+                        <i class="basket_icon" ></i>
                         <span class="count" style="display: none;bottom: -8px !important;" id="count"></span>
                     </a>
                 </div>
@@ -42,8 +42,8 @@
             echo('
                     <div class="position-relative">
                         <div class=" user" id="user_open" >
-                            <i class="fas fa-user"></i>
-                            <i class="fas fa-check check_user"></i>
+                            <i class="icon_user"></i>
+                            <i class="icon_check check_user"></i>
                         </div>
                         <div class="user_div" id="user_div">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius fugit quis repellat. Aliquam aperiam architecto, doloremque earum iste iure laboriosam magni natus nesciunt quas quidem ratione veniam vitae voluptate.
@@ -53,33 +53,10 @@
         } else {
             echo('
                     <div class="position-relative user" data-toggle="modal" data-target="#LoginModal">
-                        <i class="fas fa-user"></i>
+                        <i class="icon_user"></i>
                     </div>
                     ');
         }
-
-        /* if (array_key_exists("logged_in", $_COOKIE)) {
-             echo('<ul class="navbar-nav pr-2">
-                     <li class="nav-item">
-
-                         <span class="nav-link">Edit Profile</span>
-                      </li>
-                      <li class="nav-item" style="margin: auto">
-                         <span class="nav-link"  onclick="logout()"><i class="fas fa-sign-out-alt"></i></span>
-
-                      </li>
-                    </ul>');
-
-
-         } else {
-             echo('<ul class="navbar-nav pr-2">
-                     <li class="nav-item">
-                         <span class="nav-link" data-toggle="modal" data-target="#LoginModal">Login</span>
-                     </li>
-                    </ul>
-         ');
-         }*/
-
 
         echo('    </div>
 
@@ -134,7 +111,7 @@
                                             <div class="input-group mb-3">
                                                 <input type="password" name="Password" class="form-control" id="loginPassword">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text" id="show-password"><i class="fa fa-eye"></i></span>
+                                                    <span class="input-group-text" id="show-password"><i class="icon-eye"></i></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -169,7 +146,7 @@
                                             <div class="input-group mb-3">
                                                 <input type="password" name="confirmPassword" class="form-control" id="confirmPassword">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text" id="show-passwordRegister"><i class="fa fa-eye"></i></span>
+                                                    <span class="input-group-text" id="show-passwordRegister"><i class="icon-eye"></i></span>
                                                 </div>
                                             </div>
                                         </div>

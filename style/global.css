@@ -85,9 +85,6 @@
     z-index: 101
 }
 
-.fa-user {
-    font-size: 1.8rem;
-}
 
 .user_info {
     display: flex;
@@ -105,7 +102,49 @@
 
 .basket_icon {
     margin-right: 1.2rem;
-    font-size: 1.8rem
+    background: url("../svg/shop_cart.svg");
+    background-size: 100% 100%;
+    width: 2rem;
+    height: 2rem;
+    display: block;
+}
+
+.icon-eye {
+    background: url("../svg/eye-open.svg");
+    background-size: 100% 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+}
+
+.icon-eye-off {
+    background: url("../svg/eye-off.svg");
+    background-size: 100% 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+}
+
+.modal-recenze {
+    display: flex;
+    align-items: center;
+}
+
+.icon-pencil {
+    background: url("../svg/pencil.svg");
+    background-size: 100% 100%;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 5px;
+    display: block;
+}
+
+.icon_user {
+    background: url("../svg/user.svg");
+    background-size: 100% 100%;
+    width: 2rem;
+    height: 2rem;
+    display: block;
 }
 
 .nav_div {
@@ -199,32 +238,23 @@
     flex-flow: row !important;
 }
 
-.img-basket {
-    display: block;
-    margin: auto;
-    width: auto !important;
-    height: auto !important;
-    max-width: 100px !important;
-    max-height: 100px !important;
-}
 
 .user {
     cursor: pointer;
     margin-right: 10px;
 }
 
-.check_user {
-    color: #fff;
-    background: #75b32b;
-    border-radius: 14px;
+.icon_check {
+    background: url("../svg/checked-svgrepo-com.svg");
+    background-size: 100% 100%;
+    width: 21px;
+    height: 21px;
+}
 
-    font-size: 14px;
-    font-weight: 600;
+.check_user {
+
     top: -10px !important;
     left: 18px !important;
-    line-height: 12px;
-    min-width: 12px;
-    padding: 3px;
     position: absolute;
     text-align: center;
 }
@@ -242,4 +272,32 @@
     padding: 3px;
     position: absolute;
     text-align: center;
+}
+
+.numberstyle-qty {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    flex-direction: column;
+    height: 50px;
+}
+
+.numberstyle-qty > div {
+    flex: 1 1 20px;
+}
+
+.numberstyle-qty > input {
+    height: 100%;
+    text-align: center;
+    padding: 0;
+}
+
+
+.numberstyle-qty input[type="number"]::-webkit-inner-spin-button,
+.numberstyle-qty input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.numberstyle-qty input[type="number"] {
+    -moz-appearance: textfield;
 }
