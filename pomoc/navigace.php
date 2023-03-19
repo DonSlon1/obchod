@@ -49,15 +49,7 @@
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius fugit quis repellat. Aliquam aperiam architecto, doloremque earum iste iure laboriosam magni natus nesciunt quas quidem ratione veniam vitae voluptate.
                         </div>
                     </div>
-                    <div class="position-relative">
-                        <div class=" user open_div" id="kkk" >
-                            <i class="icon_user"></i>
-                            <i class="icon_check check_user"></i>
-                        </div>
-                        <div class="user_div" id="kkk_div">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius fugit quis repellat. Aliquam aperiam architecto, doloremque earum iste iure laboriosam magni natus nesciunt quas quidem ratione veniam vitae voluptate.
-                        </div>
-                    </div>
+
                     ');
         } else {
             echo('

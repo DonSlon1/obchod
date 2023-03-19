@@ -1,5 +1,96 @@
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
+    .kosik_informace > div {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0 15px;
 
+    }
+
+    .nazev_item > a > span {
+        margin-left: 0 !important;
+
+    }
+
+    .kosik_informace > div > div {
+        padding-left: 0;
+        align-self: center;
+
+    }
+
+    .nazev_item {
+        width: 100%;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: #c0dae9 solid 1px;
+
+    }
+
+    .cena_za_kus {
+        width: 33%;
+        text-align: left !important;
+    }
+
+    .pocet {
+        width: 33%;
+        text-align: left !important;
+    }
+
+    .cena_celkem {
+        width: 33%;
+        text-align: left !important;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .cena_za_kus {
+        width: 50% !important;
+        text-align: center !important;
+    }
+
+    .pocet {
+        width: 50% !important;
+        margin-right: 50px;
+        text-align: center !important;
+        padding-bottom: 15px;
+    }
+
+    .cena_celkem {
+        width: 50% !important;
+        text-align: right !important;
+    }
+
+    .nazev_item {
+        padding-bottom: 10px !important;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .kosik_informace > div > .obrazek > img {
+        height: 40px !important;
+        width: 40px !important;
+        aspect-ratio: 40/40 auto !important;
+        padding: 0;
+    }
+
+    .obrazek {
+        border: none !important;
+        padding: 0 !important;
+        left: 15px !important;
+    }
+
+    .nazev_item {
+        padding-left: 50px !important;
+    }
+
+    .kosik_informace {
+        margin-left: 0 !important;
+    }
+}
+
+.final_cena {
+    margin-top: 10px;
+    font-size: 20px;
 }
 
 .Checkout {
@@ -33,6 +124,7 @@
     border: #daeeff 2px solid;
     margin-top: 1.5em;
 
+
 }
 
 .kosik_informace > div > .obrazek > img {
@@ -58,6 +150,7 @@
     width: 100%;
     margin-left: 122px;
     background-color: #ffffff;
+    padding-bottom: 1em;
 
 }
 
@@ -70,16 +163,21 @@
 .pocet {
     width: 7%;
     padding-left: 15px;
+    text-align: center;
 }
 
 .cena_za_kus {
     width: 17%;
     padding-left: 15px;
+    text-align: center;
+    font-weight: 200;
 }
 
 .cena_celkem {
     width: 20%;
     padding-left: 15px;
+    text-align: center;
+    font-weight: 500;
 }
 
 .nazev_item > a {
@@ -92,3 +190,4 @@
 .kosik_informace > div {
     padding-top: 10px;
 }
+

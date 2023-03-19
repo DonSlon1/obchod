@@ -83,22 +83,25 @@
                                  <span class="ml-3">'.$item_data["Nazev"].'</span>
                             </a>
                         </div>
-                         
-                        <div class="text-center align-middle cena cena_za_kus" >
-                             <!-- Product image -->
-                             
-                            <span  >'.number_format($item["Cena"], thousands_separator: ' ').' Kč</span>
-                             
-                        </div>
-            
-                        <div class="text-center align-middle pocet">
+                        
+                        <div class=" align-middle pocet">
                          
                             <input type="hidden" name="polozka['.$count.'][Obrazek]" value="'.$item_data["H_Obrazek"].'">
                             <input type="hidden" name="polozka['.$count.'][Cena]" value="'.$item["Cena"].'">
                             <input type="hidden" name="polozka['.$count.'][ID_P]" value="'.$item["Id_p"].'">
                             <input type="hidden" name="polozka['.$count.'][Nazev]" value="'.htmlspecialchars($item_data["Nazev"]).'">
                             <input type="number"  class="form-control numberstyle" name="polozka['.$count.'][pocet]"  min="0" max="999" step="1" oninput="validity.valid||(value=\'\')" onchange="update_basket(\''.$item["Id_p"].'\' , this)"  value="'.$item["Pocet"].'">
+                       
                         </div>
+                        
+                        <div class=" align-middle cena cena_za_kus" >
+                             <!-- Product image -->
+                             
+                            <span  >'.number_format($item["Cena"], thousands_separator: ' ').' Kč/ks</span>
+                             
+                        </div>
+            
+                        
                         <div class="text-center align-middle cena cena_celkem">'.number_format($item["Cena"] * $item["Pocet"], thousands_separator: ' ').' Kč</div>
                     </div> 
                 </div>
@@ -109,7 +112,7 @@
             ?>
         </div>
         <?php
-            echo(' <p class="text-right">
+            echo(' <p class="text-right final_cena">
                     Celkem k úhradě: <strong>'.number_format($cena_celkem, thousands_separator: ' ').' Kč</strong>
                 </p>
              ')

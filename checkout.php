@@ -50,24 +50,41 @@
             </a>
         </li>
     </ul>
-    <div class="cont">
-        <div>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium animi aut, dolorem esse eum,
-            facere id iure non porro quaerat soluta? Delectus exercitationem in, magnam obcaecati odio pariatur porro!
+    <form class="cont preventDefault">
+        <div class="moznosti">
+            <div id="doprava" class="opions">
+                <h2>Vyberte Dopravu</h2>
+                <label for="pobocka">
+                    <input type="radio" name="doprava" id="pobocka" value="1">
+                    <span>
+                        Naše prodejna
+                    </span>
+                </label>
+                <label for="posta">
+                    <input type="radio" name="doprava" value="2" id="posta">
+                    <span>
+                        Česká pošta
+                    </span>
+                </label>
+            </div>
+            <div class="platba">
+
+            </div>
         </div>
         <div class="kosik">
             <h2>Košík</h2>
             <?php
+                $cena_celkem = 0;
                 foreach ($form_data as $item) {
-
+                    $cena_celkem = $item["Cena"] * $item["pocet"];
 
                     echo('
                         <div>
                             <a class="obrazek" href="produkt?ID_P='.$item["ID_P"].'">
-                                <img src="images/'.$item["Obrazek"].'">
+                                <img alt="'.htmlspecialchars($item["Nazev"]).'" src="images/'.$item["Obrazek"].'">
                             </a>
                             <h3>');
-                    if ($item["pocet"] != 0) {
+                    if ($item["pocet"] != 1) {
                         echo $item["pocet"].'×';
                     }
                     echo(' <a href="produkt?ID_P='.$item["ID_P"].'" >'.$item["Nazev"].'</a></h3>
@@ -79,9 +96,19 @@
 
                 }
             ?>
-
+            <div class="info-objednavka">
+                <div class="cena-celkem">
+                    <span>Celkem:</span>
+                    <span class="strong"><?php echo(number_format($cena_celkem, thousands_separator: ' ').' Kč') ?></span>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="bottom">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dicta error, expedita in incidunt nesciunt
+            officiis perspiciatis possimus provident qui quia quibusdam reprehenderit repudiandae tempora unde
+            voluptatem voluptates voluptatibus? Facere.
+        </div>
+    </form>
 </div>
 
 <script src="service-worker.js"></script>
@@ -90,10 +117,12 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>
+<script src="js/checkout.js"></script>
+<script src="js/global_funcion.js"></script>
+<script src="js/login.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
-<script src="js/global_funcion.js"></script>
-<script src="js/login.js"></script>
+
 </body>
 </html>

@@ -58,23 +58,25 @@ function show(id) {
     container.css('display', 'flex')
     container.addClass('1')
     console.log(1);
-    $(document).on("mousedown", function (e) {
-            const container = $(id + "_div");
-            if (container.hasClass('1')) {
-                container.removeClass('1')
-            } else {
 
-                if (!container.is(e.target) && container.has(e.target).length === 0) {
-                    $(document).off("mousedown")
-                    $(id).one("mousedown", function () {
-                        show(id)
-                    })
-                    container.css('display', 'none')
-                    return 0;
-                }
+    function onMouseDown(e) {
+        const container = $(id + "_div");
+        if (container.hasClass('1')) {
+            container.removeClass('1')
+        } else {
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                $(document).off("mousedown", onMouseDown); // Remove the event listener
+                $(id).one("mousedown", function () {
+                    show(id)
+                })
+                container.css('display', 'none')
+                return 0;
             }
         }
-    )
+    }
+
+    // Add the event listener to the document
+    $(document).on("mousedown", onMouseDown);
 
 }
 
@@ -107,18 +109,18 @@ function show(id) {
        * Add new DOM
        */
             let container = document.createElement('div'),
-                btnAdd = document.createElement('div'),
-                btnRem = document.createElement('div'),
+                btnAdd = document.createElement('a'),
+                btnRem = document.createElement('a'),
                 min = (settings.min) ? settings.min : input.attr('min'),
                 max = (settings.max) ? settings.max : input.attr('max'),
                 value = (settings.value) ? settings.value : parseFloat(input.val());
             container.className = 'numberstyle-qty';
             btnAdd.className = (max && value >= max) ? 'qty-btn qty-add disabled' : 'qty-btn qty-add';
-            btnAdd.innerHTML = '+';
+            btnAdd.innerHTML = '⯅';
             btnRem.className = (min && value <= min) ? 'qty-btn qty-rem disabled' : 'qty-btn qty-rem';
-            btnRem.innerHTML = '-';
+            btnRem.innerHTML = '⯆';
             input.wrap(container);
-            input.closest('.numberstyle-qty').prepend(btnRem).prepend(btnAdd);
+            input.closest('.numberstyle-qty').append(btnRem).append(btnAdd);
 
             /*
              * Attach events

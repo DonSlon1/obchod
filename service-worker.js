@@ -13,7 +13,10 @@ var CACHE_NAME = 'my-site-cache-v1';
 var urlsToCache = [
     'js/global_funcion.js',
     'style/global.css',
-    'svg/'
+    'svg/eye-off.svg',
+    'svg/eye-open.svg',
+    'svg/user.svg',
+    'svg/shop_cart.svg'
 ];
 
 self.addEventListener('install', function (event) {

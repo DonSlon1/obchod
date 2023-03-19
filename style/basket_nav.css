@@ -12,6 +12,39 @@
     .navigace > li > a > span {
         text-align: center;
     }
+
+    .h_container {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .navigace > li {
+
+
+    }
+
+    .h_container > *:not(.navigace) {
+        margin-right: 10px !important;
+        margin-left: 10px;
+    }
+}
+
+@media only screen and (max-width: 750px) and (min-width: 655px) {
+    .navigace > li > a {
+        font-size: 1.6em !important;
+    }
+}
+
+@media only screen and (min-width: 510px) and (max-width: 654px) {
+    .navigace > li > a {
+        font-size: 1.2em !important;
+    }
+}
+
+@media only screen and (max-width: 509px) {
+    .navigace > li > a {
+        font-size: 1.1em !important;
+    }
 }
 
 .navigace {
@@ -59,7 +92,7 @@
     display: flex;
     justify-content: center;
     color: black !important;
-    font-size: 25px;
+    font-size: 1.8em;
     align-items: center;
     height: 100%;
 
