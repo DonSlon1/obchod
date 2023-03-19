@@ -36,9 +36,19 @@ function Get_Basket() {
 
 window.onload = function () {
     Get_Basket()
-    $("#user_open").one("mousedown", function () {
+    /*$("#user_open").one("mousedown", function () {
         show("#user")
-    })
+    })*/
+
+    $.fn.opendiv = function () {
+        return this.each(function () {
+            $(this).one("mousedown", function () {
+                show("#" + this.id)
+            })
+        })
+    }
+
+    $('.open_div').opendiv();
 }
 
 
@@ -56,7 +66,7 @@ function show(id) {
 
                 if (!container.is(e.target) && container.has(e.target).length === 0) {
                     $(document).off("mousedown")
-                    $(id + "_open").one("mousedown", function () {
+                    $(id).one("mousedown", function () {
                         show(id)
                     })
                     container.css('display', 'none')
@@ -173,6 +183,7 @@ function show(id) {
 
 
     $('.numberstyle').numberstyle();
+
 
 }(jQuery));
 
