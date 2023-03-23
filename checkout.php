@@ -24,10 +24,15 @@
 
     require "pomoc/connection.php";
     require "pomoc/navigace.php";
+    require "pomoc/doprava.php";
+    require "pomoc/platba.php";
     if (session_status() != PHP_SESSION_ACTIVE) {
         session_start();
     }
     $form_data = $_SESSION["form_data"]["polozka"];
+    $response_doprava = ziskat_dopravu();
+    $response_platba = ziskat_platbu();
+
     navigace(0);
 
 
@@ -50,26 +55,25 @@
             </a>
         </li>
     </ul>
+
     <form class="cont preventDefault">
         <div class="moznosti">
-            <div id="doprava" class="opions">
-                <h2>Vyberte Dopravu</h2>
-                <label for="pobocka">
-                    <input type="radio" name="doprava" id="pobocka" value="1">
-                    <span>
-                        Naše prodejna
-                    </span>
-                </label>
-                <label for="posta">
-                    <input type="radio" name="doprava" value="2" id="posta">
-                    <span>
-                        Česká pošta
-                    </span>
-                </label>
-            </div>
-            <div class="platba">
 
+            <div id="doprava" class="opions <?php if (array_key_exists("id_checked", $response_doprava)) {
+                echo($response_doprava["id_checked"]);
+            } ?>">
+                <?php echo($response_doprava["html"]) ?>
             </div>
+            <div id="platba" class="opions <?php if (array_key_exists("id_checked", $response_platba)) {
+                echo($response_platba["id_checked"]);
+            } ?>">
+                <?php
+                    if ($response_doprava["checked"]) {
+                        echo($response_platba["html"]);
+                    }
+                ?>
+            </div>
+
         </div>
         <div class="kosik">
             <h2>Košík</h2>
@@ -97,6 +101,12 @@
                 }
             ?>
             <div class="info-objednavka">
+                <div id="doprava-kosik" class="plat_kosik">
+
+                </div>
+                <div id="platba-kosik" class="plat_kosik">
+
+                </div>
                 <div class="cena-celkem">
                     <span>Celkem:</span>
                     <span class="strong"><?php echo(number_format($cena_celkem, thousands_separator: ' ').' Kč') ?></span>

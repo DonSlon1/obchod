@@ -70,6 +70,10 @@
 
 .kosik > div {
     display: flex;
+}
+
+.kosik > div:not(.info-objednavka) {
+    display: flex;
     border-bottom: 1px #e4e4e4 solid;
 }
 
@@ -119,6 +123,7 @@
 }
 
 .info-objednavka {
+    flex-flow: column;
     width: 100%;
 }
 
@@ -157,3 +162,15 @@ input[type="radio"]:focus {
 .hide {
     display: none !important;
 }
+
+.plat_kosik {
+    display: flex;
+    width: 100%;
+}
+
+h2 {
+    font-weight: 450;
+}
+
+
+
