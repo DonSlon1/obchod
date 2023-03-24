@@ -25,22 +25,54 @@
         } else {
             $RESPONSE["checked"] = false;
         }
-        $kos_doprava["osobni_odber"] = '<span>
-                            osobni_odber
+        $kos_doprava["Dobirka"] = '<span>
+                            <img src="svg/dobirka.svg" alt="dobirka" class="kos-moznosti">
+                            Dobírkou
+                            
+                        </span>';
+        $kos_doprava["Karta-online"] = '<span>
+                            <img src="svg/karta.svg" alt="Karta-online" class="kos-moznosti">
+                            Kartou online
+                            
                         </span>';
 
-        $doprava["osobni_odber"] = '<label for="osobni_odber">
-                    <input type="radio" name="platba" value="osobni_odber" id="osobni_odber">
+        $kos_doprava["bankovni-prevod"] = '<span>
+                            <img src="svg/bankovni-prevod.svg" alt="dobirka" class="kos-moznosti">
+                            bankovni-prevod
+                            
+                        </span>';
+
+
+        $doprava["Dobirka"] = '<label for="Dobirka">
+                    <input type="radio" name="platba" value="Dobirka" id="Dobirka">
                     <span>
-                                osobni_odber
+                                Dobírkou
+                                <img src="svg/dobirka.svg" alt="dobirka" class="ob-moznosti">
                             </span>
                 </label>
                 ';
 
+        $doprava["Karta-online"] = '<label for="Karta-online">
+                    <input type="radio" name="platba" value="Karta-online" id="Karta-online">
+                    <span>
+                                Kartou online
+                                <img src="svg/karta.svg" alt="Karta-online" class="ob-moznosti">
+                            </span>
+                </label>
+                ';
+
+        $doprava["bankovni-prevod"] = '<label for="bankovni-prevod">
+                    <input type="radio" name="platba" value="bankovni-prevod" id="bankovni-prevod">
+                    <span>
+                                bankovni-prevod
+                                <img src="svg/bankovni-prevod.svg" alt="bankovni-prevod" class="ob-moznosti">
+                            </span>
+                </label>
+                ';
 
         $RESPONSE["html"] = '<h2>Vyberte Platbu</h2>';
 
-        $RESPONSE["kosik_html"] = '<h6>Platba</h6>';
+        $RESPONSE["kosik_html"] = '<h6>Platba :</h6>';
 
         if ($zpusob == -1) {
             foreach ($doprava as $item) {

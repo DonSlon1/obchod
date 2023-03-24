@@ -1,6 +1,4 @@
-@media only screen  and (max-width: 900px) {
-
-
+@media only screen and (max-width: 900px) {
     .kosik {
         max-width: 100% !important;
         width: 100% !important;
@@ -8,12 +6,10 @@
 
     .kosik .cena {
         justify-content: right;
-
     }
-
 }
 
-@media only screen  and (min-width: 901px) {
+@media only screen and (min-width: 901px) {
     .moznosti {
         margin-right: 15px;
     }
@@ -27,7 +23,6 @@
     display: grid;
 
     grid-template-rows: 1fr auto; /* One row at the bottom */
-
 }
 
 .bottom {
@@ -35,7 +30,6 @@
 }
 
 .kosik .cena {
-
     word-break: keep-all;
     min-width: fit-content;
     align-self: center;
@@ -45,7 +39,7 @@
     line-height: 1.2 !important;
     display: flex;
     margin-left: auto;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
 }
 
 .kosik {
@@ -57,12 +51,11 @@
     padding: 5px;
 }
 
-
 .kosik > h2 {
     font-size: 1.5rem;
 }
 
-.kosik img {
+.kosik img:not(.kos-moznosti) {
     max-height: 100%;
     max-width: 100%;
     margin: auto;
@@ -82,7 +75,6 @@
     font-weight: 400;
     color: #000000;
     font-size: 1rem;
-
 }
 
 .kosik a:not(.obrazek) {
@@ -103,7 +95,6 @@
     max-width: 4em;
     display: flex;
     margin-right: 10px;
-
 }
 
 .cena-celkem {
@@ -132,12 +123,15 @@
     border-bottom: 2px #e4e4e4 solid;
     padding: 5px;
     display: flex;
+    align-items: center;
 }
 
 .opions > label > span {
-    margin-left: 10px;
-    font-size: 15px;
-    line-height: 20px;
+    width: 100%;
+    display: inline-block;
+    margin-left: 20px;
+    font-size: 20px;
+    line-height: 25px;
 }
 
 input[type="radio"] {
@@ -166,11 +160,62 @@ input[type="radio"]:focus {
 .plat_kosik {
     display: flex;
     width: 100%;
+    flex-direction: column;
+    padding-top: 5px;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 6px;
+}
+
+.plat_kosik > span {
+    display: inline-flex;
+    margin-top: 10px;
+    max-height: 24px;
+}
+
+.plat_kosik > h6 {
+    margin-bottom: 2px;
 }
 
 h2 {
     font-weight: 450;
 }
 
+.dodani {
+    border: none;
+    background-color: transparent;
+    outline: none;
+}
 
+.dodani:hover {
+    text-decoration-line: underline;
+}
 
+.dodani:focus-visible {
+    border: none;
+    outline: none;
+}
+
+.dodani:focus {
+    border: none;
+    outline: none;
+}
+
+.ob-moznosti {
+
+    margin-left: 10px;
+    max-height: 25px;
+}
+
+.kos-moznosti {
+    margin-right: 10px;
+    max-height: 24px;
+}
+
+.Checkout {
+    margin-top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 2px solid #e4e4e4;
+}

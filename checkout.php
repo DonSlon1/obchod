@@ -102,10 +102,18 @@
             ?>
             <div class="info-objednavka">
                 <div id="doprava-kosik" class="plat_kosik">
-
+                    <?php
+                        if ($response_doprava["checked"]) {
+                            echo($response_doprava["kosik_html"]);
+                        }
+                    ?>
                 </div>
                 <div id="platba-kosik" class="plat_kosik">
-
+                    <?php
+                        if ($response_platba["checked"]) {
+                            echo($response_platba["kosik_html"]);
+                        }
+                    ?>
                 </div>
                 <div class="cena-celkem">
                     <span>Celkem:</span>
@@ -114,9 +122,11 @@
             </div>
         </div>
         <div class="bottom">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dicta error, expedita in incidunt nesciunt
-            officiis perspiciatis possimus provident qui quia quibusdam reprehenderit repudiandae tempora unde
-            voluptatem voluptates voluptatibus? Facere.
+            <div class="Checkout">
+                <a href="obchod">Zpět do obchodu</a>
+                <button type="submit" class="btn btn-primary btn-lg" id="del-pay-frm__submit">Pokračovat v objednávce
+                </button>
+            </div>
         </div>
     </form>
 </div>

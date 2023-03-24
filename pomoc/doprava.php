@@ -40,18 +40,26 @@
 
 
         $kos_doprava["pobocka"] = '<span>
+                            <img class="kos-moznosti" src="images/icon-maskable.png" alt="prodejna">
                             Naše prodejna
                         </span>';
 
         $kos_doprava["posta"] = '<span>
+                                <img class="kos-moznosti" src="svg/ceska-posta.svg" alt="Česká pošta">
                                 Česká pošta
                             </span>';
+
+        $kos_doprava["dpo"] = '<span>
+            DPO
+            <img class="kos-moznosti" src="svg/dpd.svg" alt="DPO">
+        </span>';
 
 
         $doprava["pobocka"] = '<label for="pobocka">
                         <input type="radio" name="doprava" id="pobocka" value="pobocka">
                         <span>
                             Naše prodejna
+                            <img class="ob-moznosti" src="images/icon-maskable.png" alt="prodejna">
                         </span>
                     </label>
                 ';
@@ -60,12 +68,23 @@
                             <input type="radio" name="doprava" value="posta" id="posta">
                             <span>
                                 Česká pošta
+                                <img class="ob-moznosti" src="svg/ceska-posta.svg" alt="Česká pošta">
                             </span>
+                            
+                        </label>
+                ';
+        $doprava["dpo"] = '<label for="dpo">
+                            <input type="radio" name="doprava" value="dpo" id="dpo">
+                            <span>
+                                DPO
+                                <img class="ob-moznosti" src="svg/dpd.svg" alt="DPO">
+                            </span>
+                            
                         </label>
                 ';
 
         $RESPONSE["html"] = '<h2>Vyberte Dopravu</h2>';
-        $RESPONSE["kosik_html"] = '<h6>Doprava</h6>';
+        $RESPONSE["kosik_html"] = '<h6>Doprava :</h6>';
         if ($zpusob == -1) {
             foreach ($doprava as $item) {
 
