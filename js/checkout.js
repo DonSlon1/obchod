@@ -1,5 +1,22 @@
 start()
 
+function validate() {
+    const form = $("#formular")
+    const form_button = $("#submit_checkout")
+    if (form[0].checkValidity()) {
+        form_button.addClass('complete')
+
+    } else {
+        form_button.removeClass('complete')
+        $("input[required]").change(function () {
+            console.log(form[0].checkValidity())
+            if (form[0].checkValidity()) {
+                form_button.addClass('complete')
+            }
+        })
+    }
+}
+
 function start() {
     let button =
         '<button class="dodani" type="button" onclick="reset_dodani()">Změnit způsob dodání ⯆</button>'
@@ -16,6 +33,8 @@ function start() {
         $("#" + platba[0].classList[1]).prop("checked", true)
         platba.append(button)
     }
+    validate()
+
 }
 
 doprava()
@@ -58,6 +77,7 @@ function doprava() {
                             .then(function (response) {
                                 $("#platba").html(response.data["html"])
                                 platba()
+                                validate()
                             })
                     })
             })
@@ -94,12 +114,14 @@ function platba() {
 
                         radio(response)
                         platba.append(button)
+                        validate()
                     })
             })
     })
 }
 
 function reset_dodani() {
+    $("#submit_checkout").removeClass('complete')
     axios
         .post("pomoc/doprava", {
             funkce: "reset",
@@ -117,12 +139,14 @@ function reset_dodani() {
                 })
                 .then(function (response) {
                     $("#doprava").html(response.data["html"])
+
                     doprava()
                 })
         })
 }
 
 function reset_platby() {
+    $("#submit_checkout").removeClass('complete')
     axios
         .post("pomoc/doprava", {
             funkce: "reset",

@@ -44,7 +44,7 @@
 
 
         $doprava["Dobirka"] = '<label for="Dobirka">
-                    <input type="radio" name="platba" value="Dobirka" id="Dobirka">
+                    <input type="radio" name="platba" value="Dobirka" id="Dobirka" required>
                     <span>
                                 Dobírkou
                                 <img src="svg/dobirka.svg" alt="dobirka" class="ob-moznosti">
@@ -53,7 +53,7 @@
                 ';
 
         $doprava["Karta-online"] = '<label for="Karta-online">
-                    <input type="radio" name="platba" value="Karta-online" id="Karta-online">
+                    <input type="radio" name="platba" value="Karta-online" id="Karta-online" required>
                     <span>
                                 Kartou online
                                 <img src="svg/karta.svg" alt="Karta-online" class="ob-moznosti">
@@ -62,7 +62,7 @@
                 ';
 
         $doprava["bankovni-prevod"] = '<label for="bankovni-prevod">
-                    <input type="radio" name="platba" value="bankovni-prevod" id="bankovni-prevod">
+                    <input type="radio" name="platba" value="bankovni-prevod" id="bankovni-prevod" required>
                     <span>
                                 bankovni-prevod
                                 <img src="svg/bankovni-prevod.svg" alt="bankovni-prevod" class="ob-moznosti">

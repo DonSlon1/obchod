@@ -1,5 +1,6 @@
 node_modules
 .idea
+.vscode
 validate
 /images/$_FILES[H_Obrazek][tmp_name]
 /images/{$_FILES[H_Obrazek][tmp_name]}

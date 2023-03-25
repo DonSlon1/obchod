@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta name="description" content="Košík">
+    <meta name="description" content="Dodaci udaje">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
@@ -29,14 +29,15 @@
     if (session_status() != PHP_SESSION_ACTIVE) {
         session_start();
     }
-    $form_data = $_SESSION["form_data"]["polozka"];
     $response_doprava = ziskat_dopravu();
     $response_platba = ziskat_platbu();
 
     navigace(0);
 
+    // print_r(json_encode($_SESSION, JSON_HEX_QUOT))
 
 ?>
+
 <div class="container h_container  mt-5">
     <ul class="navigace">
         <li>
@@ -44,12 +45,12 @@
                 <span>Košík</span>
             </a>
         </li>
-        <li class="active_li">
-            <a>
+        <li>
+            <a href="checkout.php">
                 <span>Doprava a pladba</span>
             </a>
         </li>
-        <li>
+        <li class="active_li">
             <a>
                 <span>Souhrn objednávky</span>
             </a>
@@ -58,28 +59,21 @@
 
     <form class="cont preventDefault" id="formular">
         <div class="moznosti">
-
-            <div id="doprava" class="opions <?php if (array_key_exists("id_checked", $response_doprava)) {
-                echo($response_doprava["id_checked"]);
-            } ?>">
-                <?php echo($response_doprava["html"]) ?>
-            </div>
-            <div id="platba" class="opions <?php if (array_key_exists("id_checked", $response_platba)) {
-                echo($response_platba["id_checked"]);
-            } ?>">
-                <?php
-                    if ($response_doprava["checked"]) {
-                        echo($response_platba["html"]);
-                    }
-                ?>
-            </div>
+            <?php
+                if (array_key_exists("logged_in", $_COOKIE)) {
+                    echo 'good';
+                }
+            ?>
 
         </div>
+
         <div class="kosik">
             <?php
                 require "pomoc/kosik.phtml"
             ?>
         </div>
+
+
         <div class="bottom">
             <div class="Checkout">
                 <a href="obchod">Zpět do obchodu</a>
@@ -97,7 +91,6 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>
-<script src="js/checkout.js"></script>
 <script src="js/global_funcion.js"></script>
 <script src="js/login.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"

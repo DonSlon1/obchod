@@ -50,13 +50,14 @@
                             </span>';
 
         $kos_doprava["dpo"] = '<span>
-            DPO
             <img class="kos-moznosti" src="svg/dpd.svg" alt="DPO">
+            DPO
+            
         </span>';
 
 
         $doprava["pobocka"] = '<label for="pobocka">
-                        <input type="radio" name="doprava" id="pobocka" value="pobocka">
+                        <input type="radio" name="doprava" id="pobocka" value="pobocka" required>
                         <span>
                             Naše prodejna
                             <img class="ob-moznosti" src="images/icon-maskable.png" alt="prodejna">
@@ -65,7 +66,7 @@
                 ';
 
         $doprava["posta"] = '<label for="posta">
-                            <input type="radio" name="doprava" value="posta" id="posta">
+                            <input type="radio" name="doprava" value="posta" id="posta" required>
                             <span>
                                 Česká pošta
                                 <img class="ob-moznosti" src="svg/ceska-posta.svg" alt="Česká pošta">
@@ -74,7 +75,7 @@
                         </label>
                 ';
         $doprava["dpo"] = '<label for="dpo">
-                            <input type="radio" name="doprava" value="dpo" id="dpo">
+                            <input type="radio" name="doprava" value="dpo" id="dpo" required>
                             <span>
                                 DPO
                                 <img class="ob-moznosti" src="svg/dpd.svg" alt="DPO">
