@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta name="description" content="Dodaci udaje">
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="white">
     <link rel="shortcut icon" href="images/icon-maskable.png"/>
@@ -16,8 +16,10 @@
     <link rel="stylesheet" href="style/global.css" type="text/css" crossorigin="anonymous">
     <link rel="stylesheet" href="style/basket_nav.css">
     <link rel="stylesheet" href="style/checkout.css">
+    <link rel="stylesheet" href="style/dodaci-udaje.css">
     <title>Document</title>
 </head>
+
 <body>
 <?php
 
@@ -33,6 +35,7 @@
     $response_platba = ziskat_platbu();
 
     navigace(0);
+    $con = DbCon();
 
     // print_r(json_encode($_SESSION, JSON_HEX_QUOT))
 
@@ -57,13 +60,99 @@
         </li>
     </ul>
 
-    <form class="cont preventDefault" id="formular">
+    <form class="cont preventDefault <?php if (array_key_exists('logged_in', $_COOKIE)) {
+        echo ' user_logged';
+    } ?>" id="formular" onsubmit="overeni()">
         <div class="moznosti">
-            <?php
-                if (array_key_exists("logged_in", $_COOKIE)) {
-                    echo 'good';
-                }
-            ?>
+            <h2 class="nadpis">
+                Kontakní Ůdaje
+            </h2>
+            <div class="main-block">
+                <?php
+                    $response = array();
+                    if (!array_key_exists("logged_in", $_COOKIE)) {
+
+                        echo('
+    
+                            <div id="chete-se-prihlasit">
+                                <a class="btn btn-primary">
+                                    Přihlásit se
+                                </a>
+                                <p>
+                                    Máte u nás účet? Přihlaste se a my vše vyplníme za vás.
+                                </p>
+                            </div>
+                            ');
+
+                    } else {
+                        $ID_U = $_COOKIE["user_id"];
+                        $sql = "select Email ,Jmeno,Prijmeni ,Telefon , Mesto,Ulice,PSC FROM uzivatel LEFT JOIN adresa a on a.ID_A = uzivatel.ID_A WHERE ID_U = '$ID_U'";
+                        $response = mysqli_fetch_all(mysqli_query($con, $sql), ASSERT_ACTIVE)[0];
+                        print_r($response);
+                    }
+
+                ?>
+                <div class="form-input">
+                    <label for="email_dou">E-mail:</label>
+                    <input type="email" class="reqierd_input email" name="email_dou" id="email_dou"
+                        <?php if (array_key_exists("Email", $response)) {
+                            echo 'value="'.$response["Email"].'"';
+                        } ?>>
+                </div>
+                <div class="form-input">
+                    <label for="tel_dou">Telefon:</label>
+                    <input type="tel" class="reqierd_input phone" pattern="\d{3}\d{3}\d{3}" name="tel_dou" id="tel_dou"
+                        <?php if (array_key_exists("Telefon", $response)) {
+                            echo 'value="'.$response["Telefon"].'"';
+                        } ?>>
+                </div>
+                <div class="form-input">
+                    <label for="jmeno_dou">Jméno:</label>
+                    <input type="text" class="reqierd_input jmeno" name="jmeno_dou" id="jmeno_dou"
+                        <?php if (array_key_exists("Jmeno", $response)) {
+                            echo 'value="'.$response["Jmeno"].'"';
+                        } ?>>
+                </div>
+                <div class="form-input">
+                    <label for="prijmeni_dou">Příjmení:</label>
+                    <input type="text" class="reqierd_input prijmeni" name="prijmeni_dou" id="prijmeni_dou"
+                        <?php if (array_key_exists("Prijmeni", $response)) {
+                            echo 'value="'.$response["Prijmeni"].'"';
+                        } ?>>
+                </div>
+            </div>
+
+
+            <h2 class="nadpis">
+                Fakturační údaje
+            </h2>
+            <div class="main-block">
+
+                <div class="form-input">
+                    <label for="ulice_dou">Ulice a č. p.:</label>
+                    <input type="text" class="reqierd_input ulice" name="ulice_dou" id="ulice_dou"
+                           pattern="^[A-Z][a-z]+ \d+\/\d+[A-Za-z]*|[A-Z][a-z]+ \d+$"
+                        <?php if (array_key_exists("Ulice", $response)) {
+                            echo 'value="'.$response["Ulice"].'"';
+                        } ?>>
+                </div>
+                <div class="form-input">
+                    <label for="obec_dou">Obec:</label>
+                    <input type="text" class="reqierd_input obec" name="obec_dou" id="obec_dou" minlength="2"
+                        <?php if (array_key_exists("Mesto", $response)) {
+                            echo 'value="'.$response["Mesto"].'"';
+                        } ?>>
+                </div>
+                <div class="form-input">
+                    <label for="psc_dou">PSČ:</label>
+                    <input type="text" class="reqierd_input psc" name="psc_dou" id="psc_dou" pattern="\d{5}"
+                           minlength="5" <?php if (array_key_exists("PSC", $response)) {
+                        echo 'value="'.$response["PSC"].'"';
+                    } ?>>
+                </div>
+
+            </div>
+
 
         </div>
 
@@ -77,9 +166,9 @@
         <div class="bottom">
             <div class="Checkout">
                 <a href="obchod">Zpět do obchodu</a>
-                <a href="dodaci-udaje" class="btn btn-primary btn-lg required" id="submit_checkout">Pokračovat v
+                <button class="btn btn-primary btn-lg ">Pokračovat v
                     objednávce
-                </a>
+                </button>
             </div>
         </div>
     </form>
@@ -96,6 +185,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+<script src="js/dodaci_udaje.js"></script>
 
 </body>
+
 </html>

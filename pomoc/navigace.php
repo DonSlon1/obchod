@@ -63,8 +63,8 @@
 
 </nav>
 <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
-    <div class="modal-dialog w-fitcontent" role="document">
-        <div class="modal-content w-fitcontent">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content ">
             <!--<div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">Shop Login/Registration</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -85,10 +85,10 @@
                         </a>
                     </li>
             </ul>
-            <div class="modal-body w-fitcontent mt-1 ml-4 mr-4 mb-1">
+            <div class="modal-body  mt-1 ml-4 mr-4 mb-1 login-modal">
                 
-                <div class="container  w-fitcontent">
-                    <div class="row w-fitcontent">
+                <div class="container ">
+                    <div class="row ">
                         <div >
 
 
@@ -129,62 +129,7 @@
         //! preventDefault nemazat zajisti aby se formulář neodeslal
 
         echo('
-                                    <form id="reg-form" class="preventDefault" method="post" onsubmit="registration()">
-                                        <input type="hidden" name="log_reg" value="registration">
-                                        <div class="form-group">
-                                            <label for="registerEmail">Email address</label>
-                                            <input type="email" class="form-control" name="email" id="registerEmail" aria-describedby="emailHelp">
-                                            <small id="emailHelp" class="form-text text-muted">We wil never share your email with anyone else.</small>
-                                        </div>
-                                        <div class="form-group">
-
-                                            <label for="registerPassword">Password</label>
-                                            <input type="password" name="Password" class="form-control" id="registerPassword">
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="confirmPassword">Confirm Password</label>
-                                            <div class="input-group mb-3">
-                                                <input type="password" name="confirmPassword" class="form-control" id="confirmPassword">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="show-passwordRegister"><i class="icon-eye"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="jmeno">Jméno</label>
-                                            <input type="text" class="form-control" id="jmeno" name="jmeno" aria-describedby="emailHelp">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="prijmeni">Příjmení</label>
-                                            <input type="text" class="form-control" id="prijmeni" name="prijmeni" aria-describedby="emailHelp">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label for="Mesto">Mesto</label>
-                                            <input type="text" class="form-control" id="Mesto" name="Mesto" aria-describedby="emailHelp">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label for="Ulice">Ulice</label>
-                                            <input type="text" class="form-control" id="Ulice" name="Ulice" aria-describedby="emailHelp">
-                                        </div>
-                                      
-                                        <div class="form-group">
-                                            <label for="PSC">PSC</label>
-                                            <input type="text" class="form-control" id="PSC" name="PSC" aria-describedby="emailHelp">
-                                        </div>
-                                        
-
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="reg_keep-logged-in" name="reg_keep-logged-in">
-                                            <label class="form-check-label" for="reg_keep-logged-in">Keep me logged in</label>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                                    </form>
+                                    
                                 </div>
                             </div>
                         </div>

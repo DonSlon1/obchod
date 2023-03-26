@@ -13,24 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const passwordRegistrationField = document.getElementById('confirmPassword');
-    const registerPassword = document.getElementById('registerPassword');
-    const showPasswordRegistration = document.getElementById('show-passwordRegister');
-
-    showPasswordRegistration.addEventListener('click', function () {
-        if (passwordRegistrationField.type === 'password') {
-            passwordRegistrationField.type = 'text';
-            registerPassword.type = 'text';
-            this.innerHTML = '<i class="icon-eye-off"></i>';
-        } else {
-            registerPassword.type = 'password'
-            passwordRegistrationField.type = 'password';
-            this.innerHTML = '<i class="icon-eye"></i>';
-        }
-    });
-});
-
 
 const login = () => {
     const email = document.getElementById("loginEmail").value
@@ -55,22 +37,21 @@ const login = () => {
 const registration = () => {
     const email = document.getElementById("registerEmail").value
     const password = document.getElementById("registerPassword").value
-    const confirmPassword = document.getElementById("confirmPassword").value
     const jmeno = document.getElementById("jmeno").value
     const prijmeni = document.getElementById("prijmeni").value
     const Ulice = document.getElementById("Ulice").value
     const Mesto = document.getElementById("Mesto").value
+    const Telefon = document.getElementById("telefon").value
     const PSC = document.getElementById("PSC").value
     const keepLogin = document.getElementById("reg_keep-logged-in").checked
     console.log(email)
     console.log(password)
-    console.log(confirmPassword)
     axios.post('login', {
         log_reg: 'registration',
         keepLogin: keepLogin,
         email: email,
         Password: password,
-        confirmPassword: confirmPassword,
+        Telefon: Telefon,
         jmeno: jmeno,
         prijmeni: prijmeni,
         Ulice: Ulice,

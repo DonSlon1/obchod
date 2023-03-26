@@ -1,3 +1,109 @@
+function check(e) {
+    const element = $(e);
+    if ((!e.checkValidity() || element.val() === "") && !element.hasClass('heslo')) {
+        e.parentElement.removeChild(e.nextSibling)
+
+        if (element.val() === "") {
+            $(e.parentElement).append("<div>tento údaj je povinný</div>")
+        } else if (element.hasClass('email')) {
+            if (element.val().length > 50) {
+                $(e.parentElement).append("<div>maximální délka je 50 znaků</div>")
+            } else {
+                $(e.parentElement).append("<div>nesprávný formát e-mailu</div>")
+            }
+
+
+        } else if (element.hasClass('phone')) {
+
+            $(e.parentElement).append("<div>nesprávný formát telefonního čísla (+420602xxxxxx; 602 xxx xxx)</div>")
+
+        } else if (element.hasClass('jmeno')) {
+            if (element.val().length > 25) {
+                $(e.parentElement).append("<div>maximální délka je 25 znaků</div>")
+            }
+        } else if (element.hasClass('prijmeni')) {
+            if (element.val().length > 25) {
+                $(e.parentElement).append("<div>maximální délka je 25 znaků</div>")
+            }
+        } else if (element.hasClass('ulice')) {
+            if (element.val().length > 33) {
+                $(e.parentElement).append("<div>maximální délka je 33 znaků</div>")
+            }
+        } else if (element.hasClass('obec')) {
+            if (element.val().length > 40) {
+                $(e.parentElement).append("<div>maximální délka je 40 znaků</div>")
+            }
+        } else if (element.hasClass('psc')) {
+
+            $(e.parentElement).append("<div>nesprávný tvar PSČ</div>")
+
+        }
+
+        element.addClass('invalid')
+
+
+    } else if (element.hasClass('heslo')) {
+
+        const hodnota = element.val()
+
+        if (!RegExp("(?=.*[0-9])").test(hodnota)) {
+            $("#cislo").addClass('nespravne')
+        } else {
+            $("#cislo").removeClass('nespravne')
+        }
+        if (!RegExp("(?=.*[!@#$%^&*])").test(hodnota)) {
+            $("#znak").addClass('nespravne')
+        } else {
+            $("#znak").removeClass('nespravne')
+        }
+        if (!RegExp("^.{8,289}$").test(hodnota)) {
+            $("#delka").addClass('nespravne')
+        } else {
+            $("#delka").removeClass('nespravne')
+        }
+
+    } else if (element.hasClass('invalid')) {
+        element.removeClass('invalid')
+        e.parentElement.removeChild(e.nextSibling)
+    }
+}
+
+
+$(document).ready(function () {
+    // Get the phone number input field
+    let phoneInput = $('.phone');
+
+    // Listen for changes to the input field
+    phoneInput.on('input', function () {
+        this.value = this.value.replace(/\D/g, '');
+    });
+
+    $(".reqierd_input").on('blur', function () {
+        check(this)
+    }).each(function () {
+        if ($(this.form).hasClass("user_logged")) {
+            check(this)
+        }
+    })
+    // get all input elements on the page
+    let inputs = $('input');
+
+    // loop through each input element
+    inputs.each(function () {
+        let input = $(this);
+
+        // set the custom validity message
+        input.get(0).setCustomValidity('Invalid input');
+
+        // disable the validation message on form submit
+        input.on('invalid', function (event) {
+            event.preventDefault();
+        });
+    });
+
+});
+
+
 const prevent = document.querySelectorAll(".preventDefault")
 prevent.forEach(element => {
     element.addEventListener('submit', function (event) {

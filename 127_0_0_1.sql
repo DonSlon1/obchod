@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pon 13. bře 2023, 00:06
+-- Vytvořeno: Pon 27. bře 2023, 00:25
 -- Verze serveru: 10.4.27-MariaDB
 -- Verze PHP: 8.2.0
 
@@ -31,11 +31,10 @@ USE `shop`;
 
 CREATE TABLE `adresa`
 (
-    `ID_A`  int(11)      NOT NULL,
-    `ID_U`  varchar(255) NOT NULL,
-    `Mesto` varchar(60)  NOT NULL,
-    `Ulice` varchar(60)  NOT NULL,
-    `PSC`   int(10)      NOT NULL
+    `ID_A`  int(11)     NOT NULL,
+    `Mesto` varchar(40) NOT NULL,
+    `Ulice` varchar(33) NOT NULL,
+    `PSC`   int(5)      NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
@@ -44,9 +43,45 @@ CREATE TABLE `adresa`
 -- Vypisuji data pro tabulku `adresa`
 --
 
-INSERT INTO `adresa` (`ID_A`, `ID_U`, `Mesto`, `Ulice`, `PSC`)
-VALUES (1, 'PCStAtPKCU_noi8CeXoaz16783666336409d7a9730119.30701541', 'asd', 'sda', 123),
-       (2, 'wyP99sTinr_aKCuZXHgt91678403854640a690ecb2462.13629156', 'asdddas', 'asdddas', 74714);
+INSERT INTO `adresa` (`ID_A`, `Mesto`, `Ulice`, `PSC`)
+VALUES (3, 'Markvartovice', 'Xxxx', 74714),
+       (6, 'aa', 'aa', 0),
+       (7, 'Markvartovice', 'Xxxx 1', 74714);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `dodaci_udaje`
+--
+
+CREATE TABLE `dodaci_udaje`
+(
+    `ID_DU`    int(11)     NOT NULL,
+    `Email`    varchar(50) NOT NULL,
+    `Telefon`  varchar(9)  NOT NULL,
+    `Jmeno`    varchar(25) NOT NULL,
+    `Přijmeni` varchar(25) NOT NULL,
+    `Mesto`    varchar(40) NOT NULL,
+    `Ulice_Cp` varchar(33) NOT NULL,
+    `PSC`      int(5)      NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `objednavka`
+--
+
+CREATE TABLE `objednavka`
+(
+    `ID_OB` int(11) NOT NULL,
+    `ID_U`  varchar(255) DEFAULT NULL,
+    `ID_DU` int(11) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -123,29 +158,6 @@ CREATE TABLE `recenze`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
---
--- Vypisuji data pro tabulku `recenze`
---
-
-INSERT INTO `recenze` (`ID_R`, `ID_U`, `ID_P`, `Popis`, `Kladne`, `Zaporne`, `Hodnoceni`, `Obrazek`)
-VALUES (58, '7uAYrXHtJ1_UrYUWnh1q2167396880063c6bca0c1a335.97174575',
-        'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', 'das', '[\"DASDAS\",\"sda\"]', '[\"DAS\",\"das\"]', 3,
-        'ox94Mn5wio_2HeGk8txxPVhh1soXfT2HvvoxMTfF0MmWmw2mdwelVKMa7S4vK.png'),
-       (59, '2', 'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', '', '[\"das\"]', '[\"sadas\"]', 2,
-        'SKLVnihHAP_rd4BihrCfQIN6KnCytHbOgYc5c4K5BR8OR2Yelqmw4K270sAXQ.jpeg'),
-       (66, 'plRpDpckNi_IQRZ4QCEG916783535796409a4ab92b199.03584601',
-        'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', 'dadadas', '[\"dsadasdas\",\"dasasdas\"]',
-        '[\"dasdasdas\",\"dasd\"]', 5, 'TkLCNaKrsg_rJQtwA8KlBgLgkVcZikXs6UBF1lEwVzfrnKfcu6ZgQ75sJXnVo.jpeg'),
-       (67, 'plRpDpckNi_IQRZ4QCEG916783535796409a4ab92b199.03584601',
-        'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', 'asdasdada', '[\"dadasdas\",\"dasdada\",\"dadasda\"]',
-        '[\"dasdasda\"]', 5, 'Cz00RWPHEU_deFEjbWTxRQSpfWgaWhs5dPOnkyG1crm56rBGP4SPD80BO5laO.jpeg'),
-       (68, 'plRpDpckNi_IQRZ4QCEG916783535796409a4ab92b199.03584601',
-        'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', 'asdsad', '[\"dass\"]', '[\"sdadada\"]', 3,
-        'N1o6lJqs0m_Sg3jp00gDm6VXoBRbUQGwJ09BWHJuFEdQhQ3GSOhc7HOeREFB5.jpeg'),
-       (69, 'SgrinpuKM7_mqOIQNNgvm167676317263f160249c6826.56392140',
-        'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', 'dasdds', '[\"dasda\"]', '[\"asdasda\"]', 3,
-        '0z60OxtLHB_vLOGE7aaeI7jplG2TtoSHZXIt5fAaLyv3ozCUlSxpuRYcBPW37.png');
-
 -- --------------------------------------------------------
 
 --
@@ -155,11 +167,13 @@ VALUES (58, '7uAYrXHtJ1_UrYUWnh1q2167396880063c6bca0c1a335.97174575',
 CREATE TABLE `uzivatel`
 (
     `ID_U`     varchar(255)              NOT NULL,
-    `Email`    varchar(30)               NOT NULL,
+    `Email`    varchar(50)               NOT NULL,
     `Password` varchar(255)              NOT NULL,
-    `Jmeno`    varchar(30)               NOT NULL,
-    `Prijmeni` varchar(30)               NOT NULL,
-    `Role`     enum ('Uzivatel','Admin') NOT NULL DEFAULT 'Uzivatel'
+    `Jmeno`    varchar(25)               NOT NULL,
+    `Prijmeni` varchar(25)               NOT NULL,
+    `Role`     enum ('Uzivatel','Admin') NOT NULL DEFAULT 'Uzivatel',
+    `ID_A`     int(11)                   NOT NULL,
+    `Telefon`  varchar(9)                NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
@@ -168,22 +182,13 @@ CREATE TABLE `uzivatel`
 -- Vypisuji data pro tabulku `uzivatel`
 --
 
-INSERT INTO `uzivatel` (`ID_U`, `Email`, `Password`, `Jmeno`, `Prijmeni`, `Role`)
-VALUES ('1', 'l.dihel.st@spseiostrava.cz', '!Xiaomi2006', 'Lukas', 'Dihel', 'Uzivatel'),
-       ('2', 'ltrngkjgnreoigújoitjgitrjoiútw', 'gqrgifqwjfofmoúvanafoúvnaovnadvoknofnaovnaojknma', 'das', 'da',
-        'Admin'),
-       ('7uAYrXHtJ1_UrYUWnh1q2167396880063c6bca0c1a335.97174575', 'll@ll.cz',
-        '$2y$10$ye.FrnCdezDrIDxkWXIXK.OGyD4CNeYPyu07W1KMRi8WkyL0FrSJq', 'l', 'l', 'Uzivatel'),
-       ('k29bI9XEHG_cnsDaFMcjo7Ixf0YCCx7ZOPwXhqOKhNBGdGWVFbal1lrPfKdMR167329150963bc66f5dc32a9.36067979',
-        'fsdf@adsda.cc', '$2y$10$S2Ef/OO2vcK3qlmYkgbTluRqc4nemdGToPPldOVW/UTC3OiK3tep6', 'a', 'a', 'Uzivatel'),
-       ('PCStAtPKCU_noi8CeXoaz16783666336409d7a9730119.30701541', 'donliker1223@seznam.cz',
-        '$2y$10$AuzR1ZY1qJgzFTD3MAqnheDkghm54GMJH.U7P/FV4KMlMo6tkZgh6', '126', '6541', 'Uzivatel'),
-       ('plRpDpckNi_IQRZ4QCEG916783535796409a4ab92b199.03584601', 'donliker123@seznam.cz',
-        '$2y$10$yUlvWsr.2I.yRgdNQGqwfuvfyzhK7T14u9JWxuNUAxS2IoYuRYp5m', 'sad', 'das', 'Uzivatel'),
-       ('SgrinpuKM7_mqOIQNNgvm167676317263f160249c6826.56392140', 'lukindihel@gmail.com',
-        '$2y$10$ogMI2mYCOuPw2c.1jkui5uE4BW65KlHH9JwJUj0whTz67QPjtrVC2', 'asd', 'das', 'Uzivatel'),
-       ('wyP99sTinr_aKCuZXHgt91678403854640a690ecb2462.13629156', 'sdfsfsdf@fsd.cz',
-        '$2y$10$8pka28GTycUSiAXj8C1/Uu/thwWdxCKfaZouyMkcSJG7u07xQhdI2', 'asdddas', 'asdddas', 'Uzivatel');
+INSERT INTO `uzivatel` (`ID_U`, `Email`, `Password`, `Jmeno`, `Prijmeni`, `Role`, `ID_A`, `Telefon`)
+VALUES ('NvX3cWoMIy_XlLcLhzi6g1679764385641f2ba18b5c52.40623303', 'lukindihel@gmail.com',
+        '$2y$10$4P6/eb0Gnvvzuuze/Mor5OAoU6eO0nWSsT9ZORIH4RMKGaX5D8Cg6', 'Lukáš', 'Dihel', 'Uzivatel', 3, '0'),
+       ('Sc8D0OBM3S_wWKFQRc75U1679771436641f472c859ba3.51565290', 'aa@aa.cz',
+        '$2y$10$UyAuAV0aCYDVkRiszZkaj.1rkbFCt4F7o.psydsamzxq/MYcheXcq', 'aa', 'aa', 'Uzivatel', 6, '777'),
+       ('SjyGkuYJji_DdHHjTtJpO1679852228642082c474cf70.50242347', 'lukindihel@gmail.comtz',
+        '$2y$10$DNx2T2f96pC7QddOKrV4VuRc2O6S6EAHjgIHojDcWRe62tx1vDkva', 'Lukáš', 'Dihel', 'Uzivatel', 7, '777456672');
 
 --
 -- Indexy pro exportované tabulky
@@ -193,8 +198,21 @@ VALUES ('1', 'l.dihel.st@spseiostrava.cz', '!Xiaomi2006', 'Lukas', 'Dihel', 'Uzi
 -- Indexy pro tabulku `adresa`
 --
 ALTER TABLE `adresa`
-    ADD PRIMARY KEY (`ID_A`),
-    ADD UNIQUE KEY `adresa_ID_U_uindex` (`ID_U`);
+    ADD PRIMARY KEY (`ID_A`);
+
+--
+-- Indexy pro tabulku `dodaci_udaje`
+--
+ALTER TABLE `dodaci_udaje`
+    ADD PRIMARY KEY (`ID_DU`);
+
+--
+-- Indexy pro tabulku `objednavka`
+--
+ALTER TABLE `objednavka`
+    ADD PRIMARY KEY (`ID_OB`),
+    ADD KEY `objednavka_uzivatel_ID_U_fk` (`ID_U`),
+    ADD KEY `objednavka_dodaci_udaje_ID_DU_fk` (`ID_DU`);
 
 --
 -- Indexy pro tabulku `obrazky`
@@ -225,7 +243,8 @@ ALTER TABLE `recenze`
 ALTER TABLE `uzivatel`
     ADD PRIMARY KEY (`ID_U`),
     ADD UNIQUE KEY `ID_U` (`ID_U`),
-    ADD UNIQUE KEY `Email` (`Email`) USING BTREE;
+    ADD UNIQUE KEY `Email` (`Email`) USING BTREE,
+    ADD KEY `uzivatel_adresa_ID_A_fk` (`ID_A`);
 
 --
 -- AUTO_INCREMENT pro tabulky
@@ -236,6 +255,19 @@ ALTER TABLE `uzivatel`
 --
 ALTER TABLE `adresa`
     MODIFY `ID_A` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 8;
+
+--
+-- AUTO_INCREMENT pro tabulku `dodaci_udaje`
+--
+ALTER TABLE `dodaci_udaje`
+    MODIFY `ID_DU` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pro tabulku `objednavka`
+--
+ALTER TABLE `objednavka`
+    MODIFY `ID_OB` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 3;
 
 --
@@ -257,10 +289,11 @@ ALTER TABLE `recenze`
 --
 
 --
--- Omezení pro tabulku `adresa`
+-- Omezení pro tabulku `objednavka`
 --
-ALTER TABLE `adresa`
-    ADD CONSTRAINT `adresa_uzivatel_ID_U_fk` FOREIGN KEY (`ID_U`) REFERENCES `uzivatel` (`ID_U`);
+ALTER TABLE `objednavka`
+    ADD CONSTRAINT `objednavka_dodaci_udaje_ID_DU_fk` FOREIGN KEY (`ID_DU`) REFERENCES `dodaci_udaje` (`ID_DU`),
+    ADD CONSTRAINT `objednavka_uzivatel_ID_U_fk` FOREIGN KEY (`ID_U`) REFERENCES `uzivatel` (`ID_U`);
 
 --
 -- Omezení pro tabulku `obrazky`
@@ -274,6 +307,12 @@ ALTER TABLE `obrazky`
 ALTER TABLE `recenze`
     ADD CONSTRAINT `recenze_ibfk_1` FOREIGN KEY (`ID_U`) REFERENCES `uzivatel` (`ID_U`),
     ADD CONSTRAINT `recenze_ibfk_2` FOREIGN KEY (`ID_P`) REFERENCES `predmety` (`ID_P`);
+
+--
+-- Omezení pro tabulku `uzivatel`
+--
+ALTER TABLE `uzivatel`
+    ADD CONSTRAINT `uzivatel_adresa_ID_A_fk` FOREIGN KEY (`ID_A`) REFERENCES `adresa` (`ID_A`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT = @OLD_CHARACTER_SET_CLIENT */;

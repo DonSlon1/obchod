@@ -37,6 +37,7 @@
         width: 100%;
     }
 }
+
 .cont {
     display: grid;
 
@@ -198,6 +199,7 @@ input[type="radio"]:focus {
 
 h2 {
     font-weight: 450;
+    font-size: 2em;
 }
 
 .dodani {
@@ -247,13 +249,21 @@ h2 {
     cursor: default;
 }
 
-a#submit_checkout {
+a.btn-primary {
     color: #efffff !important;
 }
 
-a#submit_checkout:hover {
+a.btn-primary:hover {
     color: #efffff !important;
     box-shadow: none;
     background-color: #007bff;
     border-color: #007bff;
 }
+
+a.btn-primary:active {
+    color: #efffff !important;
+    box-shadow: none;
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+}
+
