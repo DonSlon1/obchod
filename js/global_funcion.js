@@ -1,41 +1,42 @@
 function check(e) {
     const element = $(e);
     if ((!e.checkValidity() || element.val() === "") && !element.hasClass('heslo')) {
-        e.parentElement.removeChild(e.nextSibling)
+        if (e.nextSibling !== null) {
+            e.parentElement.removeChild(e.nextSibling)
+        }
 
         if (element.val() === "") {
-            $(e.parentElement).append("<div>tento údaj je povinný</div>")
+            $(e.parentElement).append("<div class='invalid_text'>tento údaj je povinný</div>")
         } else if (element.hasClass('email')) {
             if (element.val().length > 50) {
-                $(e.parentElement).append("<div>maximální délka je 50 znaků</div>")
+                $(e.parentElement).append("<div class='invalid_text'>maximální délka je 50 znaků</div>")
             } else {
-                $(e.parentElement).append("<div>nesprávný formát e-mailu</div>")
+                $(e.parentElement).append("<div class='invalid_text'>nesprávný formát e-mailu</div>")
             }
 
 
         } else if (element.hasClass('phone')) {
-
-            $(e.parentElement).append("<div>nesprávný formát telefonního čísla (+420602xxxxxx; 602 xxx xxx)</div>")
+            $(e.parentElement).append("<div class='invalid_text'>nesprávný formát telefonního čísla (+420602xxxxxx; 602 xxx xxx)</div>")
 
         } else if (element.hasClass('jmeno')) {
             if (element.val().length > 25) {
-                $(e.parentElement).append("<div>maximální délka je 25 znaků</div>")
+                $(e.parentElement).append("<div class='invalid_text'>maximální délka je 25 znaků</div>")
             }
         } else if (element.hasClass('prijmeni')) {
             if (element.val().length > 25) {
-                $(e.parentElement).append("<div>maximální délka je 25 znaků</div>")
+                $(e.parentElement).append("<div class='invalid_text'>maximální délka je 25 znaků</div>")
             }
         } else if (element.hasClass('ulice')) {
             if (element.val().length > 33) {
-                $(e.parentElement).append("<div>maximální délka je 33 znaků</div>")
+                $(e.parentElement).append("<div class='invalid_text'>maximální délka je 33 znaků</div>")
             }
         } else if (element.hasClass('obec')) {
             if (element.val().length > 40) {
-                $(e.parentElement).append("<div>maximální délka je 40 znaků</div>")
+                $(e.parentElement).append("<div class='invalid_text'>maximální délka je 40 znaků</div>")
             }
         } else if (element.hasClass('psc')) {
 
-            $(e.parentElement).append("<div>nesprávný tvar PSČ</div>")
+            $(e.parentElement).append("<div class='invalid_text'>nesprávný tvar PSČ</div>")
 
         }
 
@@ -46,25 +47,47 @@ function check(e) {
 
         const hodnota = element.val()
 
-        if (!RegExp("(?=.*[0-9])").test(hodnota)) {
-            $("#cislo").addClass('nespravne')
-        } else {
-            $("#cislo").removeClass('nespravne')
+        function heslo_good(objek) {
+            objek.removeClass('nespravne')
+            objek.addClass('good_heslo')
         }
-        if (!RegExp("(?=.*[!@#$%^&*])").test(hodnota)) {
-            $("#znak").addClass('nespravne')
-        } else {
-            $("#znak").removeClass('nespravne')
+
+        function heslo_spatne(objek) {
+            objek.addClass('nespravne')
+            objek.removeClass('good_heslo')
         }
-        if (!RegExp("^.{8,289}$").test(hodnota)) {
-            $("#delka").addClass('nespravne')
-        } else {
-            $("#delka").removeClass('nespravne')
+
+        if (!RegExp("(?=.*[0-9])(?=.*[!?@#$%^&*])(^.{8,100}$)").test(hodnota)) {
+            if (!RegExp("(?=.*[0-9])").test(hodnota)) {
+                heslo_spatne($("#cislo"))
+            } else {
+                heslo_good($("#cislo"))
+            }
+            if (!RegExp("(?=.*[!@#$%^&*])").test(hodnota)) {
+                heslo_spatne($("#znak"))
+            } else {
+                heslo_good($("#znak"))
+
+            }
+            if (!RegExp("(^.{8,100}$)").test(hodnota)) {
+                heslo_spatne($("#delka"))
+            } else {
+                heslo_good($("#delka"))
+            }
+
+            $(".heslo_reqierd").addClass('vidim')
+
+            element.addClass('invalid')
+        } else if (element.hasClass('invalid')) {
+            element.removeClass('invalid')
+            $(".heslo_reqierd").removeClass('vidim')
         }
 
     } else if (element.hasClass('invalid')) {
         element.removeClass('invalid')
-        e.parentElement.removeChild(e.nextSibling)
+        if (e.nextSibling != null) {
+            e.parentElement.removeChild(e.nextSibling)
+        }
     }
 }
 
@@ -86,23 +109,21 @@ $(document).ready(function () {
         }
     })
     // get all input elements on the page
-    let inputs = $('input');
 
-    // loop through each input element
-    inputs.each(function () {
-        let input = $(this);
-
-        // set the custom validity message
-        input.get(0).setCustomValidity('Invalid input');
-
-        // disable the validation message on form submit
-        input.on('invalid', function (event) {
-            event.preventDefault();
-        });
-    });
 
 });
-
+$(".validate").click(function (e) {
+    const inputs = ($(e.target)[0].form).querySelectorAll('input')
+    inputs.forEach(input => {
+        check(input)
+    })
+})
+document.addEventListener('invalid', (function () {
+    return function (e) {
+        //prevent the browser from showing default error bubble / hint
+        e.preventDefault();
+    };
+})(), true);
 
 const prevent = document.querySelectorAll(".preventDefault")
 prevent.forEach(element => {
@@ -163,7 +184,6 @@ function show(id) {
     const container = $(id + "_div");
     container.css('display', 'flex')
     container.addClass('1')
-    console.log(1);
 
     function onMouseDown(e) {
         const container = $(id + "_div");

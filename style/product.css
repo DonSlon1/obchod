@@ -114,16 +114,16 @@ textarea {
     height: 25px;
 }
 
-a {
+a:not(.registrace) {
     color: #495057 !important;
 }
 
-a:hover {
+a:hover:not(.registrace) {
     color: #495057 !important;
     text-decoration: none !important;
 }
 
-a:visited {
+a:visited:not(.registrace) {
     color: #495057 !important;
     text-decoration: none !important;
 }

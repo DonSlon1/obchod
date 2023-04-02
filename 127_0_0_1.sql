@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pon 27. bře 2023, 00:25
+-- Vytvořeno: Pon 03. dub 2023, 00:27
 -- Verze serveru: 10.4.27-MariaDB
 -- Verze PHP: 8.2.0
 
@@ -46,7 +46,10 @@ CREATE TABLE `adresa`
 INSERT INTO `adresa` (`ID_A`, `Mesto`, `Ulice`, `PSC`)
 VALUES (3, 'Markvartovice', 'Xxxx', 74714),
        (6, 'aa', 'aa', 0),
-       (7, 'Markvartovice', 'Xxxx 1', 74714);
+       (7, 'Markvartovice', 'Xxxx 1', 74714),
+       (8, 'Mar', 'Sil 7', 74714),
+       (9, 'Mar', 'Šil 7', 74714),
+       (10, 'Mar', 'Šil 7', 74714);
 
 -- --------------------------------------------------------
 
@@ -158,6 +161,14 @@ CREATE TABLE `recenze`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
+--
+-- Vypisuji data pro tabulku `recenze`
+--
+
+INSERT INTO `recenze` (`ID_R`, `ID_U`, `ID_P`, `Popis`, `Kladne`, `Zaporne`, `Hodnoceni`, `Obrazek`)
+VALUES (74, '2', 'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', '', '[\"dsa\"]', '[\"dasda\"]', 3,
+        'liplvTqa2Z_omL35k8EBzyRnMdoIPF7Fho81jY6hMDNOKJg3DLXRSb0mmkjO8.png');
+
 -- --------------------------------------------------------
 
 --
@@ -183,12 +194,19 @@ CREATE TABLE `uzivatel`
 --
 
 INSERT INTO `uzivatel` (`ID_U`, `Email`, `Password`, `Jmeno`, `Prijmeni`, `Role`, `ID_A`, `Telefon`)
-VALUES ('NvX3cWoMIy_XlLcLhzi6g1679764385641f2ba18b5c52.40623303', 'lukindihel@gmail.com',
+VALUES ('2', ' ', ' ', 'Anonimní', ' ', 'Uzivatel', 3, ' '),
+       ('Iu2lV2UWM8_czBj9qAUG7168037563464287f52b85766.99463167', 'luk@gma.com',
+        '$2y$10$7Z7rDK.mvgmzL.NXEA0.O.4f5hl3ZL6EB4f0WybbEJZuRCkNEufU2', 'Lukas', 'd', 'Uzivatel', 8, '778456672'),
+       ('kW00W7s2zs_BDSMZWVku316804636366429d714b0f525.82314206', 'li@g.v',
+        '$2y$10$UOf73ZX9BRbISJha5o4YduHEPY6AeBD4tOaDFl/BF2sR.5xgGxAAW', 'A', 'A', 'Uzivatel', 10, '778456672'),
+       ('NvX3cWoMIy_XlLcLhzi6g1679764385641f2ba18b5c52.40623303', 'lukindihel@gmail.com',
         '$2y$10$4P6/eb0Gnvvzuuze/Mor5OAoU6eO0nWSsT9ZORIH4RMKGaX5D8Cg6', 'Lukáš', 'Dihel', 'Uzivatel', 3, '0'),
        ('Sc8D0OBM3S_wWKFQRc75U1679771436641f472c859ba3.51565290', 'aa@aa.cz',
         '$2y$10$UyAuAV0aCYDVkRiszZkaj.1rkbFCt4F7o.psydsamzxq/MYcheXcq', 'aa', 'aa', 'Uzivatel', 6, '777'),
        ('SjyGkuYJji_DdHHjTtJpO1679852228642082c474cf70.50242347', 'lukindihel@gmail.comtz',
-        '$2y$10$DNx2T2f96pC7QddOKrV4VuRc2O6S6EAHjgIHojDcWRe62tx1vDkva', 'Lukáš', 'Dihel', 'Uzivatel', 7, '777456672');
+        '$2y$10$DNx2T2f96pC7QddOKrV4VuRc2O6S6EAHjgIHojDcWRe62tx1vDkva', 'Lukáš', 'Dihel', 'Uzivatel', 7, '777456672'),
+       ('XMh22ABI9D_SwoNfmAm2V1680433893642962e52f2907.42545152', 'li@gmail.com',
+        '$2y$10$BZ59f.NJDAOGLtqpVBqn7eQmPV8yd8Ozv6HrLaujwGZPlGnu..jeG', 'Lukjas', 'Dihe', 'Uzivatel', 9, '778456672');
 
 --
 -- Indexy pro exportované tabulky
@@ -255,7 +273,7 @@ ALTER TABLE `uzivatel`
 --
 ALTER TABLE `adresa`
     MODIFY `ID_A` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 8;
+    AUTO_INCREMENT = 11;
 
 --
 -- AUTO_INCREMENT pro tabulku `dodaci_udaje`
@@ -282,7 +300,7 @@ ALTER TABLE `obrazky`
 --
 ALTER TABLE `recenze`
     MODIFY `ID_R` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 70;
+    AUTO_INCREMENT = 75;
 
 --
 -- Omezení pro exportované tabulky

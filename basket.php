@@ -85,12 +85,12 @@
                         </div>
                         
                         <div class=" align-middle pocet">
-                         
+                            
                             <input type="hidden" name="polozka['.$count.'][Obrazek]" value="'.$item_data["H_Obrazek"].'">
                             <input type="hidden" name="polozka['.$count.'][Cena]" value="'.$item["Cena"].'">
                             <input type="hidden" name="polozka['.$count.'][ID_P]" value="'.$item["Id_p"].'">
                             <input type="hidden" name="polozka['.$count.'][Nazev]" value="'.htmlspecialchars($item_data["Nazev"]).'">
-                            <input type="number"  class="form-control numberstyle" name="polozka['.$count.'][pocet]"  min="0" max="999" step="1" oninput="validity.valid||(value=\'\')" onchange="update_basket(\''.$item["Id_p"].'\' , this)"  value="'.$item["Pocet"].'">
+                            <input type="number"  class="form-control numberstyle" name="polozka['.$count.'][pocet]"  min="0" max="999" step="1" pattern="[0-9]{1,3}"  onchange="update_basket(\''.$item["Id_p"].'\' , this)"  value="'.$item["Pocet"].'">
                        
                         </div>
                         

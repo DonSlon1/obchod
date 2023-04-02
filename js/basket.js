@@ -29,8 +29,9 @@ function Get_Input() {
 
 //? veme value z inputu v basketu a posle ji na server kde se zmeni pocet polozek
 function update_basket(Id_p, element) {
+
     console.log(Id_p, typeof (element.value))
-    if (element.value === "0") {
+    if (element.value === "0" || element.value === "") {
         Get_Input().then(function (result) {
             if (result === "Save") {
                 element.value = 1;
@@ -42,7 +43,7 @@ function update_basket(Id_p, element) {
 
             }
         })
-    } else {
+    } else if (RegExp("[0-9]{1,3}").test(element.value)) {
         axios.post('pomoc/Add_To_cart', {
             function: "update",
             Id_p: Id_p,
@@ -51,6 +52,8 @@ function update_basket(Id_p, element) {
             location.reload()
         })
 
+    } else {
+        element.value = 1
     }
 }
 

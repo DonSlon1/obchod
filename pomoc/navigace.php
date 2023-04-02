@@ -62,34 +62,21 @@
         echo('    </div>
 
 </nav>
-<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
+<div class="modal fade " id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
     <div class="modal-dialog " role="document">
         <div class="modal-content ">
             <!--<div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Shop Login/Registration</h5>
+                <h5 class="modal-title" id="myModalLabel">Přihlášení</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>-->
-            <ul class="nav nav-tabs " id="LoginTab" role="tablist">
-                    <li class="nav-item w-100" >
-                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" 
-                            role="tab" aria-controls="login" aria-selected="true" style="border-top-right-radius: 0 !important;">
-                            Login
-                        </a>
-                    </li>
-                    <li class="nav-item w-100" >
-                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" 
-                            role="tab" aria-controls="register" aria-selected="false" style="border-top-left-radius: 0 !important;">
-                            Register
-                        </a>
-                    </li>
-            </ul>
+
             <div class="modal-body  mt-1 ml-4 mr-4 mb-1 login-modal">
                 
                 <div class="container ">
                     <div class="row ">
-                        <div >
+                        
 
 
                             <!-- Nav tabs -->
@@ -100,17 +87,17 @@
 
                                 <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab">
                                     <form id="login-form" class="preventDefault" method="post" onsubmit="login()">
+                                        <h1>Přihlášení</h1>
                                         <input type="hidden" name="log_reg" value="login">
                                         <div class="form-group">
                                             <label for="loginEmail">Email address</label>
-                                            <input type="email" class="form-control" id="loginEmail" name="email" aria-describedby="emailHelp">
-                                            <small id="emailHelpLogin" class="form-text text-muted">We will never share your email with anyone else.</small>
+                                            <input type="email" class="form-control " id="loginEmail" name="email"  maxlength="50" minlength="1" required>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="loginPassword">Password</label>
                                             <div class="input-group mb-3">
-                                                <input type="password" name="Password" class="form-control" id="loginPassword">
+                                                <input type="password" name="Password" class="form-control" required id="loginPassword">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="show-password"><i class="icon-eye"></i></span>
                                                 </div>
@@ -121,17 +108,40 @@
                                             <label class="form-check-label" for="login_keep_logged_in">Keep me logged in</label>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                                        <button type="submit" class="btn btn-primary btn-block log-but" >Přihlásit se</button>
                                     </form>
                                 </div>
 
-                                <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="register-tab">');
-        //! preventDefault nemazat zajisti aby se formulář neodeslal
+                                <div class="tab-pane" id="register" role="tabpanel" aria-labelledby="register-tab">
 
-        echo('
                                     
                                 </div>
-                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="container ">
+                    <div class="row row-login" >
+                        <div >
+                            <h2><span style="font-weight: 400;margin-bottom: 4px;">Nemáte ještě účet?</span>Registrujte se</h2>
+                            <ul id="poup-login">
+                                <li>
+                                    <svg class="icon--ico-check" viewBox="0 0 32 32">
+
+                                    </svg>Budete mít přehled o&nbsp;<strong>stavu své objednávky</strong>.
+                                            </li>
+                                            <li>
+                                                <svg class="icon--ico-check" viewBox="0 0 32 32">
+
+                                </svg>Za nasbírané body získáte <strong>slevy na další nákup</strong>.
+                                            </li>
+                                            <li>
+                                                <svg class="icon--ico-check" viewBox="0 0 32 32">
+
+                                </svg><strong>O&nbsp;akcích a&nbsp;soutěžích</strong> se dozvíte jako první.
+                                </li>
+                            </ul>
+                            <a class="btn btn-primary btn-block registrace" href="registrace.php" >Chci se zaregistrovat</a>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,8 @@
-@media only screen  and (max-width: 900px) {
+@media only screen  and (max-width: 950px) {
 
     .navigace > li > a {
         flex-direction: column;
+
 
     }
 
@@ -89,6 +90,7 @@
 
 
 .navigace > li > a {
+    margin-left: 10px;
     display: flex;
     justify-content: center;
     color: black !important;

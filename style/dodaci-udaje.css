@@ -55,7 +55,7 @@
 .form-input input {
     border-radius: 3px;
     max-width: 60% !important;
-    border: #9d9d9d 1px solid !important;
+    border: #9d9d9d 1px solid;
 }
 
 #formular {

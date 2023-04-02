@@ -1,3 +1,9 @@
+:root {
+    --redhov: #af1921;
+    --myred: #c91f28;
+    --light: #efffff;
+}
+
 @media only screen  and (min-width: 1061px) {
     .h_container {
 
@@ -62,6 +68,11 @@
 
 }
 
+.invalid {
+    border-color: var(--myred) !important;
+
+}
+
 .user_div {
     display: none;
     z-index: 101
@@ -82,13 +93,14 @@
 
 }
 
-.login-modal{
+.login-modal {
     display: flex;
 }
 
-.login-modal > .container > .row{
+.login-modal > .container > .row {
     justify-content: center;
 }
+
 .basket_icon {
     margin-right: 1.2rem;
     background: url("../svg/shop_cart.svg");
@@ -313,4 +325,163 @@
 
 .numberstyle-qty input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.heslo_reqierd {
+    display: none;
+    margin-top: 10px;
+}
+
+.vidim {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.nespravne {
+    display: flex;
+    align-items: center;
+    color: var(--myred);
+}
+
+.invalid_text {
+    color: var(--myred);
+}
+
+.good_heslo {
+    display: flex;
+    align-items: center;
+    color: #a1c900;
+}
+
+.good_heslo:before {
+    content: " ";
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-image: url("../svg/checked-svgrepo-com.svg");
+    background-size: 100%;
+    margin-right: 5px;
+
+}
+
+.nespravne:before {
+    content: " ";
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-image: url("../svg/negative.svg");
+    background-size: 100%;
+    margin-right: 5px;
+
+}
+
+#LoginModal > .modal-dialog {
+    max-width: 810px;
+
+}
+
+.login-modal > .container > .row > div {
+    width: 100%;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+@media only screen and (max-width: 830px) {
+    #LoginModal > .modal-dialog {
+        margin: 1.75rem 10px;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+
+
+    .login-modal {
+        flex-direction: column !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .login-modal > .container {
+        padding: 0;
+    }
+
+    .login-modal > .container > .row > div > a {
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .login-modal > .container > .row > div {
+        width: 100%;
+    }
+
+    .login-modal input:not([type="checkbox"]) {
+        font-size: 1.3rem;
+    }
+
+    .row-login > div > ul {
+        display: none;
+    }
+}
+
+.log-but:hover {
+    background-color: var(--redhov);
+    border-color: var(--redhov);
+}
+
+.log-but:focus {
+    background-color: var(--redhov);
+    border-color: var(--redhov);
+}
+
+.log-but:active {
+    background-color: var(--redhov);
+    border-color: var(--redhov);
+}
+
+
+.log-but {
+    margin-top: 15px;
+    background-color: var(--myred);
+    border-color: var(--myred);
+}
+
+.registrace {
+    color: var(--light) !important;
+}
+
+#poup-login {
+    list-style: none;
+}
+
+#poup-login > li {
+    padding-top: 10px;
+    position: relative;
+}
+
+#poup-login li .icon--ico-check {
+    background-image: url("../svg/checked-svgrepo-com.svg");
+    background-size: 100%;
+    border-radius: 50%;
+    margin-top: -10px;
+    padding: 2px;
+    left: -36px;
+    position: absolute;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+}
+
+.row-login {
+    height: 100%;
+}
+
+.row-login > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.row-login > div > a {
+    display: flex;
+    justify-content: center;
 }

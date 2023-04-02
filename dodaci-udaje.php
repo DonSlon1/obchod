@@ -60,7 +60,7 @@
         </li>
     </ul>
 
-    <form class="cont preventDefault <?php if (array_key_exists('logged_in', $_COOKIE)) {
+    <form class="cont preventDefault  <?php if (array_key_exists('logged_in', $_COOKIE)) {
         echo ' user_logged';
     } ?>" id="formular" onsubmit="overeni()">
         <div class="moznosti">
@@ -75,7 +75,7 @@
                         echo('
     
                             <div id="chete-se-prihlasit">
-                                <a class="btn btn-primary">
+                                <a class="btn btn-primary" data-toggle="modal" data-target="#LoginModal">
                                     Přihlásit se
                                 </a>
                                 <p>
@@ -94,31 +94,32 @@
                 ?>
                 <div class="form-input">
                     <label for="email_dou">E-mail:</label>
-                    <input type="email" class="reqierd_input email" name="email_dou" id="email_dou"
+                    <input type="email" class="reqierd_input email" maxlength="50" name="email_dou" id="email_dou"
                         <?php if (array_key_exists("Email", $response)) {
                             echo 'value="'.$response["Email"].'"';
-                        } ?>>
+                        } ?> required>
                 </div>
                 <div class="form-input">
                     <label for="tel_dou">Telefon:</label>
                     <input type="tel" class="reqierd_input phone" pattern="\d{3}\d{3}\d{3}" name="tel_dou" id="tel_dou"
                         <?php if (array_key_exists("Telefon", $response)) {
                             echo 'value="'.$response["Telefon"].'"';
-                        } ?>>
+                        } ?> required>
                 </div>
                 <div class="form-input">
                     <label for="jmeno_dou">Jméno:</label>
-                    <input type="text" class="reqierd_input jmeno" name="jmeno_dou" id="jmeno_dou"
+                    <input type="text" class="reqierd_input jmeno" maxlength="25" name="jmeno_dou" id="jmeno_dou"
                         <?php if (array_key_exists("Jmeno", $response)) {
                             echo 'value="'.$response["Jmeno"].'"';
-                        } ?>>
+                        } ?> required>
                 </div>
                 <div class="form-input">
                     <label for="prijmeni_dou">Příjmení:</label>
-                    <input type="text" class="reqierd_input prijmeni" name="prijmeni_dou" id="prijmeni_dou"
+                    <input type="text" class="reqierd_input prijmeni" maxlength="25" name="prijmeni_dou"
+                           id="prijmeni_dou"
                         <?php if (array_key_exists("Prijmeni", $response)) {
                             echo 'value="'.$response["Prijmeni"].'"';
-                        } ?>>
+                        } ?> required>
                 </div>
             </div>
 
@@ -131,24 +132,25 @@
                 <div class="form-input">
                     <label for="ulice_dou">Ulice a č. p.:</label>
                     <input type="text" class="reqierd_input ulice" name="ulice_dou" id="ulice_dou"
-                           pattern="^[A-Z][a-z]+ \d+\/\d+[A-Za-z]*|[A-Z][a-z]+ \d+$"
+                           pattern="^[0-9a-zA-Zá-žÁ-Ž\s]+[\s]+[\d]+[\/]*[\d]*$" maxlength="33"
                         <?php if (array_key_exists("Ulice", $response)) {
                             echo 'value="'.$response["Ulice"].'"';
-                        } ?>>
+                        } ?> required>
                 </div>
                 <div class="form-input">
                     <label for="obec_dou">Obec:</label>
                     <input type="text" class="reqierd_input obec" name="obec_dou" id="obec_dou" minlength="2"
+                           maxlength="40"
                         <?php if (array_key_exists("Mesto", $response)) {
                             echo 'value="'.$response["Mesto"].'"';
-                        } ?>>
+                        } ?> required>
                 </div>
                 <div class="form-input">
                     <label for="psc_dou">PSČ:</label>
                     <input type="text" class="reqierd_input psc" name="psc_dou" id="psc_dou" pattern="\d{5}"
                            minlength="5" <?php if (array_key_exists("PSC", $response)) {
                         echo 'value="'.$response["PSC"].'"';
-                    } ?>>
+                    } ?> required>
                 </div>
 
             </div>
@@ -166,7 +168,7 @@
         <div class="bottom">
             <div class="Checkout">
                 <a href="obchod">Zpět do obchodu</a>
-                <button class="btn btn-primary btn-lg ">Pokračovat v
+                <button class="btn btn-primary btn-lg validate">Pokračovat v
                     objednávce
                 </button>
             </div>

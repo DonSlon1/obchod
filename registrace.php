@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="style/basket_nav.css">
     <link rel="stylesheet" href="style/checkout.css">
     <link rel="stylesheet" href="style/dodaci-udaje.css">
+
     <title>Document</title>
 </head>
 
@@ -52,7 +53,7 @@
                 <div class="form-input">
                     <label for="registerEmail">E-mail:</label>
                     <input type="email" class="reqierd_input email" maxlength="50" name="registerEmail"
-                           id="registerEmail" required>
+                           id="registerEmail">
                 </div>
 
                 <div class="form-input">
@@ -80,7 +81,7 @@
 
                     <label for="registerPassword">Heslo:</label>
                     <input type="password" name="registerPassword" class="reqierd_input heslo" id="registerPassword"
-                           pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,100})$"
+                           pattern="(?=.*[0-9])(?=.*[!?@#$%^&*])(^.{8,100}$)"
                            required
                     >
                     <div class='heslo_reqierd'>
@@ -99,7 +100,7 @@
                 <div class="form-input">
                     <label for="Ulice">Ulice a č. p.:</label>
                     <input type="text" class="reqierd_input ulice" name="Ulice" id="Ulice"
-                           pattern="^[A-Z][a-z]+ \d+\/\d+[A-Za-z]*|[A-Z][a-z]+ \d+$" maxlength="33" required>
+                           pattern="^[0-9a-zA-Zá-žÁ-Ž\s]+[\s]+[\d]+[\/]*[\d]*$" maxlength="33" required>
                 </div>
                 <div class="form-input">
                     <label for="Mesto">Obec:</label>
@@ -121,7 +122,7 @@
             <label class="form-check-label" for="reg_keep-logged-in">Keep me logged in</label>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        <button type="submit" class="btn btn-primary btn-block validate">Sign Up</button>
     </form>
 
 </div>

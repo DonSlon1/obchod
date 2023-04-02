@@ -62,7 +62,7 @@ const registration = () => {
         .then(function (response) {
             console.log(response);
             if (response.data === "good_reg") {
-                location.reload()
+                location.replace("./obchod")
             }
         })
         .catch(function (error) {
@@ -82,6 +82,5 @@ const logout = () => {
 }
 $("#LoginModal").on("hidden.bs.modal", function () {
     document.getElementById("login-form").reset()
-    document.getElementById("reg-form").reset()
 
 })
