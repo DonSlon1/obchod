@@ -93,6 +93,34 @@
 
 }
 
+.nepodtrh{
+    text-decoration: none !important;
+}
+.nepodtrh:hover{
+    text-decoration: none !important;
+}
+.nepodtrh:visited{
+    text-decoration: none !important;
+}
+#login-form{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.sede:not(.registrace) {
+    color: #495057 !important;
+}
+
+.sede:hover:not(.registrace) {
+    color: #495057 !important;
+    text-decoration: none !important;
+}
+
+.sede:visited:not(.registrace) {
+    color: #495057 !important;
+    text-decoration: none !important;
+}
+
 .login-modal {
     display: flex;
 }

@@ -286,8 +286,8 @@
 
         <?php
             //Hodnoceni
-            $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = ?";
-            $hod_query = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
+            $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = '".$_GET["ID_P"]."'";
+            $hod_query = mysqli_query($conn, $sql2);
             $hod = 0;
             $pocet = mysqli_num_rows($hod_query);
             $pocethod = array("1" => 0, "2" => 0, "3" => 0, "4" => 0, "5" => 0);

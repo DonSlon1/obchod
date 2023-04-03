@@ -39,17 +39,17 @@
 <div class="container h_container  mt-5">
     <ul class="navigace">
         <li class="active_li">
-            <a>
+            <a class="nepodtrh">
                 <span>Košík</span>
             </a>
         </li>
         <li>
-            <a>
+            <a class="nepodtrh">
                 <span>Doprava a pladba</span>
             </a>
         </li>
         <li>
-            <a>
+            <a class="nepodtrh">
                 <span>Souhrn objednávky</span>
             </a>
         </li>
@@ -79,7 +79,7 @@
                             <img  src="images/'.$item_data["H_Obrazek"].'" alt="'.htmlspecialchars($item_data["Nazev"]).'" >
                         </a>      
                         <div class="nazev_item">        
-                            <a  href="produkt?ID_P='.$item["Id_p"].'">
+                            <a class="sede"  href="produkt?ID_P='.$item["Id_p"].'">
                                  <span class="ml-3">'.$item_data["Nazev"].'</span>
                             </a>
                         </div>
@@ -118,7 +118,7 @@
              ')
         ?>
         <div class="Checkout">
-            <a href="obchod">Zpět do obchodu</a>
+            <a href="obchod" class="sede">Zpět do obchodu</a>
             <button type="submit" class="btn btn-primary btn-lg" id="del-pay-frm__submit">Checkout</button>
         </div>
 

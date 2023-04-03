@@ -40,17 +40,17 @@
 <div class="container h_container  mt-5">
     <ul class="navigace">
         <li>
-            <a href="basket.php">
+            <a href="basket.php" class="nepodtrh">
                 <span>Košík</span>
             </a>
         </li>
         <li class="active_li">
-            <a>
+            <a class="nepodtrh">
                 <span>Doprava a pladba</span>
             </a>
         </li>
         <li>
-            <a>
+            <a class="nepodtrh">
                 <span>Souhrn objednávky</span>
             </a>
         </li>
@@ -82,7 +82,7 @@
         </div>
         <div class="bottom">
             <div class="Checkout">
-                <a href="obchod">Zpět do obchodu</a>
+                <a href="obchod" class="sede">Zpět do obchodu</a>
                 <a href="dodaci-udaje" class="btn btn-primary btn-lg required" id="submit_checkout">Pokračovat v
                     objednávce
                 </a>

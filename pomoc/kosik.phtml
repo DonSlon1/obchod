@@ -10,14 +10,14 @@
 
         echo('
                         <div>
-                            <a class="obrazek" href="produkt?ID_P='.$item["ID_P"].'">
+                            <a class="obrazek"  href="produkt?ID_P='.$item["ID_P"].'">
                                 <img alt="'.htmlspecialchars($item["Nazev"]).'" src="images/'.$item["Obrazek"].'">
                             </a>
                             <h3>');
         if ($item["pocet"] != 1) {
             echo $item["pocet"].'×';
         }
-        echo(' <a href="produkt?ID_P='.$item["ID_P"].'" >'.$item["Nazev"].'</a></h3>
+        echo(' <a class="sede" href="produkt?ID_P='.$item["ID_P"].'" >'.$item["Nazev"].'</a></h3>
                         <div class="cena">
                             '.number_format($item["Cena"] * $item["pocet"], thousands_separator: ' ').' Kč
                         </div>

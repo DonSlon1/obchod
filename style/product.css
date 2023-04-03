@@ -114,19 +114,6 @@ textarea {
     height: 25px;
 }
 
-a:not(.registrace) {
-    color: #495057 !important;
-}
-
-a:hover:not(.registrace) {
-    color: #495057 !important;
-    text-decoration: none !important;
-}
-
-a:visited:not(.registrace) {
-    color: #495057 !important;
-    text-decoration: none !important;
-}
 
 .nav-tabs .nav-link.active {
     color: #007bff;

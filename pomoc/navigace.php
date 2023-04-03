@@ -75,7 +75,7 @@
             <div class="modal-body  mt-1 ml-4 mr-4 mb-1 login-modal">
                 
                 <div class="container ">
-                    <div class="row ">
+                    <div class="row " style="height: 100%">
                         
 
 
@@ -85,8 +85,8 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
 
-                                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                                    <form id="login-form" class="preventDefault" method="post" onsubmit="login()">
+                                <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab" style="height: 100%">
+                                    <form id="login-form" class="preventDefault" method="post" onsubmit="login()" ">
                                         <h1>Přihlášení</h1>
                                         <input type="hidden" name="log_reg" value="login">
                                         <div class="form-group">

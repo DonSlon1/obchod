@@ -10,7 +10,7 @@
         $server = 'localhost';
         $dbname = 'shop';
         $user = 'root';
-        $pass = 'root';
+        $pass = '';
 
         $conn = mysqli_connect($server, $user, $pass, $dbname);
         if ($conn->connect_error) {
