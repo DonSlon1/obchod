@@ -53,7 +53,7 @@
                 <span>Doprava a pladba</span>
             </a>
         </li>
-        <li class="active_li" >
+        <li class="active_li">
             <a class="nepodtrh">
                 <span>Souhrn objednávky</span>
             </a>
@@ -88,38 +88,41 @@
                         $ID_U = $_COOKIE["user_id"];
                         $sql = "select Email ,Jmeno,Prijmeni ,Telefon , Mesto,Ulice,PSC FROM uzivatel LEFT JOIN adresa a on a.ID_A = uzivatel.ID_A WHERE ID_U = '$ID_U'";
                         $response = mysqli_fetch_all(mysqli_query($con, $sql), ASSERT_ACTIVE)[0];
-                        print_r($response);
-                    }
 
+                    }
                 ?>
-                <div class="form-input">
-                    <label for="email_dou">E-mail:</label>
+                <div class="form-input full-input">
                     <input type="email" class="reqierd_input email" maxlength="50" name="email_dou" id="email_dou"
                         <?php if (array_key_exists("Email", $response)) {
                             echo 'value="'.$response["Email"].'"';
                         } ?> required>
+                    <label for="email_dou full-input">E-mail:</label>
+
                 </div>
-                <div class="form-input">
-                    <label for="tel_dou">Telefon:</label>
+                <div class="form-input full-input">
                     <input type="tel" class="reqierd_input phone" pattern="\d{3}\d{3}\d{3}" name="tel_dou" id="tel_dou"
                         <?php if (array_key_exists("Telefon", $response)) {
                             echo 'value="'.$response["Telefon"].'"';
                         } ?> required>
+                    <label for="tel_dou">Telefon:</label>
+
                 </div>
-                <div class="form-input">
-                    <label for="jmeno_dou">Jméno:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input jmeno" maxlength="25" name="jmeno_dou" id="jmeno_dou"
                         <?php if (array_key_exists("Jmeno", $response)) {
                             echo 'value="'.$response["Jmeno"].'"';
                         } ?> required>
+                    <label for="jmeno_dou">Jméno:</label>
+
                 </div>
-                <div class="form-input">
-                    <label for="prijmeni_dou">Příjmení:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input prijmeni" maxlength="25" name="prijmeni_dou"
                            id="prijmeni_dou"
                         <?php if (array_key_exists("Prijmeni", $response)) {
                             echo 'value="'.$response["Prijmeni"].'"';
                         } ?> required>
+                    <label for="prijmeni_dou">Příjmení:</label>
+
                 </div>
             </div>
 
@@ -129,28 +132,31 @@
             </h2>
             <div class="main-block">
 
-                <div class="form-input">
-                    <label for="ulice_dou">Ulice a č. p.:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input ulice" name="ulice_dou" id="ulice_dou"
                            pattern="^[0-9a-zA-Zá-žÁ-Ž\s]+[\s]+[\d]+[\/]*[\d]*$" maxlength="33"
                         <?php if (array_key_exists("Ulice", $response)) {
                             echo 'value="'.$response["Ulice"].'"';
                         } ?> required>
+                    <label for="ulice_dou">Ulice a č. p.:</label>
+
                 </div>
-                <div class="form-input">
-                    <label for="obec_dou">Obec:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input obec" name="obec_dou" id="obec_dou" minlength="2"
                            maxlength="40"
                         <?php if (array_key_exists("Mesto", $response)) {
                             echo 'value="'.$response["Mesto"].'"';
                         } ?> required>
+                    <label for="obec_dou">Obec:</label>
+
                 </div>
-                <div class="form-input">
-                    <label for="psc_dou">PSČ:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input psc" name="psc_dou" id="psc_dou" pattern="\d{5}"
                            minlength="5" <?php if (array_key_exists("PSC", $response)) {
                         echo 'value="'.$response["PSC"].'"';
                     } ?> required>
+                    <label for="psc_dou">PSČ:</label>
+
                 </div>
 
             </div>
@@ -177,7 +183,7 @@
 </div>
 
 <script src="service-worker.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="node_modules/axios/dist/axios.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"

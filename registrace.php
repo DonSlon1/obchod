@@ -25,17 +25,17 @@
 <?php
 
 
-    require "pomoc/connection.php";
-    require "pomoc/navigace.php";
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+require "pomoc/connection.php";
+require "pomoc/navigace.php";
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 
-    navigace(0);
-    $con = DbCon();
+navigace(0);
+$con = DbCon();
 
-    // print_r(json_encode($_SESSION, JSON_HEX_QUOT))
+// print_r(json_encode($_SESSION, JSON_HEX_QUOT))
 
 ?>
 
@@ -50,26 +50,30 @@
             <div class="main-block">
 
 
-                <div class="form-input">
-                    <label for="registerEmail">E-mail:</label>
+                <div class="form-input full-input">
                     <input type="email" class="reqierd_input email" maxlength="50" name="registerEmail"
                            id="registerEmail">
+                    <label for="registerEmail">E-mail:</label>
+
                 </div>
 
-                <div class="form-input">
-                    <label for="telefon">Telefon:</label>
+                <div class="form-input full-input">
                     <input type="tel" class="reqierd_input phone" pattern="\d{3}\d{3}\d{3}" name="telefon"
                            id="telefon" required>
+                    <label for="telefon">Telefon:</label>
+
                 </div>
 
-                <div class="form-input">
-                    <label for="jmeno">Jméno:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input jmeno" maxlength="25" name="jmeno" id="jmeno" required>
+                    <label for="jmeno">Jméno:</label>
+
                 </div>
-                <div class="form-input">
-                    <label for="prijmeni">Příjmení:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input prijmeni" maxlength="25" name="prijmeni" id="prijmeni"
                            required>
+                    <label for="prijmeni">Příjmení:</label>
+
                 </div>
             </div>
 
@@ -77,13 +81,13 @@
                 Registrační údaje
             </h2>
             <div class="main-block">
-                <div class="form-input">
+                <div class="form-input full-input">
 
-                    <label for="registerPassword">Heslo:</label>
                     <input type="password" name="registerPassword" class="reqierd_input heslo" id="registerPassword"
                            pattern="(?=.*[0-9])(?=.*[!?@#$%^&*])(^.{8,100}$)"
                            required
                     >
+                    <label for="registerPassword ">Heslo:</label>
                     <div class='heslo_reqierd'>
                         <span id='delka'>Délka musí být mezi 8-100 znaky</span>
                         <span id='cislo'>Minimílně jedna číslice</span>
@@ -97,19 +101,22 @@
             </h2>
             <div class="main-block">
 
-                <div class="form-input">
-                    <label for="Ulice">Ulice a č. p.:</label>
+                <div class="form-input full-input">
+
                     <input type="text" class="reqierd_input ulice" name="Ulice" id="Ulice"
                            pattern="^[0-9a-zA-Zá-žÁ-Ž\s]+[\s]+[\d]+[\/]*[\d]*$" maxlength="33" required>
+                    <label for="Ulice">Ulice a č. p.:</label>
                 </div>
-                <div class="form-input">
-                    <label for="Mesto">Obec:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input obec" name="Mesto" id="Mesto" minlength="2" maxlength="40"
                            required>
+                    <label for="Mesto">Obec:</label>
+
                 </div>
-                <div class="form-input">
-                    <label for="PSC">PSČ:</label>
+                <div class="form-input full-input">
                     <input type="text" class="reqierd_input psc" name="PSC" id="PSC" pattern="\d{5}" required>
+                    <label for="PSC">PSČ:</label>
+
                 </div>
 
             </div>
@@ -128,7 +135,7 @@
 </div>
 
 <script src="service-worker.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="node_modules/axios/dist/axios.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"

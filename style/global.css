@@ -69,7 +69,15 @@
 }
 
 .invalid {
-    border-color: var(--myred) !important;
+
+    border: var(--myred) solid 1px !important;
+    border-radius: 3px;
+    outline: none;
+}
+
+.invalid:focus-visible {
+
+    border: var(--myred) solid 2px !important;
 
 }
 
@@ -93,20 +101,25 @@
 
 }
 
-.nepodtrh{
+.nepodtrh {
     text-decoration: none !important;
 }
-.nepodtrh:hover{
+
+.nepodtrh:hover {
     text-decoration: none !important;
 }
-.nepodtrh:visited{
+
+.nepodtrh:visited {
     text-decoration: none !important;
 }
-#login-form{
+
+#login-form {
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
+
 .sede:not(.registrace) {
     color: #495057 !important;
 }
@@ -459,11 +472,17 @@
 .log-but:focus {
     background-color: var(--redhov);
     border-color: var(--redhov);
+    box-shadow: 0 0 0 0.2rem #e5444c;
+}
+
+.log-but:focus:active {
+    box-shadow: 0 0 0 0.2rem #e5444c !important;
+
 }
 
 .log-but:active {
-    background-color: var(--redhov);
-    border-color: var(--redhov);
+    background-color: var(--redhov) !important;
+    border-color: var(--redhov) !important;
 }
 
 
@@ -512,4 +531,41 @@
 .row-login > div > a {
     display: flex;
     justify-content: center;
+}
+
+#ptih_h1_div {
+    padding: 5px 0;
+    text-align: center;
+    width: 100%;
+    color: white;
+    background-color: #fc0f25;
+
+}
+
+.full-input > input:focus:not(.invalid) + label {
+    color: #20648b;
+    font-weight: bold;
+}
+
+.full-input > input:focus + label {
+    color: var(--myred);
+    font-weight: bold;
+}
+
+.full-input {
+    position: relative;
+}
+
+.full-input label {
+    top: 5px;
+    left: 10px;
+    font-size: 12px;
+    position: absolute;
+}
+
+.full-input input {
+    min-height: 50px;
+    padding-top: 24px;
+    padding-left: 10px;
+    padding-bottom: 5px;
 }

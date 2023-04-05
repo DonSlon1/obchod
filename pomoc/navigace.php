@@ -87,24 +87,27 @@
 
                                 <div class="tab-pane active" id="login" role="tabpanel" aria-labelledby="login-tab" style="height: 100%">
                                     <form id="login-form" class="preventDefault" method="post" onsubmit="login()" ">
-                                        <h1>Přihlášení</h1>
+                                        <h1 id="prih_h1">Přihlášení</h1>
+                                        <div id="ptih_h1_div" style="display: none">Spatny email nebo heslo</div>
                                         <input type="hidden" name="log_reg" value="login">
-                                        <div class="form-group">
-                                            <label for="loginEmail">Email address</label>
+                                        <div class="form-group full-input">
                                             <input type="email" class="form-control " id="loginEmail" name="email"  maxlength="50" minlength="1" required>
+                                            <label for="loginEmail">Email address</label>
+
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="loginPassword">Password</label>
+                                        <div class="form-group full-input">
+                                            
                                             <div class="input-group mb-3">
-                                                <input type="password" name="Password" class="form-control" required id="loginPassword">
+                                                <input type="password" name="Password" class="form-control" style="z-index: auto " required id="loginPassword">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="show-password"><i class="icon-eye"></i></span>
                                                 </div>
                                             </div>
+                                            <label for="loginPassword">Password</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="login_keep_logged_in" name="login_keep_logged_in">
+                                            <input type="checkbox" class="form-check-input" id="login_keep_logged_in"  name="login_keep_logged_in">
                                             <label class="form-check-label" for="login_keep_logged_in">Keep me logged in</label>
                                         </div>
 

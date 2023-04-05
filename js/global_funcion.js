@@ -1,8 +1,8 @@
 function check(e) {
     const element = $(e);
     if ((!e.checkValidity() || element.val() === "") && !element.hasClass('heslo')) {
-        if (e.nextSibling !== null) {
-            e.parentElement.removeChild(e.nextSibling)
+        if (element.nextAll().length >= 2) {
+            e.parentElement.removeChild(e.parentElement.lastChild)
         }
 
         if (element.val() === "") {
@@ -29,6 +29,8 @@ function check(e) {
         } else if (element.hasClass('ulice')) {
             if (element.val().length > 33) {
                 $(e.parentElement).append("<div class='invalid_text'>maximální délka je 33 znaků</div>")
+            } else if (!e.checkValidity()) {
+                $(e.parentElement).append("<div class='invalid_text'>zadejte ulici včetně čísla ve tvaru Ulice 1234/5b nebo Ulice 1</div>")
             }
         } else if (element.hasClass('obec')) {
             if (element.val().length > 40) {
@@ -39,7 +41,7 @@ function check(e) {
             $(e.parentElement).append("<div class='invalid_text'>nesprávný tvar PSČ</div>")
 
         }
-
+        element.next().addClass('invalid_text')
         element.addClass('invalid')
 
 
@@ -78,15 +80,19 @@ function check(e) {
             $(".heslo_reqierd").addClass('vidim')
 
             element.addClass('invalid')
+            element.next().addClass('invalid_text')
         } else if (element.hasClass('invalid')) {
+            element.next().removeClass('invalid_text')
             element.removeClass('invalid')
             $(".heslo_reqierd").removeClass('vidim')
         }
 
     } else if (element.hasClass('invalid')) {
         element.removeClass('invalid')
-        if (e.nextSibling != null) {
-            e.parentElement.removeChild(e.nextSibling)
+        element.next().removeClass('invalid_text')
+
+        if (element.nextAll().length >= 2) {
+            e.parentElement.removeChild(e.parentElement.lastChild)
         }
     }
 }

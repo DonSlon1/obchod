@@ -24,10 +24,19 @@ const login = () => {
         email: email,
         Password: Password
     }).then(function (response) {
-        console.log(response)
         if (response.data === "good") {
             console.log("good");
             location.reload();
+        } else if (response.data === "notexist") {
+            console.log(4598)
+            $("#ptih_h1_div").css('display', 'block')
+            $("#loginEmail").one('change', function () {
+                $("#ptih_h1_div").css('display', 'none')
+            })
+            $("#loginPassword").one('change', function () {
+                $("#ptih_h1_div").css('display', 'none')
+            })
+
         }
     }).catch(function (error) {
         console.log(error);
@@ -35,6 +44,9 @@ const login = () => {
 }
 
 const registration = () => {
+    if ($("#formular").hasClass("form_disable")) {
+        return;
+    }
     const email = document.getElementById("registerEmail").value
     const password = document.getElementById("registerPassword").value
     const jmeno = document.getElementById("jmeno").value
@@ -44,8 +56,9 @@ const registration = () => {
     const Telefon = document.getElementById("telefon").value
     const PSC = document.getElementById("PSC").value
     const keepLogin = document.getElementById("reg_keep-logged-in").checked
-    console.log(email)
-    console.log(password)
+    const em_div = document.getElementById("registerEmail")
+
+
     axios.post('login', {
         log_reg: 'registration',
         keepLogin: keepLogin,
@@ -60,12 +73,19 @@ const registration = () => {
 
     })
         .then(function (response) {
-            console.log(response);
             if (response.data === "good_reg") {
                 location.replace("./obchod")
+            } else if (response.data === "email_nonempty") {
+                $("#formular").addClass("form_disable");
+                if (em_div.nextSibling !== null) {
+                    em_div.parentElement.removeChild(em_div.nextSibling)
+                }
+                $(em_div.parentElement).append("<div class='invalid_text'>Tato adresa je již používána.\n" +
+                    "Pokud chcete, můžete se přihlásit, nebo obnovit zapomenuté heslo.</div>")
             }
         })
         .catch(function (error) {
+            $("#formular").addClass("form_disable");
             console.log(error);
         });
 }
@@ -80,7 +100,35 @@ const logout = () => {
     });
 
 }
+
+
+const email_validate = (e) => {
+    if (e.checkValidity() && (e.value !== "")) {
+
+        axios.post('pomoc/CheckLoginAvailability',
+            {
+                'email': e.value
+            }).then(function (response) {
+            if (e.nextSibling !== null) {
+                e.parentElement.removeChild(e.nextSibling)
+            }
+            if (response.data) {
+                $("#formular").removeClass("form_disable");
+            } else {
+                $("#formular").addClass("form_disable");
+
+                $(e.parentElement).append("<div class='invalid_text'>Tato adresa je již používána.\n" +
+                    "Pokud chcete, můžete se přihlásit, nebo obnovit zapomenuté heslo.</div>")
+            }
+        })
+    }
+}
 $("#LoginModal").on("hidden.bs.modal", function () {
     document.getElementById("login-form").reset()
+    $("#ptih_h1_div").css('display', 'none')
 
+})
+
+$("#registerEmail").on('blur', function () {
+    email_validate(this)
 })
