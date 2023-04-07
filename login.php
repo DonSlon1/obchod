@@ -1,53 +1,28 @@
 <?php
 
-
     require "pomoc/connection.php";
     require "pomoc/randomstring.php";
     $conn = DbCon();
     /**
      * @method set_cookies()
      * @param string $ID_U id uživatele který má být přihlášený
-     * @param string $keepLogin určí jestli po ukončení js sesion se má uživatel odhlásit
+     * @param string $role zadá jaké pravomoce má uživatel
      * @return void
      */
 
-    function set_cookie(string $ID_U, string $keepLogin) : void
+    function set_cookie(string $ID_U, string $role) : void
     {
 
         $_SESSION["logged_in"] = true;
         $_SESSION["user_id"] = $ID_U;
-        if ($keepLogin == 1) {
-            setcookie('logged_in', true, [
-                    'expires' => time() + (86400 * 30),
-                    'path' => '/',
-                    'samesite' => 'Lax']
-            ); // Set the login status
+        $_SESSION["role"] = $role;
 
-
-            setcookie('user_id', $ID_U, [
-                    'expires' => time() + (86400 * 30),
-                    'path' => '/',
-                    'samesite' => 'Lax']
-            ); // Set the user ID
-        } else {
-            setcookie('logged_in', true, [
-                    'expires' => 0,
-                    'path' => '/',
-                    'samesite' => 'Lax']
-            ); // Set the login status
-
-
-            setcookie('user_id', $ID_U, [
-                    'expires' => 0,
-                    'path' => '/',
-                    'samesite' => 'Lax']
-            ); // Set the user ID
-        }
     }
 
     if (session_status() != PHP_SESSION_ACTIVE) {
         session_start();
     }
+
     $_POST = json_decode(file_get_contents('php://input'), true);
     if (!empty($_POST)) {
 
@@ -57,11 +32,11 @@
             $Password = $_POST["Password"];
             $sql = "SELECT Email FROM uzivatel WHERE Email= '$email' ";
             if (1 == mysqli_num_rows(mysqli_query($conn, $sql))) {
-                $sql = "SELECT Password,ID_U FROM uzivatel WHERE Email= '$email' ";
+                $sql = "SELECT Password,ID_U,Role FROM uzivatel WHERE Email= '$email' ";
                 $res = (mysqli_query($conn, $sql)->fetch_assoc());
                 if (password_verify($Password, $res["Password"])) {
 
-                    set_cookie($res["ID_U"], $_POST["keepLogin"]);
+                    set_cookie($res["ID_U"], $res["Role"]);
                     echo "good";
                 } else {
                     echo "notexist";
@@ -97,7 +72,7 @@
                     $sql = "INSERT INTO uzivatel (ID_U, Jmeno, Prijmeni, Email,Telefon, Role, Password,ID_A) VALUE ('$ID_U','$jmeno','$prijmeni','$email',$Telefon,'Uzivatel','$Password',$ID_A)";
                     mysqli_query($conn, $sql);
 
-                    set_cookie($ID_U, $_POST["keepLogin"]);
+                    set_cookie($ID_U, "Uzivatel");
                     echo "good_reg";
                 }
             } else {
@@ -106,18 +81,8 @@
         } else if ($_POST["log_reg"] == "logout") {
             unset($_SESSION["logged_in"]);
             unset($_SESSION["user_id"]);
-            setcookie('logged_in', '', [
-                    'expires' => time() - 3600,
-                    'path' => '/',
-                    'samesite' => 'Lax']
-            ); // Set the login status
+            unset($_SESSION["role"]);
 
-
-            setcookie('user_id', null, [
-                    'expires' => time() - 3600,
-                    'path' => '/',
-                    'samesite' => 'Lax']
-            );
         }
     }
 

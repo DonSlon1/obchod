@@ -23,6 +23,8 @@ const login = () => {
         keepLogin: keepLogin,
         email: email,
         Password: Password
+    }, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
     }).then(function (response) {
         if (response.data === "good") {
             console.log("good");
@@ -71,6 +73,8 @@ const registration = () => {
         Mesto: Mesto,
         PSC: PSC
 
+    }, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
         .then(function (response) {
             if (response.data === "good_reg") {
@@ -89,17 +93,6 @@ const registration = () => {
             console.log(error);
         });
 }
-const logout = () => {
-    axios.post('login', {
-        log_reg: 'logout'
-    }).then(function (response) {
-        location.reload();
-
-    }).catch(function (error) {
-        console.log(error);
-    });
-
-}
 
 
 const email_validate = (e) => {
@@ -108,10 +101,13 @@ const email_validate = (e) => {
         axios.post('pomoc/CheckLoginAvailability',
             {
                 'email': e.value
+            }, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function (response) {
-            if (e.nextSibling !== null) {
-                e.parentElement.removeChild(e.nextSibling)
+            if ($(e).nextAll().length >= 2) {
+                e.parentElement.removeChild(e.parentElement.lastChild)
             }
+
             if (response.data) {
                 $("#formular").removeClass("form_disable");
             } else {
