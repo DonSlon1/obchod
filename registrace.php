@@ -24,18 +24,19 @@
 <body>
 <?php
 
+    const MyConst = true;
 
-require "pomoc/connection.php";
-require "pomoc/navigace.php";
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
+    require "pomoc/connection.php";
+    require "pomoc/navigace.php";
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
 
 
-navigace(0);
-$con = DbCon();
+    navigace(0);
+    $con = DbCon();
 
-// print_r(json_encode($_SESSION, JSON_HEX_QUOT))
+    // print_r(json_encode($_SESSION, JSON_HEX_QUOT))
 
 ?>
 

@@ -15,6 +15,9 @@ function check(e) {
             }
 
 
+        } else if (element.hasClass('cena')) {
+            $(e.parentElement).append("<div class='invalid_text'>Cena musí být mezi 1-10 000 000 000 Kč</div>")
+
         } else if (element.hasClass('phone')) {
             $(e.parentElement).append("<div class='invalid_text'>nesprávný formát telefonního čísla (+420602xxxxxx; 602 xxx xxx)</div>")
 
@@ -114,15 +117,21 @@ $(document).ready(function () {
             check(this)
         }
     })
+
+
     // get all input elements on the page
 
 
 });
 $(".validate").click(function (e) {
-    const inputs = ($(e.target)[0].form).querySelectorAll('input')
+    const inputs = ($(e.target)[0].form).querySelectorAll('.reqierd_input')
     inputs.forEach(input => {
-        check(input)
+        console.log(input.type, input)
+        if (input.type !== "file") {
+            check(input)
+        }
     })
+
 })
 document.addEventListener('invalid', (function () {
     return function (e) {
@@ -155,6 +164,8 @@ function Get_Basket() {
     let Pocet = 0;
     axios.post('pomoc/Add_To_cart', {
         function: "get",
+    }, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
     }).then(function (response) {
 
         Pocet = response.data

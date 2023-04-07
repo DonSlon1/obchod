@@ -39,7 +39,12 @@ function update_basket(Id_p, element) {
                 axios.post('pomoc/Add_To_cart', {
                     function: "delete",
                     Id_p: Id_p
-                }).then(location.reload())
+                }, {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
+                }).then(function (response) {
+                    console.log(response)
+                    location.reload()
+                })
 
             }
         })
@@ -48,9 +53,13 @@ function update_basket(Id_p, element) {
             function: "update",
             Id_p: Id_p,
             Pocet: parseInt(element.value)
-        }).then(function (response) {
-            location.reload()
+        }, {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
+            .then(function (response) {
+                console.log(response)
+                location.reload()
+            })
 
     } else {
         element.value = 1

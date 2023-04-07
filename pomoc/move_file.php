@@ -1,4 +1,10 @@
 <?php
 
     header('Content-type:image/*');
-    echo(move_uploaded_file($_FILES["file"]["tmp_name"], '../images/' . $_FILES["file"]["name"]));
+    if ((!defined('MyConst'))) {
+        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+            header('HTTP/1.0 405 ');
+            exit;
+        }
+    }
+    echo(move_uploaded_file($_FILES["file"]["tmp_name"], '../images/'.$_FILES["file"]["name"]));

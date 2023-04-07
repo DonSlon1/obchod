@@ -1,4 +1,10 @@
 <?php
+    if ((!defined('MyConst'))) {
+        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+            header('HTTP/1.0 405 ');
+            exit;
+        }
+    }
     /**
      * zobrazí defaultí navigaci sjtejná na všech stránkách
      * @method navigace()
@@ -38,7 +44,7 @@
                 
             </div>
             ');
-        if (array_key_exists("logged_in", $_COOKIE)) {
+        if (array_key_exists("logged_in", $_SESSION)) {
             echo('
                     <div class="position-relative">
                         <div class=" user open_div" id="user" >
@@ -46,11 +52,17 @@
                             <i class="icon_check check_user"></i>
                         </div>
                         <div class="user_div" id="user_div">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti eius fugit quis repellat. Aliquam aperiam architecto, doloremque earum iste iure laboriosam magni natus nesciunt quas quidem ratione veniam vitae voluptate.
+                            <a href="./pomoc/logout.php" >Odhlásit</a>');
+            if ($_SESSION["role"] == "Admin") {
+                echo('<a href="admin" >Admin</a>');
+            }
+            echo('
+                        
+                            
                         </div>
-                    </div>
+                    </div>');
 
-                    ');
+
         } else {
             echo('
                     <div class="position-relative user" data-toggle="modal" data-target="#LoginModal">

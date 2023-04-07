@@ -169,7 +169,9 @@ const recenze = () => {
 
     if (file.size <= 10485760) {
         if (!(file.type in ['image/jpeg', 'image/png'])) {
-            axios.post('review', data).then(function (response) {
+            axios.post('review', data, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            }).then(function (response) {
                 console.log(response.data)
                 if (response.data.response === "good") {
                     document.getElementById("recene").reset()
@@ -183,8 +185,10 @@ const recenze = () => {
                                 url: "pomoc/move_file",
                                 data: formData,
                                 headers: {
-                                    'Accept': '*/*'
+                                    'Accept': '*/*',
+                                    'X-Requested-With': 'XMLHttpRequest'
                                 }
+
                             }
                         ).then(function (response) {
                             if (parseInt(response.data) === 1) {

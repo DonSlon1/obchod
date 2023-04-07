@@ -21,19 +21,20 @@
 <body>
 <?php
 
+    const MyConst = true;
 
-require "pomoc/connection.php";
-require "pomoc/navigace.php";
-require "pomoc/doprava.php";
-require "pomoc/platba.php";
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
-$form_data = $_SESSION["form_data"]["polozka"];
-$response_doprava = ziskat_dopravu();
-$response_platba = ziskat_platbu();
+    require "pomoc/connection.php";
+    require "pomoc/navigace.php";
+    require "pomoc/doprava.php";
+    require "pomoc/platba.php";
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    $form_data = $_SESSION["form_data"]["polozka"];
+    $response_doprava = ziskat_dopravu();
+    $response_platba = ziskat_platbu();
 
-navigace(0);
+    navigace(0);
 
 
 ?>
@@ -68,16 +69,16 @@ navigace(0);
                 echo($response_platba["id_checked"]);
             } ?>">
                 <?php
-                if ($response_doprava["checked"]) {
-                    echo($response_platba["html"]);
-                }
+                    if ($response_doprava["checked"]) {
+                        echo($response_platba["html"]);
+                    }
                 ?>
             </div>
 
         </div>
         <div class="kosik">
             <?php
-            require "pomoc/kosik.phtml"
+                require "pomoc/kosik.phtml"
             ?>
         </div>
         <div class="bottom">

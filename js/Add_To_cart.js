@@ -22,6 +22,8 @@ function add_To_cart() {
 
     axios.post('pomoc/Add_To_cart', {
         function: "exist",
+    }, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
     }).then(function (response) {
 
         if (response.data === 0) {
@@ -29,6 +31,8 @@ function add_To_cart() {
                 function: "new",
                 data: JSON.stringify([{Id_p: Id_p, Cena: Cena, Pocet: 1}])
 
+            }, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function (response) {
                 change_number(response)
             })
@@ -40,6 +44,8 @@ function add_To_cart() {
                 prid_ubr: 1,
                 data: [{Id_p: Id_p, Cena: Cena, Pocet: 1}]
 
+            }, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function (response) {
                 change_number(response)
             })

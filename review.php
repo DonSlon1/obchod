@@ -1,4 +1,15 @@
 <?php
+
+    if ((!defined('MyConst'))) {
+        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+            header('HTTP/1.0 405 ');
+            exit;
+        }
+    }
+    const MyConst = true;
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
     require "pomoc/connection.php";
     require "pomoc/randomstring.php";
 
@@ -6,8 +17,8 @@
     $data = array();
     $_POST = json_decode(file_get_contents('php://input'), true);
 
-    if (array_key_exists('user_id', $_COOKIE)) {
-        $id_u = $_COOKIE['user_id'];
+    if (array_key_exists('user_id', $_SESSION)) {
+        $id_u = $_SESSION['user_id'];
     } else {
         $id_u = 2;
     }

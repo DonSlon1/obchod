@@ -60,11 +60,15 @@ function doprava() {
             .post("pomoc/doprava", {
                 funkce: "zadat",
                 zpusob_dopravy: zpusob_dopravy
+            }, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
             })
             .then(function () {
                 axios
                     .post("pomoc/doprava", {
                         funkce: "ziskat"
+                    }, {
+                        headers: {'X-Requested-With': 'XMLHttpRequest'}
                     })
                     .then(function (response) {
                         doprava.html(response.data["html"])
@@ -73,6 +77,8 @@ function doprava() {
                         axios
                             .post("pomoc/platba", {
                                 funkce: "ziskat"
+                            }, {
+                                headers: {'X-Requested-With': 'XMLHttpRequest'}
                             })
                             .then(function (response) {
                                 $("#platba").html(response.data["html"])
@@ -103,11 +109,15 @@ function platba() {
             .post("pomoc/platba", {
                 funkce: "zadat",
                 zpusob_platby: zpusob_dopravy
+            }, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
             })
             .then(function () {
                 axios
                     .post("pomoc/platba", {
                         funkce: "ziskat"
+                    }, {
+                        headers: {'X-Requested-With': 'XMLHttpRequest'}
                     })
                     .then(function (response) {
                         platba.html(response.data["html"])
@@ -127,6 +137,8 @@ function reset_dodani() {
             funkce: "reset",
             dodani: true,
             platba: true
+        }, {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
         .then(function (respons) {
             $("#platba").html("")
@@ -136,6 +148,8 @@ function reset_dodani() {
             axios
                 .post("pomoc/doprava", {
                     funkce: "ziskat"
+                }, {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
                 })
                 .then(function (response) {
                     $("#doprava").html(response.data["html"])
@@ -151,6 +165,8 @@ function reset_platby() {
         .post("pomoc/doprava", {
             funkce: "reset",
             platba: true
+        }, {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
         .then(function (respons) {
             $("#platba").html("")
@@ -159,6 +175,8 @@ function reset_platby() {
             axios
                 .post("pomoc/platba", {
                     funkce: "ziskat"
+                }, {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
                 })
                 .then(function (response) {
                     $("#platba").html(response.data["html"])

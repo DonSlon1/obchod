@@ -22,12 +22,14 @@
 
 <body>
 <?php
+    const MyConst = true;
 
 
     require "pomoc/connection.php";
     require "pomoc/navigace.php";
     require "pomoc/doprava.php";
     require "pomoc/platba.php";
+
     if (session_status() != PHP_SESSION_ACTIVE) {
         session_start();
     }
@@ -60,7 +62,7 @@
         </li>
     </ul>
 
-    <form class="cont preventDefault  <?php if (array_key_exists('logged_in', $_COOKIE)) {
+    <form class="cont preventDefault  <?php if (array_key_exists('logged_in', $_SESSION)) {
         echo ' user_logged';
     } ?>" id="formular" onsubmit="overeni()">
         <div class="moznosti">
@@ -70,7 +72,7 @@
             <div class="main-block">
                 <?php
                     $response = array();
-                    if (!array_key_exists("logged_in", $_COOKIE)) {
+                    if (!array_key_exists("logged_in", $_SESSION)) {
 
                         echo('
     
@@ -85,7 +87,7 @@
                             ');
 
                     } else {
-                        $ID_U = $_COOKIE["user_id"];
+                        $ID_U = $_SESSION["user_id"];
                         $sql = "select Email ,Jmeno,Prijmeni ,Telefon , Mesto,Ulice,PSC FROM uzivatel LEFT JOIN adresa a on a.ID_A = uzivatel.ID_A WHERE ID_U = '$ID_U'";
                         $response = mysqli_fetch_all(mysqli_query($con, $sql), ASSERT_ACTIVE)[0];
 

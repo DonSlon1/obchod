@@ -1,3 +1,11 @@
+<?php
+    if ((!defined('MyConst'))) {
+        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+            header('HTTP/1.0 405 ');
+            exit;
+        }
+    }
+?>
 <h2>Košík</h2>
 <?php
     $form_data = $_SESSION["form_data"]["polozka"];

@@ -1,4 +1,11 @@
 <?php
+    if ((!defined('MyConst'))) {
+        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+            header('HTTP/1.0 405 ');
+            exit;
+        }
+    }
+
 
     if (session_status() != PHP_SESSION_ACTIVE) {
         session_start();

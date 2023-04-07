@@ -20,19 +20,21 @@
 </head>
 <body>
 <?php
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Zpracování formuláře
-    $_SESSION['form_data'] = $_POST;
-    header('Location: ./checkout.php');
-    exit;
-}
+    const MyConst = true;
 
-require "pomoc/connection.php";
-require "pomoc/navigace.php";
-navigace(0);
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Zpracování formuláře
+        $_SESSION['form_data'] = $_POST;
+        header('Location: ./checkout.php');
+        exit;
+    }
+
+    require "pomoc/connection.php";
+    require "pomoc/navigace.php";
+    navigace(0);
 
 ?>
 
@@ -58,62 +60,62 @@ navigace(0);
         <div>
 
             <?php
-            $cena_celkem = 0;
-            $conn = DbCon();
-            $basket = array();
-            if (isset($_SESSION["basket"])) {
-                $basket = json_decode($_SESSION["basket"], true);
-            }
-            $count = 0;
-            foreach ($basket as $item) {
-                $sql = "SELECT H_Obrazek,Nazev FROM predmety WHERE ID_P='{$item["Id_p"]}'";
-                $item_data = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-                $Id_P = $item["Id_p"];
-                $cena_celkem += $item["Cena"] * $item["Pocet"];
-                echo('
+                $cena_celkem = 0;
+                $conn = DbCon();
+                $basket = array();
+                if (isset($_SESSION["basket"])) {
+                    $basket = json_decode($_SESSION["basket"], true);
+                }
+                $count = 0;
+                foreach ($basket as $item) {
+                    $sql = "SELECT H_Obrazek,Nazev FROM predmety WHERE ID_P='{$item["Id_p"]}'";
+                    $item_data = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+                    $Id_P = $item["Id_p"];
+                    $cena_celkem += $item["Cena"] * $item["Pocet"];
+                    echo('
             <div class="kosik_div">
                 
                 <div class="kosik_informace">  
                     <div>   
-                        <a class="obrazek" href="produkt.php?ID_P=' . $item["Id_p"] . '">
-                            <img  src="images/' . $item_data["H_Obrazek"] . '" alt="' . htmlspecialchars($item_data["Nazev"]) . '" >
+                        <a class="obrazek" href="produkt.php?ID_P='.$item["Id_p"].'">
+                            <img  src="images/'.$item_data["H_Obrazek"].'" alt="'.htmlspecialchars($item_data["Nazev"]).'" >
                         </a>      
                         <div class="nazev_item">        
-                            <a class="sede"  href="produkt?ID_P=' . $item["Id_p"] . '">
-                                 <span class="ml-3">' . $item_data["Nazev"] . '</span>
+                            <a class="sede"  href="produkt?ID_P='.$item["Id_p"].'">
+                                 <span class="ml-3">'.$item_data["Nazev"].'</span>
                             </a>
                         </div>
                         
                         <div class=" align-middle pocet">
                             
-                            <input type="hidden" name="polozka[' . $count . '][Obrazek]" value="' . $item_data["H_Obrazek"] . '">
-                            <input type="hidden" name="polozka[' . $count . '][Cena]" value="' . $item["Cena"] . '">
-                            <input type="hidden" name="polozka[' . $count . '][ID_P]" value="' . $item["Id_p"] . '">
-                            <input type="hidden" name="polozka[' . $count . '][Nazev]" value="' . htmlspecialchars($item_data["Nazev"]) . '">
-                            <input type="number"  class="form-control numberstyle" name="polozka[' . $count . '][pocet]"  min="0" max="999" step="1" pattern="[0-9]{1,3}"  onchange="update_basket(\'' . $item["Id_p"] . '\' , this)"  value="' . $item["Pocet"] . '">
+                            <input type="hidden" name="polozka['.$count.'][Obrazek]" value="'.$item_data["H_Obrazek"].'">
+                            <input type="hidden" name="polozka['.$count.'][Cena]" value="'.$item["Cena"].'">
+                            <input type="hidden" name="polozka['.$count.'][ID_P]" value="'.$item["Id_p"].'">
+                            <input type="hidden" name="polozka['.$count.'][Nazev]" value="'.htmlspecialchars($item_data["Nazev"]).'">
+                            <input type="number"  class="form-control numberstyle" name="polozka['.$count.'][pocet]"  min="0" max="999" step="1" pattern="[0-9]{1,3}"  onchange="update_basket(\''.$item["Id_p"].'\' , this)"  value="'.$item["Pocet"].'">
                        
                         </div>
                         
                         <div class=" align-middle cena cena_za_kus" >
                              <!-- Product image -->
                              
-                            <span  >' . number_format($item["Cena"], thousands_separator: ' ') . ' Kč/ks</span>
+                            <span  >'.number_format($item["Cena"], thousands_separator: ' ').' Kč/ks</span>
                              
                         </div>
             
                         
-                        <div class="text-center align-middle cena cena_celkem">' . number_format($item["Cena"] * $item["Pocet"], thousands_separator: ' ') . ' Kč</div>
+                        <div class="text-center align-middle cena cena_celkem">'.number_format($item["Cena"] * $item["Pocet"], thousands_separator: ' ').' Kč</div>
                     </div> 
                 </div>
             </div>');
-                $count++;
-            }
+                    $count++;
+                }
 
             ?>
         </div>
         <?php
-        echo(' <p class="text-right final_cena">
-                    Celkem k úhradě: <strong>' . number_format($cena_celkem, thousands_separator: ' ') . ' Kč</strong>
+            echo(' <p class="text-right final_cena">
+                    Celkem k úhradě: <strong>'.number_format($cena_celkem, thousands_separator: ' ').' Kč</strong>
                 </p>
              ')
         ?>
