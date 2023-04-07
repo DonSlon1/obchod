@@ -556,14 +556,14 @@
     position: relative;
 }
 
-.full-input label {
+.full-input label:not(.popis) {
     top: 5px;
     left: 10px;
     font-size: 12px;
     position: absolute;
 }
 
-.full-input input {
+.full-input input, textarea {
     min-height: 50px;
     padding-top: 24px;
     padding-left: 10px;
