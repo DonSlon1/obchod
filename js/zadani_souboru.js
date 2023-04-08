@@ -216,3 +216,44 @@ function file_size_check(file_inputs, e) {
 
 }
 
+function new_paramet_category() {
+    const parent = $("#full_parametrs");
+    let child_lenght = parent.children().length.toString()
+    let parametry = $('<div/>', {class: "form-input  parametry"}),
+        prametr_nazev = $('<div/>', {class: "prametr-nazev"}),
+        nazev_input = $('<input/>', {type: "text", name: 'vlasnoti[]', id: child_lenght}),
+        label_input = $('<label/>', {for: child_lenght, text: "Název Kategorie:"});
+
+    $(nazev_input).one('change', function () {
+        new_paramet_category()
+    })
+    parent.append(parametry.append(prametr_nazev.append(nazev_input).append(label_input)))
+
+    parametr_d(child_lenght, '0', parametry)
+    return parametry
+}
+
+function parametr_d(number, count, parrent_div) {
+    let prametr_div = $('<div/>', {class: "parametr-div"}),
+        parametr_input = $('<div/>', {class: "parametr-input"}),
+        nazecv_input = $('<input/>', {type: "text", name: number + 'N[]', id: number + 'N' + count}),
+        nazev_label = $('<label/>', {for: number + 'N' + count, text: "Název Parametru:"})
+
+    nazecv_input.one('change', function () {
+        console.log(number)
+        console.log(count)
+        parametr_d(number, (parseInt(count) + 1).toString(), parrent_div)
+    })
+
+    prametr_div.append(parametr_input.append(nazecv_input).append(nazev_label))
+    parametr_input = $('<div/>', {class: "parametr-input"})
+    nazecv_input = $('<input/>', {type: "text", name: number + 'J[]', id: number + 'J' + count})
+    nazev_label = $('<label/>', {for: number + 'J' + count, text: "Hodnota Parametru:"})
+
+    prametr_div.append(parametr_input.append(nazecv_input).append(nazev_label))
+
+    parrent_div.append(prametr_div)
+
+}
+
+console.log(new_paramet_category())

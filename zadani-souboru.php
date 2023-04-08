@@ -96,28 +96,8 @@
             <h2 class="nadpis">
                 Parametry
             </h2>
-            <div class="main-block">
-
-                <div class="form-input  parametry">
-                    <div class="prametr-nazev">
-                        <input type="text" name="cena" id="1">
-                        <label for="1">Název Kategorie:</label>
-                    </div>
-
-                    <div class="parametr-div">
-                        <div class="parametr-input">
-                            <input type="text" name="1N[]" id="1N1">
-                            <label for="1N1">Název Parametru:</label>
-                        </div>
-
-                        <div class="parametr-input">
-                            <input type="text" name="1J[]" id="1J1">
-                            <label for="1J1">Hodnota Parametru:</label>
-                        </div>
-                    </div>
-                </div>
-
-
+            <div class="main-block" id="full_parametrs">
+                
             </div>
         </div>
 
