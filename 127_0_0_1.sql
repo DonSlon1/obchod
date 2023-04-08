@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pon 03. dub 2023, 00:27
+-- Vytvořeno: Ned 09. dub 2023, 01:27
 -- Verze serveru: 10.4.27-MariaDB
 -- Verze PHP: 8.2.0
 
@@ -44,12 +44,15 @@ CREATE TABLE `adresa`
 --
 
 INSERT INTO `adresa` (`ID_A`, `Mesto`, `Ulice`, `PSC`)
-VALUES (3, 'Markvartovice', 'Xxxx', 74714),
-       (6, 'aa', 'aa', 0),
+VALUES (3, 'Markvartovice', 'Šil 7', 74714),
+       (6, 'Adsa', 'Šil 7', 74714),
        (7, 'Markvartovice', 'Xxxx 1', 74714),
        (8, 'Mar', 'Sil 7', 74714),
        (9, 'Mar', 'Šil 7', 74714),
-       (10, 'Mar', 'Šil 7', 74714);
+       (10, 'Mar', 'Šil 7', 74714),
+       (11, 'Mar', 'ŠIl 7', 74714),
+       (12, 'Mar', 'Čil 77', 74714),
+       (13, 'Mar', 'Šil 7', 74714);
 
 -- --------------------------------------------------------
 
@@ -96,19 +99,11 @@ CREATE TABLE `obrazky`
 (
     `Obrazek` varchar(255) NOT NULL,
     `Nazev`   varchar(255) NOT NULL,
-    `ID_P`    varchar(255) NOT NULL,
+    `ID_P`    int(11)      NOT NULL,
     `ID_O`    int(11)      NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
-
---
--- Vypisuji data pro tabulku `obrazky`
---
-
-INSERT INTO `obrazky` (`Obrazek`, `Nazev`, `ID_P`, `ID_O`)
-VALUES ('GTd6OAkYJE_cNqBQnwDxlg2bV1pCr9XCCPAMSX2Yeodgee9ismFaIWnmnVlsB.jpeg', 'as',
-        'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', 13);
 
 -- --------------------------------------------------------
 
@@ -118,7 +113,7 @@ VALUES ('GTd6OAkYJE_cNqBQnwDxlg2bV1pCr9XCCPAMSX2Yeodgee9ismFaIWnmnVlsB.jpeg', 'a
 
 CREATE TABLE `predmety`
 (
-    `ID_P`         varchar(255) NOT NULL,
+    `ID_P`         int(11)      NOT NULL,
     `Nazev`        tinytext     NOT NULL,
     `Popis`        text                  DEFAULT NULL,
     `Cena_Bez_DPH` float        NOT NULL,
@@ -134,9 +129,7 @@ CREATE TABLE `predmety`
 --
 
 INSERT INTO `predmety` (`ID_P`, `Nazev`, `Popis`, `Cena_Bez_DPH`, `Hodnoceni`, `H_Obrazek`, `Parametry`)
-VALUES ('9AkdLOy7Kv_rHhJRl6EWC16783737006409f34479f836.14863861', 'dsad', 'asdda', 1244, 0.0,
-        'het6FZ5gCu_V8zJ3D1bhUUOjFGynrFjzFecUAR1a60l8TMfox59fPeLMFvog7.jpeg', '{}'),
-       ('dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', '25\" Samsung Odyssey G40B',
+VALUES (0, '25\" Samsung Odyssey G40B',
         'LCD monitor Full HD 1920 × 1080, IPS, 16:9, 1 ms, 240Hz, G-Sync kompatibilní, HDR, 400 cd/m2, kontrast 1000:1, DisplayPort 1.2, HDMI 2.0, sluchátkový výstup, nastavitelná výška, pivot, VESA',
         6989, 0.0, 'CmFdpLg0wP_yM700T1fuRDfXsiId492gIErM7PCDFKbC3Ykh3DeDxeZLfQxCY.jpeg',
         '{\"Úhlopříčka a rozlišení\":{\"Úhlopříčka\":\"25\\\" (63,5 cm)\",\"Typ rozlišení\":\"Full HD\"},\"Obrazovka\":{\"Maximální jas\":\"400 cd/m2\",\"Odezva\":\"1 ms\"}}');
@@ -151,7 +144,7 @@ CREATE TABLE `recenze`
 (
     `ID_R`      int(11)      NOT NULL,
     `ID_U`      varchar(255) NOT NULL,
-    `ID_P`      varchar(255) NOT NULL,
+    `ID_P`      int(11)      NOT NULL,
     `Popis`     text                                               DEFAULT NULL,
     `Kladne`    tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`Kladne`)),
     `Zaporne`   tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`Zaporne`)),
@@ -160,14 +153,6 @@ CREATE TABLE `recenze`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
-
---
--- Vypisuji data pro tabulku `recenze`
---
-
-INSERT INTO `recenze` (`ID_R`, `ID_U`, `ID_P`, `Popis`, `Kladne`, `Zaporne`, `Hodnoceni`, `Obrazek`)
-VALUES (74, '2', 'dB5DnVyYii_azMdoChwex167743816063fbacd0cf8139.46558658', '', '[\"dsa\"]', '[\"dasda\"]', 3,
-        'liplvTqa2Z_omL35k8EBzyRnMdoIPF7Fho81jY6hMDNOKJg3DLXRSb0mmkjO8.png');
 
 -- --------------------------------------------------------
 
@@ -194,13 +179,19 @@ CREATE TABLE `uzivatel`
 --
 
 INSERT INTO `uzivatel` (`ID_U`, `Email`, `Password`, `Jmeno`, `Prijmeni`, `Role`, `ID_A`, `Telefon`)
-VALUES ('2', ' ', ' ', 'Anonimní', ' ', 'Uzivatel', 3, ' '),
+VALUES ('1', 'admin@admin.cz', '$2y$10$nBzFddOJ7KttgPPZ.tnW3u6OKwDeCX8Hk5sVrSKbS1.RGZxufbhnC', 'Lukas', 'Dihel',
+        'Admin', 13, '778456672'),
+       ('2', ' ', ' ', 'Anonymní', ' ', 'Uzivatel', 3, ' '),
+       ('7ChSVK4lE2_33GItK2PHy1680739542642e0cd680f0f3.73158983', 'l@gm.c',
+        '$2y$10$FnwkWhv3rg7I2Nv3fDLuROfQpu3qGDb7Ouv05UQDI4W8744Cyhvb.', 'Lukas', 'A', 'Uzivatel', 12, '778456672'),
+       ('hNXrULLwGo_AHgRmZZ9i71680639666642c86b28f19f7.37926065', 'lukindihel@gmail.co',
+        '$2y$10$RlWDdYjMMUOuQTgjq1qCxeAP34hyxKO5W0zoBdofyZhrrom5bPOV.', 'Lukas', 'D', 'Uzivatel', 11, '778456672'),
        ('Iu2lV2UWM8_czBj9qAUG7168037563464287f52b85766.99463167', 'luk@gma.com',
         '$2y$10$7Z7rDK.mvgmzL.NXEA0.O.4f5hl3ZL6EB4f0WybbEJZuRCkNEufU2', 'Lukas', 'd', 'Uzivatel', 8, '778456672'),
        ('kW00W7s2zs_BDSMZWVku316804636366429d714b0f525.82314206', 'li@g.v',
         '$2y$10$UOf73ZX9BRbISJha5o4YduHEPY6AeBD4tOaDFl/BF2sR.5xgGxAAW', 'A', 'A', 'Uzivatel', 10, '778456672'),
        ('NvX3cWoMIy_XlLcLhzi6g1679764385641f2ba18b5c52.40623303', 'lukindihel@gmail.com',
-        '$2y$10$4P6/eb0Gnvvzuuze/Mor5OAoU6eO0nWSsT9ZORIH4RMKGaX5D8Cg6', 'Lukáš', 'Dihel', 'Uzivatel', 3, '0'),
+        '$2y$10$4P6/eb0Gnvvzuuze/Mor5OAoU6eO0nWSsT9ZORIH4RMKGaX5D8Cg6', 'Lukáš', 'Dihel', 'Uzivatel', 3, '778456672'),
        ('Sc8D0OBM3S_wWKFQRc75U1679771436641f472c859ba3.51565290', 'aa@aa.cz',
         '$2y$10$UyAuAV0aCYDVkRiszZkaj.1rkbFCt4F7o.psydsamzxq/MYcheXcq', 'aa', 'aa', 'Uzivatel', 6, '777'),
        ('SjyGkuYJji_DdHHjTtJpO1679852228642082c474cf70.50242347', 'lukindihel@gmail.comtz',
@@ -253,7 +244,7 @@ ALTER TABLE `predmety`
 ALTER TABLE `recenze`
     ADD PRIMARY KEY (`ID_R`),
     ADD KEY `ID_U` (`ID_U`),
-    ADD KEY `ID_P` (`ID_P`);
+    ADD KEY `recenze_predmety_ID_P_fk` (`ID_P`);
 
 --
 -- Indexy pro tabulku `uzivatel`
@@ -273,7 +264,7 @@ ALTER TABLE `uzivatel`
 --
 ALTER TABLE `adresa`
     MODIFY `ID_A` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 11;
+    AUTO_INCREMENT = 14;
 
 --
 -- AUTO_INCREMENT pro tabulku `dodaci_udaje`
@@ -293,14 +284,21 @@ ALTER TABLE `objednavka`
 --
 ALTER TABLE `obrazky`
     MODIFY `ID_O` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 14;
+    AUTO_INCREMENT = 17;
+
+--
+-- AUTO_INCREMENT pro tabulku `predmety`
+--
+ALTER TABLE `predmety`
+    MODIFY `ID_P` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 10;
 
 --
 -- AUTO_INCREMENT pro tabulku `recenze`
 --
 ALTER TABLE `recenze`
     MODIFY `ID_R` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 75;
+    AUTO_INCREMENT = 86;
 
 --
 -- Omezení pro exportované tabulky
@@ -317,14 +315,14 @@ ALTER TABLE `objednavka`
 -- Omezení pro tabulku `obrazky`
 --
 ALTER TABLE `obrazky`
-    ADD CONSTRAINT `obrazky_ibfk_1` FOREIGN KEY (`ID_P`) REFERENCES `predmety` (`ID_P`);
+    ADD CONSTRAINT `obrazky_predmety_ID_P_fk` FOREIGN KEY (`ID_P`) REFERENCES `predmety` (`ID_P`);
 
 --
 -- Omezení pro tabulku `recenze`
 --
 ALTER TABLE `recenze`
     ADD CONSTRAINT `recenze_ibfk_1` FOREIGN KEY (`ID_U`) REFERENCES `uzivatel` (`ID_U`),
-    ADD CONSTRAINT `recenze_ibfk_2` FOREIGN KEY (`ID_P`) REFERENCES `predmety` (`ID_P`);
+    ADD CONSTRAINT `recenze_predmety_ID_P_fk` FOREIGN KEY (`ID_P`) REFERENCES `predmety` (`ID_P`);
 
 --
 -- Omezení pro tabulku `uzivatel`
