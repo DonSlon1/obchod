@@ -65,7 +65,7 @@ $("#attachment").on('change', function (e) {
             reader.readAsDataURL(this.files[i]);
         }
     }
-    ;
+
 
     // Přidání souboru do objektu datového přenosu pro nahrávání souborů
     for (let file of this.files) {
@@ -76,7 +76,7 @@ $("#attachment").on('change', function (e) {
     // Nastavení události click na ikonu pro smazání souboru
     $('span.file-delete').click(function (e) {
         // Získání názvu souboru
-        let name = $(this).next('span.name').text();
+        let name = $(this).parent().children().first().next('span.name').text();
 
         // Odstranění bloku souboru ze seznamu souborů
         $(this).parent().remove();
@@ -144,8 +144,6 @@ $("#h_obr").on('change', function (e) {
 
     // Nastavení události click na ikonu pro smazání souboru
     $('span.file-delete').click(function (e) {
-        // Získání názvu souboru
-        let name = $(this).next('span.name').text();
 
         // Odstranění bloku souboru ze seznamu souborů
         $(this).parent().remove();
@@ -256,4 +254,13 @@ function parametr_d(number, count, parrent_div) {
 
 }
 
-console.log(new_paramet_category())
+new_paramet_category()
+
+function on_change_delete(number, count, id) {
+
+    let parrent_div = $("#" + id).parent().parent().parent();
+    parametr_d(number.toString(), (count + 1).toString(), parrent_div)
+
+    let element = document.getElementById(id);
+    element.removeAttribute("onchange");
+}

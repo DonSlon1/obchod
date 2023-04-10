@@ -1,0 +1,48 @@
+.tabulka-obrazek {
+    max-height: 60px;
+    margin-right: 20px;
+}
+
+.svg-img {
+    max-width: 50px;
+}
+
+#tabuka-poduktu td {
+    vertical-align: middle;
+}
+
+#error {
+    background-color: var(--myred);
+    color: #ffffff;
+    text-align: center;
+    vertical-align: center;
+    padding: 25px;
+    display: none;
+}
+
+#tabuka-poduktu_wrapper {
+    margin-top: 35px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    vertical-align: middle;
+}
+
+.dataTables_info {
+    padding-top: 0 !important;
+}
+
+.pagination {
+    width: fit-content;
+    margin: auto !important;
+}
+
+.container {
+    margin-bottom: 50px;
+}
+
+.hodne-maly {
+    max-width: 40px;
+}

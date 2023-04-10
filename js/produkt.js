@@ -167,7 +167,7 @@ const recenze = () => {
     }
     let formData = new FormData();
 
-    if (file.size <= 10485760) {
+    if (file.size <= 10 * 1024 * 1024 || file.length === 0) {
         if (!(file.type in ['image/jpeg', 'image/png'])) {
             axios.post('review', data, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}

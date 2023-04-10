@@ -569,3 +569,26 @@
     padding-left: 10px;
     padding-bottom: 5px;
 }
+
+#user_div {
+    flex-flow: column;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#user_div > a:nth-child(2) {
+    padding: 10px;
+}
+
+#user_div > a {
+    padding: 0px 10px 10px 10px;
+    color: #3a7699;
+}
+
+#user_div > a:hover {
+    text-decoration: none;
+}
+
+#user_div > a:first-child {
+    border-bottom: #9d9d9d 1px solid;
+}

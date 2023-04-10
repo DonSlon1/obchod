@@ -247,6 +247,7 @@ input[type="file"] {
     border-radius: 5px;
     color: white;
     background: #007bff;
+    cursor: pointer;
 
 }
 
