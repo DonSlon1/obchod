@@ -162,7 +162,7 @@ function formatBytes(bytes, decimals = 2) {
 
 function Get_Basket() {
     let Pocet = 0;
-    axios.post('pomoc/Add_To_cart', {
+    axios.post('/pomoc/Add_To_cart', {
         function: "get",
     }, {
         headers: {'X-Requested-With': 'XMLHttpRequest'}

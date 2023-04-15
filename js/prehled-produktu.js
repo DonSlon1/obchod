@@ -19,10 +19,11 @@ function inicializace_produkt() {
 }
 
 
-function inicializace_recenze() {
+function inicializace_recenze(group = 1) {
+    let visible = (group) ? 0 : 1
     $('#tabuka-poduktu').DataTable({
         "columnDefs": [{
-            visible: false,
+            visible: visible,
             targets: [0]
         }],
 
@@ -33,7 +34,11 @@ function inicializace_recenze() {
             [10, 25, 50, 'All'],
         ],
         "order": [[0, "asc"]],
+
         "drawCallback": function (settings) {
+            if (!group) {
+                return;
+            }
             var api = this.api();
             var rows = api.rows({page: 'current'}).nodes();
             var last = null;
@@ -87,7 +92,7 @@ function smazat_recenzi(ID_R) {
 
     smazat_prmise().then(function (result) {
         if (result === "smazat") {
-            axios.post('pomoc/smaz_recenzi', {
+            axios.post('/pomoc/smaz_recenzi', {
                 ID_R: ID_R
             }, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -113,7 +118,7 @@ function smazat(ID_P) {
 
     smazat_prmise().then(function (result) {
         if (result === "smazat") {
-            axios.post('pomoc/smazat_produkt', {
+            axios.post('/pomoc/smazat_produkt', {
                 ID_P: ID_P
             }, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}

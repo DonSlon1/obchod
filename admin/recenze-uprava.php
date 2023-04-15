@@ -8,19 +8,19 @@
           content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="white">
-    <link rel="shortcut icon" href="images/icon-maskable.png"/>
-    <link rel="apple-touch-icon" href="images/icon-apple.png">
-    <link rel="manifest" href="manifest.json"/>
+    <link rel="shortcut icon" href="/images/icon-maskable.png"/>
+    <link rel="apple-touch-icon" href="/images/icon-apple.png">
+    <link rel="manifest" href="/manifest.json"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <link>
-    <link rel="stylesheet" href="style/global.css" type="text/css" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/tabulka-obrazek.css" type="text/css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style/global.css" type="text/css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style/tabulka-obrazek.css" type="text/css" crossorigin="anonymous">
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -39,6 +39,16 @@
     <title>Document</title>
 
 </head>
+<?php
+    const MyConst = true;
+
+    require "../pomoc/connection.php";
+    require "../pomoc/navigace.php";
+    require "../pomoc/funkce.php";
+
+    overeni_uzivatele();
+    navigace(0);
+?>
 <body>
 <div class="modal  fade " id="smazat-produkt" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
      data-keyboard="false">
@@ -65,14 +75,6 @@
     </div>
 </div>
 
-<?php
-const MyConst = true;
-
-require "pomoc/connection.php";
-require "pomoc/navigace.php";
-
-navigace(0);
-?>
 
 <div class="container" style="max-width: 100%">
 
@@ -96,30 +98,31 @@ navigace(0);
         <?php
 
 
-        $conn = DbCon();
-        $sql = "SELECT recenze.ID_R ,recenze.ID_P  ,recenze.Popis, p.Nazev , Kladne, Zaporne, Obrazek  FROM `recenze` LEFT JOIN predmety p on recenze.ID_P = p.ID_P";
+            $conn = DbCon();
+            $sql = "SELECT recenze.ID_R ,recenze.ID_P  ,recenze.Popis, p.Nazev , Kladne, Zaporne, Obrazek  FROM `recenze` LEFT JOIN predmety p on recenze.ID_P = p.ID_P";
 
-        $res = mysqli_query($conn, $sql);
-        $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
-        foreach ($res as $produkt) {
-            echo("<tr>
+            $res = mysqli_query($conn, $sql);
+            $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
+            foreach ($res as $produkt) {
+                echo("<tr>
                 <td><a href='/produkt?ID_P={$produkt["ID_P"]}'>{$produkt["Nazev"]}</a></td>
-                <td>{$produkt["Kladne"]}</td>
-                <td>{$produkt["Zaporne"]}</td>
-                <td>{$produkt["Popis"]}</td>");
-            if ($produkt["Obrazek"] != "") {
-                echo("<td><img src=\"images/{$produkt["Obrazek"]}\" class='hodne-maly'></td>");
-            } else {
-                echo("<td>žáden neí</td>");
-            }
-            echo("
-                <td> <img src='svg/krizek.svg' class='svg-img' alt='smazat' onclick='smazat_recenzi(\"{$produkt["ID_R"]}\")'></td>
+                <td class='text-break'>{$produkt["Kladne"]}</td>
+                <td class='text-break'>{$produkt["Zaporne"]}</td>
+                <td class='text-break'>{$produkt["Popis"]}</td>");
+                if ($produkt["Obrazek"] != "") {
+                    echo("<td><img src=\"/images/{$produkt["Obrazek"]}\" class='hodne-maly'></td>");
+                } else {
+                    echo("<td>žáden není</td>");
+                }
+                echo("
+                <td> <img src='/svg/krizek.svg' class='svg-img' alt='smazat' onclick='smazat_recenzi(\"{$produkt["ID_R"]}\")'></td>
                 </tr>");
-        }
+            }
         ?>
     </table>
 </div>
-<script src="js/prehled-produktu.js"></script>
+<script src="/js/prehled-produktu.js"></script>
+<script src="/js/global_funcion.js"></script>
 <script>
     inicializace_recenze()
 </script>

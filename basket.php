@@ -16,25 +16,36 @@
     <link rel="stylesheet" href="style/global.css" type="text/css" crossorigin="anonymous">
     <link rel="stylesheet" href="style/basket_nav.css">
     <link rel="stylesheet" href="style/basket.css">
+
+    <script src="service-worker.js"></script>
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
 <?php
-const MyConst = true;
+    const MyConst = true;
 
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Zpracování formuláře
-    $_SESSION['form_data'] = $_POST;
-    header('Location: ./checkout.php');
-    exit;
-}
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Zpracování formuláře
+        $_SESSION['form_data'] = $_POST;
+        header('Location: ./checkout');
+        exit;
+    }
 
-require "pomoc/connection.php";
-require "pomoc/navigace.php";
-navigace(0);
+    require "pomoc/connection.php";
+    require "pomoc/navigace.php";
+    require "pomoc/funkce.php";
+    navigace(0);
 
 ?>
 
@@ -56,71 +67,75 @@ navigace(0);
             </a>
         </li>
     </ul>
+
+    <?php
+        overeni_kosik();
+    ?>
     <form action="basket" method="post" autocomplete="off">
         <div>
 
             <?php
-            $cena_celkem = 0;
-            $conn = DbCon();
-            $basket = array();
-            if (isset($_SESSION["basket"])) {
-                $basket = json_decode($_SESSION["basket"], true);
-            }
-            $count = 0;
-            foreach ($basket as $item) {
-                $sql = "SELECT H_Obrazek,Nazev FROM predmety WHERE ID_P='{$item["Id_p"]}'";
-                $item_data = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-                $Id_P = $item["Id_p"];
-                $cena_celkem += $item["Cena"] * $item["Pocet"];
-                echo('
+                $cena_celkem = 0;
+                $conn = DbCon();
+                $basket = array();
+                if (isset($_SESSION["basket"])) {
+                    $basket = json_decode($_SESSION["basket"], true);
+                }
+                $count = 0;
+                foreach ($basket as $item) {
+                    $sql = "SELECT H_Obrazek,Nazev FROM predmety WHERE ID_P='{$item["Id_p"]}'";
+                    $item_data = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+                    $Id_P = $item["Id_p"];
+                    $cena_celkem += $item["Cena"] * $item["Pocet"];
+                    echo('
             <div class="kosik_div">
                 
                 <div class="kosik_informace">  
                     <div>   
-                        <a class="obrazek" href="produkt.php?ID_P=' . $item["Id_p"] . '">
-                            <img  src="images/' . $item_data["H_Obrazek"] . '" alt="' . htmlspecialchars($item_data["Nazev"]) . '" >
+                        <a class="obrazek" href="produkt.php?ID_P='.$item["Id_p"].'">
+                            <img  src="images/'.$item_data["H_Obrazek"].'" alt="'.htmlspecialchars($item_data["Nazev"]).'" >
                         </a>      
                         <div class="nazev_item">        
-                            <a class="sede"  href="produkt?ID_P=' . $item["Id_p"] . '">
-                                 <span class="ml-3">' . $item_data["Nazev"] . '</span>
+                            <a class="sede"  href="produkt?ID_P='.$item["Id_p"].'">
+                                 <span class="ml-3">'.$item_data["Nazev"].'</span>
                             </a>
                         </div>
                         
                         <div class=" align-middle pocet">
                             
-                            <input type="hidden" name="polozka[' . $count . '][Obrazek]" value="' . $item_data["H_Obrazek"] . '">
-                            <input type="hidden" name="polozka[' . $count . '][Cena]" value="' . $item["Cena"] . '">
-                            <input type="hidden" name="polozka[' . $count . '][ID_P]" value="' . $item["Id_p"] . '">
-                            <input type="hidden" name="polozka[' . $count . '][Nazev]" value="' . htmlspecialchars($item_data["Nazev"]) . '">
-                            <input type="number"  class="form-control numberstyle" name="polozka[' . $count . '][pocet]"  min="0" max="999" step="1" pattern="[0-9]{1,3}"  onchange="update_basket(\'' . $item["Id_p"] . '\' , this)"  value="' . $item["Pocet"] . '">
+                            <input type="hidden" name="polozka['.$count.'][Obrazek]" value="'.$item_data["H_Obrazek"].'">
+                            <input type="hidden" name="polozka['.$count.'][Cena]" value="'.$item["Cena"].'">
+                            <input type="hidden" name="polozka['.$count.'][ID_P]" value="'.$item["Id_p"].'">
+                            <input type="hidden" name="polozka['.$count.'][Nazev]" value="'.htmlspecialchars($item_data["Nazev"]).'">
+                            <input type="number"  class="form-control numberstyle" name="polozka['.$count.'][pocet]"  min="0" max="999" step="1" pattern="[0-9]{1,3}"  onchange="update_basket(\''.$item["Id_p"].'\' , this)"  value="'.$item["Pocet"].'">
                        
                         </div>
                         
                         <div class=" align-middle cena cena_za_kus" >
                              <!-- Product image -->
                              
-                            <span  >' . number_format($item["Cena"], thousands_separator: ' ') . ' Kč/ks</span>
+                            <span  >'.number_format($item["Cena"], thousands_separator: ' ').' Kč/ks</span>
                              
                         </div>
             
                         
-                        <div class="text-center align-middle cena cena_celkem">' . number_format($item["Cena"] * $item["Pocet"], thousands_separator: ' ') . ' Kč</div>
+                        <div class="text-center align-middle cena cena_celkem">'.number_format($item["Cena"] * $item["Pocet"], thousands_separator: ' ').' Kč</div>
                     </div> 
                 </div>
             </div>');
-                $count++;
-            }
+                    $count++;
+                }
 
             ?>
         </div>
         <?php
-        echo(' <p class="text-right final_cena">
-                    Celkem k úhradě: <strong>' . number_format($cena_celkem, thousands_separator: ' ') . ' Kč</strong>
+            echo(' <p class="text-right final_cena">
+                    Celkem k úhradě: <strong>'.number_format($cena_celkem, thousands_separator: ' ').' Kč</strong>
                 </p>
              ')
         ?>
         <div class="Checkout">
-            <a href="obchod" class="sede">Zpět do obchodu</a>
+            <a href="/" class="sede">Zpět do obchodu</a>
             <button type="submit" class="btn btn-primary btn-lg" id="del-pay-frm__submit">Checkout</button>
         </div>
 
@@ -152,18 +167,10 @@ navigace(0);
 
 </div>
 
-<script src="service-worker.js"></script>
-<script src="node_modules/axios/dist/axios.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
-<script src="js/global_funcion.js"></script>
-<script src="js/login.js"></script>
-<script src="js/basket.js"></script>
+
+<script src="/js/global_funcion.js"></script>
+<script src="/js/login.js"></script>
+<script src="/js/basket.js"></script>
 </body>
 
 </html>

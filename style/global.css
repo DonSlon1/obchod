@@ -592,3 +592,75 @@
 #user_div > a:first-child {
     border-bottom: #9d9d9d 1px solid;
 }
+
+.error-kosik {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.error-kosik span {
+    font-size: 1.8em;
+}
+
+.error-msg {
+    background-color: #f6d0d1;
+    color: #a90e15;
+}
+
+.error-msg > div > img {
+    width: auto;
+    height: 20px;
+    margin: 5px;
+}
+
+.error-msg > div {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+
+}
+
+#close-element {
+    width: auto;
+    height: 20px;
+    margin: 5px;
+}
+
+.error-msg {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.error-user {
+    width: fit-content;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+}
+
+.error-user > div {
+    display: flex;
+    flex-flow: column;
+}
+
+.error-user > div > div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.error-user > div > div > a {
+
+    width: 40%;
+}
+
+#error-recen {
+    display: none;
+    justify-content: center;
+    font-size: 1.8em;
+    font-weight: 500;
+}

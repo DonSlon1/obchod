@@ -1,3 +1,13 @@
+<?php
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
+    const MyConst = true;
+    require "pomoc/funkce.php";
+    require "pomoc/connection.php";
+    overeni_kosik();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,21 +31,21 @@
 <body>
 <?php
 
-    const MyConst = true;
 
-    require "pomoc/connection.php";
     require "pomoc/navigace.php";
     require "pomoc/doprava.php";
     require "pomoc/platba.php";
     if (session_status() != PHP_SESSION_ACTIVE) {
         session_start();
     }
-    $form_data = $_SESSION["form_data"]["polozka"];
-    $response_doprava = ziskat_dopravu();
-    $response_platba = ziskat_platbu();
+
 
     navigace(0);
 
+
+    $form_data = $_SESSION["form_data"]["polozka"];
+    $response_doprava = ziskat_dopravu();
+    $response_platba = ziskat_platbu();
 
 ?>
 <div class="container h_container  mt-5">
@@ -83,7 +93,7 @@
         </div>
         <div class="bottom">
             <div class="Checkout">
-                <a href="obchod" class="sede">Zpět do obchodu</a>
+                <a href="/" class="sede">Zpět do obchodu</a>
                 <a href="dodaci-udaje" class="btn btn-primary btn-lg required" id="submit_checkout">Pokračovat v
                     objednávce
                 </a>
@@ -93,14 +103,14 @@
 </div>
 
 <script src="service-worker.js"></script>
-<script src="node_modules/axios/dist/axios.min.js"></script>
+<script src="/node_modules/axios/dist/axios.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>
-<script src="js/checkout.js"></script>
-<script src="js/global_funcion.js"></script>
-<script src="js/login.js"></script>
+<script src="/js/checkout.js"></script>
+<script src="/js/global_funcion.js"></script>
+<script src="/js/login.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>

@@ -57,7 +57,7 @@ function doprava() {
     $("input[name='doprava']").change(function () {
         const zpusob_dopravy = this.value
         axios
-            .post("pomoc/doprava", {
+            .post("/pomoc/doprava", {
                 funkce: "zadat",
                 zpusob_dopravy: zpusob_dopravy
             }, {
@@ -65,7 +65,7 @@ function doprava() {
             })
             .then(function () {
                 axios
-                    .post("pomoc/doprava", {
+                    .post("/pomoc/doprava", {
                         funkce: "ziskat"
                     }, {
                         headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -75,7 +75,7 @@ function doprava() {
                         radio(response)
                         doprava.append(button)
                         axios
-                            .post("pomoc/platba", {
+                            .post("/pomoc/platba", {
                                 funkce: "ziskat"
                             }, {
                                 headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -106,7 +106,7 @@ function platba() {
     $("input[name='platba']").change(function () {
         const zpusob_dopravy = this.value
         axios
-            .post("pomoc/platba", {
+            .post("/pomoc/platba", {
                 funkce: "zadat",
                 zpusob_platby: zpusob_dopravy
             }, {
@@ -114,7 +114,7 @@ function platba() {
             })
             .then(function () {
                 axios
-                    .post("pomoc/platba", {
+                    .post("/pomoc/platba", {
                         funkce: "ziskat"
                     }, {
                         headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -133,7 +133,7 @@ function platba() {
 function reset_dodani() {
     $("#submit_checkout").removeClass('complete')
     axios
-        .post("pomoc/doprava", {
+        .post("/pomoc/doprava", {
             funkce: "reset",
             dodani: true,
             platba: true
@@ -146,7 +146,7 @@ function reset_dodani() {
             $("#doprava-kosik").html("").css("display", "none")
             $("#platba-kosik").html("").css("display", "none")
             axios
-                .post("pomoc/doprava", {
+                .post("/pomoc/doprava", {
                     funkce: "ziskat"
                 }, {
                     headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -162,7 +162,7 @@ function reset_dodani() {
 function reset_platby() {
     $("#submit_checkout").removeClass('complete')
     axios
-        .post("pomoc/doprava", {
+        .post("/pomoc/doprava", {
             funkce: "reset",
             platba: true
         }, {
@@ -173,7 +173,7 @@ function reset_platby() {
             $("#platba-kosik").html("").css("display", "none")
 
             axios
-                .post("pomoc/platba", {
+                .post("/pomoc/platba", {
                     funkce: "ziskat"
                 }, {
                     headers: {'X-Requested-With': 'XMLHttpRequest'}

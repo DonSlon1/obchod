@@ -46,31 +46,17 @@
         }
 
 
-        $kos_doprava["pobocka"] = '<span>
-                            <img class="kos-moznosti" src="images/icon-maskable.png" alt="prodejna">
-                            Naše prodejna
-                        </span>';
-
         $kos_doprava["posta"] = '<span>
                                 <img class="kos-moznosti" src="svg/ceska-posta.svg" alt="Česká pošta">
                                 Česká pošta
                             </span>';
 
-        $kos_doprava["dpo"] = '<span>
-            <img class="kos-moznosti" src="svg/dpd.svg" alt="DPO">
-            DPO
+        $kos_doprava["dpd"] = '<span>
+            <img class="kos-moznosti" src="svg/dpd.svg" alt="dpd">
+            DPD
             
         </span>';
 
-
-        $doprava["pobocka"] = '<label for="pobocka">
-                        <input type="radio" name="doprava" id="pobocka" value="pobocka" required>
-                        <span>
-                            Naše prodejna
-                            <img class="ob-moznosti" src="images/icon-maskable.png" alt="prodejna">
-                        </span>
-                    </label>
-                ';
 
         $doprava["posta"] = '<label for="posta">
                             <input type="radio" name="doprava" value="posta" id="posta" required>
@@ -81,11 +67,11 @@
                             
                         </label>
                 ';
-        $doprava["dpo"] = '<label for="dpo">
-                            <input type="radio" name="doprava" value="dpo" id="dpo" required>
+        $doprava["dpd"] = '<label for="dpd">
+                            <input type="radio" name="doprava" value="dpd" id="dpd" required>
                             <span>
-                                DPO
-                                <img class="ob-moznosti" src="svg/dpd.svg" alt="DPO">
+                                DPD
+                                <img class="ob-moznosti" src="svg/dpd.svg" alt="dpd">
                             </span>
                             
                         </label>

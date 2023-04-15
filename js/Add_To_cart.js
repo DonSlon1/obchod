@@ -20,14 +20,14 @@ function add_To_cart() {
     const Cena = document.getElementById("cena").value
 
 
-    axios.post('pomoc/Add_To_cart', {
+    axios.post('/pomoc/Add_To_cart', {
         function: "exist",
     }, {
         headers: {'X-Requested-With': 'XMLHttpRequest'}
     }).then(function (response) {
 
         if (response.data === 0) {
-            axios.post('pomoc/Add_To_cart', {
+            axios.post('/pomoc/Add_To_cart', {
                 function: "new",
                 data: JSON.stringify([{Id_p: Id_p, Cena: Cena, Pocet: 1}])
 
@@ -39,7 +39,7 @@ function add_To_cart() {
 
 
         } else if (response.data === 1) {
-            axios.post('pomoc/Add_To_cart', {
+            axios.post('/pomoc/Add_To_cart', {
                 function: "add",
                 prid_ubr: 1,
                 data: [{Id_p: Id_p, Cena: Cena, Pocet: 1}]

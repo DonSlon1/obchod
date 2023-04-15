@@ -7,17 +7,17 @@
           content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="white">
-    <link rel="shortcut icon" href="images/icon-maskable.png"/>
-    <link rel="apple-touch-icon" href="images/icon-apple.png">
-    <link rel="manifest" href="manifest.json"/>
+    <link rel="shortcut icon" href="../images/icon-maskable.png"/>
+    <link rel="apple-touch-icon" href="../images/icon-apple.png">
+    <link rel="manifest" href="../manifest.json"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/global.css" type="text/css" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/zadani-souboru.css">
+    <link rel="stylesheet" href="../style/global.css" type="text/css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style/zadani-souboru.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="node_modules/axios/dist/axios.min.js"></script>
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -30,16 +30,19 @@
 </head>
 
 <?php
-const MyConst = true;
+    const MyConst = true;
 
-require "pomoc/navigace.php";
+    require "../pomoc/navigace.php";
+    require "../pomoc/funkce.php";
 
-navigace();
+    navigace();
+    overeni_uzivatele();
+
 
 ?>
 <body>
 <div class="content">
-    <form action="pomoc/prod_prid" id="produkt" method="post" enctype="multipart/form-data">
+    <form action="/pomoc/prod_prid" id="produkt" method="post" enctype="multipart/form-data">
         <div class="moznosti">
             <h2 class="nadpis">
                 Základní údaje
@@ -106,7 +109,7 @@ navigace();
 
         <div class="bottom">
             <div class="Checkout">
-                <a href="obchod" class="sede">Zpět do obchodu</a>
+                <a href="/" class="sede">Zpět do obchodu</a>
                 <button class="btn btn-primary btn-lg validate">Pokračovat v
                     objednávce
                 </button>
@@ -116,9 +119,9 @@ navigace();
     </form>
 </div>
 
-<script type="text/javascript" src="js/zadani_souboru.js"></script>
-<script type="text/javascript" src="js/global_funcion.js"></script>
-<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="/js/zadani_souboru.js"></script>
+<script type="text/javascript" src="/js/global_funcion.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
 
 </body>
 </html>

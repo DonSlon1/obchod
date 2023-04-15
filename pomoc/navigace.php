@@ -18,7 +18,7 @@
         }
         echo('
 <nav class="navbar navbar-expand-lg navbar-light bg-light h_nav">
-    <a class="navbar-brand My_Store" href="obchod">My Store</a>
+    <a class="navbar-brand My_Store" href="/">Obchod</a>
     ');
         if ($full == 1) {
             echo('
@@ -36,7 +36,7 @@
         <div class="user_info">
             <div>
                 <div class="h-fit w-fitcontent pr-3">
-                    <a class="position-relative w-fitcontent " href="basket.php">
+                    <a class="position-relative w-fitcontent " href="/basket.php">
                         <i class="basket_icon" ></i>
                         <span class="count" style="display: none;bottom: -8px !important;" id="count"></span>
                     </a>
@@ -52,9 +52,12 @@
                             <i class="icon_check check_user"></i>
                         </div>
                         <div class="user_div" id="user_div">
-                            <a href="./pomoc/logout.php" >Odhlásit</a>');
+                            <a href="/pomoc/logout.php" >Odhlásit</a>
+                            <a href="/uzivatel/objednavka_uz.php" >Objednavky</a>
+                            <a href="/uzivatel/recenze_uz.php" >Recenze</a>
+                            ');
             if ($_SESSION["role"] == "Admin") {
-                echo('<a href="admin" >Admin</a>');
+                echo('<a href="/admin/admin" >Admin</a>');
             }
             echo('
                         
@@ -156,7 +159,7 @@
                                 </svg><strong>O&nbsp;akcích a&nbsp;soutěžích</strong> se dozvíte jako první.
                                 </li>
                             </ul>
-                            <a class="btn btn-primary btn-block registrace" href="registrace.php" >Chci se zaregistrovat</a>
+                            <a class="btn btn-primary btn-block registrace" href="/registrace.php" >Chci se zaregistrovat</a>
                         </div>
                     </div>
                 </div>

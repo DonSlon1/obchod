@@ -36,7 +36,7 @@ function update_basket(Id_p, element) {
             if (result === "Save") {
                 element.value = 1;
             } else {
-                axios.post('pomoc/Add_To_cart', {
+                axios.post('/pomoc/Add_To_cart', {
                     function: "delete",
                     Id_p: Id_p
                 }, {
@@ -49,7 +49,7 @@ function update_basket(Id_p, element) {
             }
         })
     } else if (RegExp("[0-9]{1,3}").test(element.value)) {
-        axios.post('pomoc/Add_To_cart', {
+        axios.post('/pomoc/Add_To_cart', {
             function: "update",
             Id_p: Id_p,
             Pocet: parseInt(element.value)
@@ -70,3 +70,5 @@ function update_basket(Id_p, element) {
 function form(e) {
     document.getElementById("del-pay-frm__submit").classList.contains("disabled") && e.preventDefault()
 }
+
+

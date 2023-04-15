@@ -1,7 +1,7 @@
 {
   "name": "Obchod",
   "short_name": "Obchod",
-  "start_url": "./service-worker.js",
+  "start_url": "/service-worker.js",
   "display": "standalone",
   "background_color": "#fff",
   "description": "Školni projekt",
@@ -9,13 +9,13 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "images/icon.png",
+      "src": "/images/icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "images/icon-maskable.png",
+      "src": "/images/icon-maskable.png",
       "sizes": "480x480",
       "type": "image/png",
       "purpose": "maskable"

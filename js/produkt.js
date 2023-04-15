@@ -1,8 +1,4 @@
-const stars = document.querySelectorAll('#rating img');
-
-// Add click event listener to each star image
 $(window).on("load", function () {
-    console.log(1)
     document.getElementById("positive").addEventListener('input', function () {
         add_new_textarea(this)
     }, {once: true})
@@ -15,6 +11,7 @@ $(window).on("load", function () {
 
 
 const stardiv = document.getElementById('rating');
+const stars = document.querySelectorAll('#rating img');
 
 stardiv.addEventListener('mouseout', function () {
     for (let i = 0; i < 5; i++) {
@@ -38,13 +35,10 @@ stars.forEach(star => {
 
 
     star.addEventListener('click', function () {
-        // Get the value of the clicked star
         const value = this.getAttribute('data-value');
 
-        // Set the value of the hidden input field
         document.querySelector('#rating-value').value = value;
 
-        // Highlight the selected stars
         highlightStars(value);
     });
 });
@@ -62,17 +56,17 @@ function highlightStarsclass(value) {
 }
 
 function highlightStars(value) {
-    // Reset all stars
     stars.forEach(star => {
         star.classList.add("grayscalestar");
     });
 
-    // Highlight the selected stars
     for (let i = 0; i < value; i++) {
         stars[i].classList.remove("grayscalestar");
 
     }
 }
+
+highlightStars($("#rating-value")[0].value)
 
 function add_new_textarea(element) {
     const parent = ((element.parentElement).parentElement).parentElement;
@@ -120,11 +114,6 @@ function auto_grow(element) {
     element.style.height = (element.scrollHeight) + "px";
 }
 
-document.getElementById('recene').addEventListener('submit', function (event) {
-    event.preventDefault();
-
-});
-
 
 const recenze = () => {
 
@@ -166,10 +155,10 @@ const recenze = () => {
         data.img_type = file.type
     }
     let formData = new FormData();
-
+    let error_div = $("#error-recen")
     if (file.size <= 10 * 1024 * 1024 || file.length === 0) {
         if (!(file.type in ['image/jpeg', 'image/png'])) {
-            axios.post('review', data, {
+            axios.post('/review', data, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function (response) {
                 console.log(response.data)
@@ -182,7 +171,7 @@ const recenze = () => {
                         formData.append("file", myNewFile);
                         axios({
                                 method: "post",
-                                url: "pomoc/move_file",
+                                url: "/pomoc/move_file",
                                 data: formData,
                                 headers: {
                                     'Accept': '*/*',
@@ -199,19 +188,31 @@ const recenze = () => {
                         })
                     }
                 } else if (response.data.response === "rating") {
-                    window.alert("Musíte vybrat počet hvězdiček")
+                    error_div.text("Musíte vybrat počet hvězdiček").css('display', 'block')
+                    setTimeout(function () {
+                        error_div.css('display', 'none')
+                    }, 10000)
                 } else {
-                    window.alert("Omlováme se něco se pokazilo zkuste to později znova")
+                    error_div.text("Omlováme se něco se pokazilo zkuste to později znova").css('display', 'block')
+                    setTimeout(function () {
+                        error_div.css('display', 'none')
+                    }, 10000)
                 }
 
             }).catch(function (error) {
                 console.log(error);
             });
         } else {
-            window.alert("Tento typ není podporován")
+            error_div.text("Tento typ obrázku není podporován").css('display', 'block')
+            setTimeout(function () {
+                error_div.css('display', 'none')
+            }, 10000)
         }
     } else {
-        window.alert("Soubor je moc velký")
+        error_div.text("Soubor je moc velký").css('display', 'block')
+        setTimeout(function () {
+            error_div.css('display', 'none')
+        }, 10000)
     }
 
 
@@ -258,11 +259,12 @@ $("#myModal1").on("hidden.bs.modal", function () {
 
 });
 
-document.getElementById("img").addEventListener("change", (ev) => {
-    img(ev.target.files[0]); //for file
+
+$("#img").on('change', function (e) {
+    img(e.target.files[0]);
 })
 
-function delete_img() {
+function delete_img(url) {
     document.querySelector("#img").value = ""
     document.getElementById('ddforimg').style.display = "none"
     const node = document.getElementById("plforimg")
@@ -270,6 +272,7 @@ function delete_img() {
     while (node.children.length >= 1) {
         node.removeChild(node.children[0])
     }
+    URL.revokeObjectURL(url)
 }
 
 function img(file) {
@@ -282,7 +285,8 @@ function img(file) {
     }
     const div = document.getElementById("plforimg")
     let element = document.createElement('img')
-    element.src = URL.createObjectURL(file)
+    let url = URL.createObjectURL(file)
+    element.src = url
     element.alt = file.name
     element.classList.add("small-img")
     element.classList.add("align-self-center")
@@ -304,7 +308,7 @@ function img(file) {
     div.appendChild(help_div)
 
     button.addEventListener('click', function () {
-        delete_img()
+        delete_img(url)
     })
     button.type = "button"
     button.classList.add("btn")

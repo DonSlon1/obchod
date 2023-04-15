@@ -18,7 +18,7 @@ const login = () => {
     const email = document.getElementById("loginEmail").value
     const Password = document.getElementById("loginPassword").value
     const keepLogin = document.getElementById("login_keep_logged_in").checked
-    axios.post('login', {
+    axios.post('/login', {
         log_reg: "login",
         keepLogin: keepLogin,
         email: email,
@@ -61,7 +61,7 @@ const registration = () => {
     const em_div = document.getElementById("registerEmail")
 
 
-    axios.post('login', {
+    axios.post('/login', {
         log_reg: 'registration',
         keepLogin: keepLogin,
         email: email,
@@ -78,7 +78,7 @@ const registration = () => {
     })
         .then(function (response) {
             if (response.data === "good_reg") {
-                location.replace("./obchod")
+                location.replace("/")
             } else if (response.data === "email_nonempty") {
                 $("#formular").addClass("form_disable");
                 if (em_div.nextSibling !== null) {
@@ -98,7 +98,7 @@ const registration = () => {
 const email_validate = (e) => {
     if (e.checkValidity() && (e.value !== "")) {
 
-        axios.post('pomoc/CheckLoginAvailability',
+        axios.post('/pomoc/CheckLoginAvailability',
             {
                 'email': e.value
             }, {
