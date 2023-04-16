@@ -55,6 +55,7 @@
                             <a href="/pomoc/logout.php" >Odhlásit</a>
                             <a href="/uzivatel/objednavka_uz.php" >Objednavky</a>
                             <a href="/uzivatel/recenze_uz.php" >Recenze</a>
+                            <a href="/uzivatel/sprava-uctu.php" >Správa učtu</a>
                             ');
             if ($_SESSION["role"] == "Admin") {
                 echo('<a href="/admin/admin" >Admin</a>');

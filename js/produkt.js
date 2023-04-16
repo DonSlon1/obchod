@@ -192,6 +192,11 @@ const recenze = () => {
                     setTimeout(function () {
                         error_div.css('display', 'none')
                     }, 10000)
+                } else if (response.data.response === "type") {
+                    error_div.text("Tento typ obrázku není podporován").css('display', 'block')
+                    setTimeout(function () {
+                        error_div.css('display', 'none')
+                    }, 10000000)
                 } else {
                     error_div.text("Omlováme se něco se pokazilo zkuste to později znova").css('display', 'block')
                     setTimeout(function () {

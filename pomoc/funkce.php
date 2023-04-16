@@ -7,6 +7,38 @@
         }
     }
 
+    function error_msg(?string $type = 'Unknown') : void
+    {
+        if ($type == 'Login') {
+            echo "<div class='error-kosik error-user' >
+                    <div>
+                        <span><b>Omlováme se ale pro přístup na tuto stránku musíte být přihlášen</b></span>
+                        <div>
+                            <a class='btn btn-primary' href='' data-toggle='modal' data-target='#LoginModal'>Přihlásit se</a>
+                            <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
+                        </div>
+                    </div>
+                </div>";
+        } elseif ($type == 'Neexistuje') {
+            echo "<div class='error-kosik error-user' >
+                    <div>
+                        <span><b>Omlováme se ale vypadá to že tento produkt nexistuje</b></span>
+                            <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
+                    </div>
+                </div>";
+        } else {
+            echo "<div class='error-kosik error-user' >
+                    <div>
+                        <span><b>Omlováme se ale něco se nepovedlo</b></span>
+                        <div>
+                            <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
+                        </div>
+                    </div>
+                </div>";
+        }
+
+    }
+
     function getParametry(mixed $vlastnosti, array &$json_parametry) : void
     {
         foreach ($vlastnosti as $index => $item) {
@@ -131,16 +163,8 @@
         }
 
         if (!isset($_SESSION["user_id"])) {
-            echo "
-                <div class='error-kosik error-user' >
-                    <div>
-                        <span><b>Omlováme se ale pro přístup na tuto stránku musíte být přihlášen</b></span>
-                        <div>
-                            <a class='btn btn-primary' href='' data-toggle='modal' data-target='#LoginModal'>Přihlásit se</a>
-                            <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
-                        </div>
-                    </div>
-                </div>
+            error_msg('Login');
+            echo "       
                 <script src='/js/global_funcion.js'></script>
                 <script src='/js/login.js'></script>
                 <script src='/js/basket.js'></script>

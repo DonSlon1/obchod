@@ -47,7 +47,9 @@
     overeni_uzivatele();
 
     if (!array_key_exists("ID_P", $_GET)) {
-        print_r("omlováme se ale vypadá to že tento podukt neexistuje");
+        error_msg('Neexistuje');
+        echo '<script type="text/javascript" src="/js/global_funcion.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>';
         exit();
     }
 
@@ -62,7 +64,9 @@
     if (count($res) > 0) {
         $res = $res[0];
     } else {
-        print_r("omlováme se ale vypadá to že tento podukt neexistuje");
+        error_msg('Neexistuje');
+        echo '<script type="text/javascript" src="/js/global_funcion.js"></script>
+              <script type="text/javascript" src="/js/login.js"></script>';
         exit();
     }
     $parametry = json_decode($res["Parametry"], true);

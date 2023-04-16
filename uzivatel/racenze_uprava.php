@@ -48,7 +48,9 @@
 
 
     if (!array_key_exists("ID_R", $_GET)) {
-        print_r("omlováme se ale vypadá to že tento podukt neexistuje");
+        error_msg("Neexistuje");
+        echo '<script src="/js/login.js"></script>
+<script src="/js/global_funcion.js"></script>';
         exit();
     }
 
@@ -59,7 +61,9 @@
     $res = mysqli_query($conn, $sql);
 
     if (0 >= mysqli_num_rows($res)) {
-        print_r("omlováme se ale vypadá to že tento podukt neexistuje");
+        error_msg("Neexistuje");
+        echo '<script src="/js/login.js"></script>
+<script src="/js/global_funcion.js"></script>';
         exit();
     }
 
@@ -69,7 +73,9 @@
     if (count($res) > 0) {
         $res = $res[0];
     } else {
-        print_r("omlováme se ale vypadá to že tento podukt neexistuje");
+        error_msg("Neexistuje");
+        echo '<script src="/js/login.js"></script>
+<script src="/js/global_funcion.js"></script>';
         exit();
     }
 
@@ -80,7 +86,7 @@
     $H_image = $res["H_Obrazek"];
 ?>
 <body>
-<div class="row row-cols-1">
+<div style="display: flex; flex-wrap: wrap">
     <div style="max-width: fit-content;margin: auto;">
         <?php
             echo "<div class='m-auto' style='max-width: fit-content'>
@@ -209,8 +215,9 @@
         <div class="row">
 
         </div>
-        <div class="row">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit Review</button>
+        <div class="bottm">
+            <a href="/uzivatel/recenze_uz.php" class="btn btn-secondary btn-lg btn-block">Zruřšit změny</a>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Potvrdit změny</button>
         </div>
     </div>
 </form>

@@ -18,6 +18,16 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="style/global.css" type="text/css">
 
+    <script src="/service-worker.js"></script>
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+
 
 </head>
 <div>
@@ -27,14 +37,32 @@
 
         require "pomoc/connection.php";
         require "pomoc/navigace.php";
+        require "pomoc/funkce.php";
 
         navigace();
         $conn = DbCon();
-        $sql1 = "SELECT * FROM predmety WHERE ID_P = '".$_GET["ID_P"]."'";
-        $sql2 = "SELECT * FROM obrazky WHERE ID_P = '".$_GET["ID_P"]."'";
+        if (!isset($_GET["ID_P"])) {
+            echo "<div class='error-kosik' >
+                    <span>Omlováme se ale vypadá to že tento produkt nexistuje</span>
+                    <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
+                </div>
+                <script src='/js/global_funcion.js'></script>
+                <script src='/js/login.js'></script>";
+            exit();
+        }
+
+        $sql1 = "SELECT * FROM predmety WHERE ID_P = {$_GET["ID_P"]}";
+        $sql2 = "SELECT * FROM obrazky WHERE ID_P = '{$_GET["ID_P"]}'";
 
 
         $images = mysqli_query($conn, $sql1);
+        if (mysqli_num_rows($images) <= 0) {
+            error_msg("Neexistuje");
+            echo "
+                <script src='/js/global_funcion.js'></script>
+                <script src='/js/login.js'></script>";
+            exit();
+        }
         $himage = $images->fetch_assoc();
 
 
@@ -187,22 +215,6 @@
                 <h3>'.number_format($cena, thousands_separator: ' ').' Kč</h3>')
     ?>
     <form class="preventDefault">
-        <!-- <div class="form-group">
-           <label for="size">Size</label>
-           <select class="form-control" id="size">
-             <option>Small</option>
-             <option>Medium</option>
-             <option>Large</option>
-           </select>
-         </div>
-         <div class="form-group">
-           <label for="color">Color</label>
-           <select class="form-control" id="color">
-             <option>Red</option>
-             <option>Blue</option>
-             <option>Green</option>
-           </select>
-         </div>-->
 
         <div class="col pl-0 pr-1">
             <button type="submit" class="btn btn-primary btn-lg btn-block" onclick="add_To_cart()">Přidat do košíku
@@ -509,7 +521,7 @@
                                        </div>'
                         ?>
 
-                        <h2 class="text-info">Jak jste se zbožím spokojen?</h2>
+                        <h2 class="text-info" style="text-align: center;">Jak jste se zbožím spokojen?</h2>
                         <div id="error-recen" class="error-msg"></div>
                         <div id="rating" class="pt-2 m-auto">
                             <img src="svg/star.svg" alt="Star" class="starrs50" data-value="1">
@@ -622,15 +634,7 @@
 </div>
 </div>
 
-<script src="/service-worker.js"></script>
-<script src="/node_modules/axios/dist/axios.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
+
 <script src="/js/produkt.js"></script>
 <script src="/js/global_funcion.js"></script>
 <script src="/js/login.js"></script>
