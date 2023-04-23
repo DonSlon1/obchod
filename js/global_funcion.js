@@ -259,9 +259,9 @@ function show(id) {
                 value = (settings.value) ? settings.value : parseFloat(input.val());
             container.className = 'numberstyle-qty';
             btnAdd.className = (max && value >= max) ? 'qty-btn qty-add disabled' : 'qty-btn qty-add';
-            btnAdd.innerHTML = '⯅';
+            btnAdd.innerText = '⯅';
             btnRem.className = (min && value <= min) ? 'qty-btn qty-rem disabled' : 'qty-btn qty-rem';
-            btnRem.innerHTML = '⯆';
+            btnRem.innerText = '⯆';
             input.wrap(container);
             input.closest('.numberstyle-qty').append(btnRem).append(btnAdd);
 

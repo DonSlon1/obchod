@@ -161,7 +161,6 @@ const recenze = () => {
             axios.post('/review', data, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function (response) {
-                console.log(response.data)
                 if (response.data.response === "good") {
                     document.getElementById("recene").reset()
                     $("#myModal1").modal('hide')
@@ -226,7 +225,6 @@ const recenze = () => {
 $("#myModal1").on("hidden.bs.modal", function () {
     const zapory = document.getElementById("zapory")
     const klady = document.getElementById("klady")
-    console.log(zapory.childNodes)
     while (zapory.childNodes.length > 2) {
 
         zapory.removeChild(zapory.lastChild)

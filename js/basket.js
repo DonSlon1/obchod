@@ -42,7 +42,6 @@ function update_basket(Id_p, element) {
                 }, {
                     headers: {'X-Requested-With': 'XMLHttpRequest'}
                 }).then(function (response) {
-                    console.log(response)
                     location.reload()
                 })
 
@@ -57,7 +56,6 @@ function update_basket(Id_p, element) {
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         })
             .then(function (response) {
-                console.log(response)
                 location.reload()
             })
 

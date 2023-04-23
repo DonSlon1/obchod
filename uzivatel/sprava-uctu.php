@@ -34,40 +34,56 @@
 <body>
 <?php
 
-    const MyConst = true;
+const MyConst = true;
 
-    require "../pomoc/connection.php";
-    require "../pomoc/navigace.php";
-    require "../pomoc/funkce.php";
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+require "../pomoc/connection.php";
+require "../pomoc/navigace.php";
+require "../pomoc/funkce.php";
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 
-    navigace(0);
-    prihlaseny_uzivatel();
-    $con = DbCon();
+navigace(0);
+prihlaseny_uzivatel();
+$con = DbCon();
 
-    $sql = "SELECT  Email,  Jmeno, Prijmeni, Telefon, Mesto, Ulice, PSC
+if (isset($_SESSION["error"])) {
+    error_msg($_SESSION["error_msg"]);
+    unset($_SESSION["error"]);
+    unset($_SESSION["error_msg"]);
+    echo '<script src="/js/global_funcion.js"></script>
+              <script src="/js/login.js"></script>';
+    exit();
+}
+
+$sql = "SELECT   Jmeno, Prijmeni, Telefon, Mesto, Ulice, PSC
             FROM uzivatel 
             LEFT JOIN adresa a ON a.ID_A = uzivatel.ID_A 
             WHERE ID_U={$_SESSION["user_id"]}";
 
-    $res = mysqli_query($con, $sql);
-    if (mysqli_num_rows($res) == 1) {
-        $res = mysqli_fetch_all($res, ASSERT_ACTIVE)[0];
-    } else {
-        error_msg();
-        echo '<script src="/js/global_funcion.js"></script>
+$res = mysqli_query($con, $sql);
+if (mysqli_num_rows($res) == 1) {
+    $res = mysqli_fetch_all($res, ASSERT_ACTIVE)[0];
+} else {
+    error_msg();
+    echo '<script src="/js/global_funcion.js"></script>
               <script src="/js/login.js"></script>';
-        exit();
-    }
+    exit();
+}
+
+if (isset($_SESSION["good"])) {
+    error_msg($_SESSION["good_msg"]);
+    unset($_SESSION["good"]);
+    unset($_SESSION["good_msg"]);
+}
 ?>
 
 <div class="container h_container  mt-5">
 
 
-    <form class=" preventDefault" autocomplete="off" method="post" id="formular" onsubmit="registration()">
+    <form autocomplete="off" method="post" id="formular" action="/pomoc/uzivatel-zmena">
+        <input type="hidden" name="user_id" <?php echo "value='{$_SESSION["user_id"]}'" ?> >
         <div class="moznosti">
             <h2 class="nadpis">
                 Kontakní Ůdaje
@@ -76,51 +92,27 @@
 
 
                 <div class="form-input full-input">
-                    <input type="email" class="reqierd_input email" maxlength="50" name="registerEmail"
-                           id="registerEmail">
-                    <label for="registerEmail">E-mail:</label>
-
-                </div>
-
-                <div class="form-input full-input">
                     <input type="tel" class="reqierd_input phone" pattern="\d{3}\d{3}\d{3}" name="telefon"
-                           id="telefon" required>
+                           id="telefon" required <?php echo "value='{$res["Telefon"]}'" ?>>
                     <label for="telefon">Telefon:</label>
 
                 </div>
 
                 <div class="form-input full-input">
-                    <input type="text" class="reqierd_input jmeno" maxlength="25" name="jmeno" id="jmeno" required>
+                    <input type="text" class="reqierd_input jmeno" maxlength="25"
+                           name="jmeno" id="jmeno" required <?php echo "value='{$res["Jmeno"]}'" ?>>
                     <label for="jmeno">Jméno:</label>
 
                 </div>
                 <div class="form-input full-input">
                     <input type="text" class="reqierd_input prijmeni" maxlength="25" name="prijmeni" id="prijmeni"
-                           required>
+                           required <?php echo "value='{$res["Prijmeni"]}'" ?>>
                     <label for="prijmeni">Příjmení:</label>
 
                 </div>
             </div>
 
-            <h2 class="nadpis">
-                Registrační údaje
-            </h2>
-            <div class="main-block">
-                <div class="form-input full-input">
 
-                    <input type="password" name="registerPassword" class="reqierd_input heslo" id="registerPassword"
-                           pattern="(?=.*[0-9])(?=.*[!?@#$%^&*])(^.{8,100}$)"
-                           required
-                    >
-                    <label for="registerPassword ">Heslo:</label>
-                    <div class='heslo_reqierd'>
-                        <span id='delka'>Délka musí být mezi 8-100 znaky</span>
-                        <span id='cislo'>Minimílně jedna číslice</span>
-                        <span id='znak'>Minimílně jeden speciální znak(@,!,?,#,)</span>
-                    </div>
-                </div>
-
-            </div>
             <h2 class="nadpis">
                 Fakturační údaje
             </h2>
@@ -129,17 +121,19 @@
                 <div class="form-input full-input">
 
                     <input type="text" class="reqierd_input ulice" name="Ulice" id="Ulice"
-                           pattern="^[0-9a-zA-Zá-žÁ-Ž\s]+[\s]+[\d]+[\/]*[\d]*$" maxlength="33" required>
+                           pattern="^[0-9a-zA-Zá-žÁ-Ž\s]+[\s]+[\d]+[\/]*[\d]*$" maxlength="33" required
+                        <?php echo "value='{$res["Ulice"]}'" ?>>
                     <label for="Ulice">Ulice a č. p.:</label>
                 </div>
                 <div class="form-input full-input">
                     <input type="text" class="reqierd_input obec" name="Mesto" id="Mesto" minlength="2" maxlength="40"
-                           required>
+                           required <?php echo "value='{$res["Mesto"]}'" ?>>
                     <label for="Mesto">Obec:</label>
 
                 </div>
                 <div class="form-input full-input">
-                    <input type="text" class="reqierd_input psc" name="PSC" id="PSC" pattern="\d{5}" required>
+                    <input type="text" class="reqierd_input psc" name="PSC" id="PSC"
+                           pattern="\d{5}" required <?php echo "value='{$res["PSC"]}'" ?>>
                     <label for="PSC">PSČ:</label>
 
                 </div>
@@ -149,10 +143,6 @@
 
         </div>
 
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="reg_keep-logged-in" name="reg_keep-logged-in">
-            <label class="form-check-label" for="reg_keep-logged-in">Keep me logged in</label>
-        </div>
 
         <button type="submit" class="btn btn-primary btn-block validate">Sign Up</button>
     </form>
@@ -167,4 +157,4 @@
 
 </html>
 <?php
-    mysqli_close($con);
+mysqli_close($con);

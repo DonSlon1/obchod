@@ -97,7 +97,6 @@ function smazat_recenzi(ID_R) {
             }, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function (response) {
-                console.log(response)
                 if (response.data === 0) {
                     location.reload();
                 } else {
@@ -123,7 +122,6 @@ function smazat(ID_P) {
             }, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
             }).then(function (response) {
-                console.log(response)
                 if (response.data === 0) {
                     location.reload();
                 } else {
