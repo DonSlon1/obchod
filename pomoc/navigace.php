@@ -1,38 +1,42 @@
 <?php
-    if ((!defined('MyConst'))) {
-        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-            header('HTTP/1.0 405 ');
-            exit;
-        }
+if ((!defined('MyConst'))) {
+    if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+        header('Location: ../error/Method-Not-Allowed.php');
+        exit;
     }
-    /**
-     * zobrazí defaultí navigaci sjtejná na všech stránkách
-     * @method navigace()
-     * @param ?int $full
-     * @return void
-     * */
-    function navigace(?int $full = 1) : void
-    {
-        if (session_status() != PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        echo('
-<nav class="navbar navbar-expand-lg navbar-light bg-light h_nav">
+}
+/**
+ * zobrazí defaultí navigaci sjtejná na všech stránkách
+ * @method navigace()
+ * @param ?int $full
+ * @return void
+ * */
+function navigace(?int $full = 1): void
+{
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    echo('
+<nav class="navbar navbar-expand-lg navbar-light bg-light h_nav" id="h_nav">
     <a class="navbar-brand My_Store" href="/">Obchod</a>
     ');
-        if ($full == 1) {
-            echo('
-            <div class=" form_dov">
+    if ($full == 1) {
+        echo('
+            <div class=" form_dov" id="search-nav">
 
-                <form class="form-inline my-2 my-lg-0 w-100">
-                    <input class="form-control mr-sm-2 search_bar" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <form class="form-inline my-2 my-lg-0 w-100 search" autocomplete="off" id="search-form" method="post" action="/hledat">
+                    <div class="search-div">
+                        <input class=" search_bar" id="search" type="text" placeholder="Search" >
+                        <button class="  submit-button" type="submit">Hledat</button>
+                       
+                    </div>
+                    <input class="reset-button" type="reset" value="X">
                 </form>
-            
+                <div id="search-resoult"></div>
             </div>
             ');
-        }
-        echo('
+    }
+    echo('
         <div class="user_info">
             <div>
                 <div class="h-fit w-fitcontent pr-3">
@@ -44,8 +48,8 @@
                 
             </div>
             ');
-        if (array_key_exists("logged_in", $_SESSION)) {
-            echo('
+    if (array_key_exists("logged_in", $_SESSION)) {
+        echo('
                     <div class="position-relative">
                         <div class=" user open_div" id="user" >
                             <i class="icon_user"></i>
@@ -57,25 +61,25 @@
                             <a href="/uzivatel/recenze_uz.php" >Recenze</a>
                             <a href="/uzivatel/sprava-uctu.php" >Správa učtu</a>
                             ');
-            if ($_SESSION["role"] == "Admin") {
-                echo('<a href="/admin/admin" >Admin</a>');
-            }
-            echo('
+        if ($_SESSION["role"] == "Admin") {
+            echo('<a href="/admin/admin" >Admin</a>');
+        }
+        echo('
                         
                             
                         </div>
                     </div>');
 
 
-        } else {
-            echo('
+    } else {
+        echo('
                     <div class="position-relative user" data-toggle="modal" data-target="#LoginModal">
                         <i class="icon_user"></i>
                     </div>
                     ');
-        }
+    }
 
-        echo('    </div>
+    echo('    </div>
 
 </nav>
 <div class="modal fade " id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
@@ -169,4 +173,4 @@
     </div>
 </div>
 ');
-    }
+}

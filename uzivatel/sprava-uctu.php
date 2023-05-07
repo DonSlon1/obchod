@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="cz">
 
 <head>
     <meta name="description" content="Dodaci udaje">
@@ -34,49 +34,49 @@
 <body>
 <?php
 
-const MyConst = true;
+    const MyConst = true;
 
-require "../pomoc/connection.php";
-require "../pomoc/navigace.php";
-require "../pomoc/funkce.php";
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
+    require "../pomoc/connection.php";
+    require "../pomoc/navigace.php";
+    require "../pomoc/funkce.php";
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
 
 
-navigace(0);
-prihlaseny_uzivatel();
-$con = DbCon();
+    navigace(0);
+    prihlaseny_uzivatel();
+    $con = DbCon();
 
-if (isset($_SESSION["error"])) {
-    error_msg($_SESSION["error_msg"]);
-    unset($_SESSION["error"]);
-    unset($_SESSION["error_msg"]);
-    echo '<script src="/js/global_funcion.js"></script>
+    if (isset($_SESSION["error"])) {
+        error_msg($_SESSION["error_msg"]);
+        unset($_SESSION["error"]);
+        unset($_SESSION["error_msg"]);
+        echo '<script src="/js/global_funcion.js"></script>
               <script src="/js/login.js"></script>';
-    exit();
-}
+        exit();
+    }
 
-$sql = "SELECT   Jmeno, Prijmeni, Telefon, Mesto, Ulice, PSC
+    $sql = "SELECT   Jmeno, Prijmeni, Telefon, Mesto, Ulice, PSC
             FROM uzivatel 
             LEFT JOIN adresa a ON a.ID_A = uzivatel.ID_A 
             WHERE ID_U={$_SESSION["user_id"]}";
 
-$res = mysqli_query($con, $sql);
-if (mysqli_num_rows($res) == 1) {
-    $res = mysqli_fetch_all($res, ASSERT_ACTIVE)[0];
-} else {
-    error_msg();
-    echo '<script src="/js/global_funcion.js"></script>
+    $res = mysqli_query($con, $sql);
+    if (mysqli_num_rows($res) == 1) {
+        $res = mysqli_fetch_all($res, ASSERT_ACTIVE)[0];
+    } else {
+        error_msg();
+        echo '<script src="/js/global_funcion.js"></script>
               <script src="/js/login.js"></script>';
-    exit();
-}
+        exit();
+    }
 
-if (isset($_SESSION["good"])) {
-    error_msg($_SESSION["good_msg"]);
-    unset($_SESSION["good"]);
-    unset($_SESSION["good_msg"]);
-}
+    if (isset($_SESSION["good"])) {
+        error_msg($_SESSION["good_msg"]);
+        unset($_SESSION["good"]);
+        unset($_SESSION["good_msg"]);
+    }
 ?>
 
 <div class="container h_container  mt-5">
@@ -157,4 +157,4 @@ if (isset($_SESSION["good"])) {
 
 </html>
 <?php
-mysqli_close($con);
+    mysqli_close($con);

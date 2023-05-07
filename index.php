@@ -1,5 +1,16 @@
+<?php
+const MyConst = true;
+
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
+require "pomoc/navigace.php";
+require "pomoc/connection.php";
+$conn = DbCon();
+
+?>
 <!doctype html>
-<html lang="en">
+<html lang="cz">
 <head>
     <meta name="description" content="Obchod">
     <meta charset="UTF-8">
@@ -20,74 +31,15 @@
 
 
 <?php
-    const MyConst = true;
 
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-    require "pomoc/navigace.php";
-    require "pomoc/connection.php";
 
-    navigace();
+navigace();
 
-    $conn = DbCon();
-    $sql1 = "SELECT * FROM predmety ";
+$sql1 = "SELECT ID_P, Nazev, Popis, Cena_Bez_DPH, Hodnoceni, H_Obrazek , COUNT(ID_P) FROM predmety ";
 
-    $res = mysqli_query($conn, $sql1);
-    $myArray = [];
-    $count = 0;
-    while ($row = $res->fetch_assoc()) {
-
-        $sql2 = "SELECT * FROM recenze WHERE ID_P = '".$row['ID_P']."'";
-        $hod_query = mysqli_query($conn, $sql2);
-        $hod = 0;
-        $pocet = 0;
-        $Nex_Row = false;
-        while ($rov1 = $hod_query->fetch_assoc()) {
-            $hod = $hod + $rov1['Hodnoceni'];
-            $pocet = $pocet + 1;
-        }
-        if ($pocet == 0) {
-            $vls = 0.0;
-        } else {
-            $vls = round($hod / $pocet, 1);
-        }
-
-        $count += 1;
-        if ($count == 1) {
-            echo '<div class="row g-3">';
-        }
-
-        echo('
-
-        <div class="produkt input-group-sm mb-3 col-md-4 ">
-            <div class="top">
-
-                <img class="image-produktu" title="'.$row["Nazev"].'" alt="'.$row["Nazev"].'" src="./images/'.$row['H_Obrazek'].'"/>
-                <div>
-                <div class="star-row">
-                    <div class="hvezdy" title="Hodnocení '.$vls.'/5">
-                        <div class="hvezdy-prazdne"></div>
-                        <div class="pocet-hvezd" style="width:'.($vls * 20).'%"></div>
-                    </div>
-                </div>
-                </div>
-                <h2 class="nazev-produktu">'.$row["Nazev"].'</h2>
-                '.$row["Popis"].'
-            </div>
-            <div class="sopdek">
-                <div class="cena">'.$row["Cena_Bez_DPH"].'</div>
-                <div class="stranka"><a href="./produkt.php?ID_P='.$row["ID_P"].'"><button>aaa</button></a></div>
-            </div>
-        </div>
-    '
-        );
-        if ($count == 3) {
-            echo '</div>';
-            $count = 0;
-        }
-
-    }
+$res = mysqli_query($conn, $sql1);
+$myArray = [];
+$count = 0;
 
 
 ?>
@@ -107,12 +59,7 @@
 
 
 </body>
-<style>
 
-    .nav-item > span {
-        cursor: pointer;
-    }
-</style>
 </html>
 
 

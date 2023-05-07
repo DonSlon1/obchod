@@ -2,7 +2,7 @@
 
 if ((!defined('MyConst'))) {
     if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-        header('HTTP/1.0 405 ');
+        header('Location: ../error/Method-Not-Allowed.php');
         exit;
     }
 }
@@ -72,14 +72,12 @@ function overeni_uzivatele(): void
     }
     if (isset($_SESSION['role'])) {
         if ($_SESSION["role"] != "Admin") {
-            print_r($_SESSION);
-            header('HTTP/1.0 405 ');
+
+            header('Location: ../error/Forbidden.php');
             exit;
         }
     } else {
-        print_r($_SESSION);
-
-        header('HTTP/1.0 405 ');
+        header('Location: ../error/Forbidden.php');
         exit;
     }
 }
@@ -170,12 +168,12 @@ function prihlaseny_uzivatel(): void
     }
 
     if (!isset($_SESSION["user_id"])) {
-        error_msg('Login');
-        echo "       
-                <script src='/js/global_funcion.js'></script>
-                <script src='/js/login.js'></script>
-                <script src='/js/basket.js'></script>
-            ";
-        exit();
+        header('Location: ../error/Unauthorized.php');
+        exit;
     }
+}
+
+function zobrazit_predmet(array $data): void
+{
+
 }

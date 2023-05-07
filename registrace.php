@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="cz">
 
 <head>
     <meta name="description" content="Dodaci udaje">

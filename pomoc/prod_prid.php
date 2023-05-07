@@ -1,6 +1,6 @@
 <?php
     if (!array_key_exists("vlasnoti", $_POST)) {
-        header('HTTP/1.0 405 ');
+        header('Location: ../error/Method-Not-Allowed.php');
         exit;
 
     }

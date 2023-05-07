@@ -1,5 +1,13 @@
+<?php
+
+    const MyConst = true;
+
+
+    require "../pomoc/funkce.php";
+    prihlaseny_uzivatel();
+?>
 <!doctype html>
-<html lang="en">
+<html lang="cz">
 
 <head>
     <meta name="description" content="Košík">
@@ -42,13 +50,9 @@
 </head>
 <?php
 
-    const MyConst = true;
-
     require "../pomoc/connection.php";
     require "../pomoc/navigace.php";
-    require "../pomoc/funkce.php";
     navigace(0);
-    prihlaseny_uzivatel();
 
 ?>
 <body>

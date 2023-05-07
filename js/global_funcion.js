@@ -171,18 +171,19 @@ function Get_Basket() {
         Pocet = response.data
 
         if (Pocet > 0) {
-            const basket = document.getElementById("count")
-            basket.style.display = "block";
-            basket.innerText = Pocet.toString()
+            $(document).ready(function () {
+                const basket = document.getElementById("count")
+                basket.style.display = "block";
+                basket.innerText = Pocet.toString()
+            })
         }
     })
 }
 
+Get_Basket()
+
 window.onload = function () {
-    Get_Basket()
-    /*$("#user_open").one("mousedown", function () {
-        show("#user")
-    })*/
+
 
     $.fn.opendiv = function () {
         return this.each(function () {
@@ -238,19 +239,11 @@ function show(id) {
             max: undefined
         }, options);
 
-        /*
-         * Init every element
-         */
+
         return this.each(function (i) {
 
-            /*
-             * Base options
-             */
             let input = $(this);
 
-            /*
-       * Add new DOM
-       */
             let container = document.createElement('div'),
                 btnAdd = document.createElement('a'),
                 btnRem = document.createElement('a'),
@@ -333,3 +326,80 @@ function show(id) {
 }(jQuery));
 
 
+$("#search").on('keyup', function () {
+    hleadat()
+}).on('click', function () {
+    if ($("#search-resoult").text() !== '') {
+        $("#h_nav").addClass('active')
+        $("#search-resoult").addClass('active')
+        $("#search-nav").addClass('active')
+
+    }
+
+})
+$("#search-form").on('reset', function () {
+    $("#search-resoult").empty()
+})
+
+
+function hleadat() {
+    let search = $("#search").val()
+    let search_resoult = $("#search-resoult")
+    let search_nav = $("#search-nav")
+    search_resoult.empty()
+    let h_nav = $("#h_nav")
+    if (search !== "") {
+        axios.post('/pomoc/hledat', {
+            search: search
+        }, {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        }).then(function (response) {
+            console.log(response)
+            search_resoult.append(response.data)
+            let data = response.data
+            if (data.length > 0) {
+                data.forEach(item => {
+                    let obrazek = $('<img/>', {
+                            src: "/images/" + item.H_Obrazek,
+                            alt: "",
+                            class: "search-image"
+                        }),
+                        text = $('<span/>', {
+                            text: item.Nazev
+                        }),
+                        container = $('<a/>', {
+                            href: "/produkt?ID_P=" + item.ID_P
+                        })
+
+                    container.append(obrazek).append(text)
+                    console.log(obrazek)
+                    h_nav.addClass('active')
+                    search_nav.addClass('active')
+                    search_resoult.append(container).addClass('active')
+
+                })
+
+            } else {
+                h_nav.removeClass('active')
+                search_resoult.empty()
+                search_nav.removeClass('active')
+
+            }
+
+        })
+    } else {
+        search_resoult.empty().removeClass('active')
+        h_nav.removeClass('active')
+        search_nav.removeClass('active')
+
+
+    }
+}
+
+$(document).on('click', function (event) {
+    if (!$(event.target).closest('#search , #search-resoult').length) {
+        $("#h_nav").removeClass('active')
+        $("#search-nav").removeClass('active')
+        $("#search-resoult").removeClass('active')
+    }
+});

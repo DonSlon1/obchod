@@ -9,7 +9,7 @@
     overeni_kosik();
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="cz">
 <head>
     <meta name="description" content="Košík">
     <meta charset="UTF-8">

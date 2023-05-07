@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="cz">
 
 <head>
     <meta name="description" content="admin-panel">
@@ -35,8 +35,9 @@
     const MyConst = true;
     require "../pomoc/funkce.php";
     require "../pomoc/navigace.php";
-    navigace(0);
     overeni_uzivatele();
+    navigace(0);
+
 ?>
 <div class="d-flex flex-column">
     <a href="zadani-souboru.php">zadnání předmětu</a>
