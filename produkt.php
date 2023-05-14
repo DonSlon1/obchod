@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="cz">
+<html lang="cs">
 <head>
     <meta name="description" content="Produkt">
     <meta charset="UTF-8">
@@ -14,18 +14,14 @@
 
     <link rel="stylesheet" href="style/product.css" type="text/css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="style/global.css" type="text/css">
 
     <script src="/service-worker.js"></script>
     <script src="/node_modules/axios/dist/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    <script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
             crossorigin="anonymous"></script>
 
 
@@ -41,21 +37,24 @@
 
     navigace();
     $conn = DbCon();
-    if (!isset($_GET["ID_P"]) || !is_numeric($_GET["ID_P"])) {
-        echo "<div class='error-kosik' >
-                    <span>Omlováme se ale vypadá to že tento produkt nexistuje</span>
-                    <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
-                </div>
+    if (!isset($_GET["ID_P"])) {
+        error_msg("Neexistuje");
+        echo "
                 <script src='/js/global_funcion.js'></script>
                 <script src='/js/login.js'></script>";
         exit();
     }
 
-    $sql1 = "SELECT * FROM predmety WHERE ID_P = {$_GET["ID_P"]}";
-    $sql2 = "SELECT * FROM obrazky WHERE ID_P = '{$_GET["ID_P"]}'";
+    $sql1 = "SELECT * 
+            FROM predmety 
+            WHERE ID_P = ?";
+
+    $sql2 = "SELECT * 
+            FROM obrazky 
+            WHERE ID_P = ?";
 
 
-    $images = mysqli_query($conn, $sql1);
+    $images = mysqli_execute_query($conn, $sql1, [$_GET["ID_P"]]);
     if (mysqli_num_rows($images) <= 0) {
         error_msg("Neexistuje");
         echo "
@@ -66,7 +65,7 @@
     $himage = $images->fetch_assoc();
 
 
-    $images = mysqli_query($conn, $sql2);
+    $images = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
 
 
     echo('
@@ -141,7 +140,7 @@
                                                 <img src="./images/' . $himage['H_Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="d-block   img-dislpay"  style="max-width: 50vw" >
                                             </div>
                                         </div>');
-                                        $images = mysqli_query($conn, $sql2);
+                                        $images = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
                                         while ($image = $images->fetch_assoc()) {
 
                                             echo('
@@ -178,7 +177,7 @@
                                 <img src="./images/' . $himage['H_Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="d-block mx-auto image_galery  cursor_pointer" style="width: 150px" data-slide-to="0" data-target="#big-product-gallery">
                             </div>
                             </div>');
-                                $images = mysqli_query($conn, $sql2);
+                                $images = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
                                 $index = 1;
                                 while ($image = $images->fetch_assoc()) {
 
@@ -205,9 +204,9 @@
 <!-- Product info -->
 <div class="col-md-6">
     <?php
-    $nazev = $himage['Nazev'];
-    $popis = $himage['Popis'];
-    $cena = $himage['Cena_Bez_DPH'];
+    $nazev = htmlspecialchars($himage['Nazev']);
+    $popis = htmlspecialchars($himage['Popis']);
+    $cena = htmlspecialchars($himage['Cena_Bez_DPH']);
     echo('
                 <input id="cena" type="hidden" value="' . $cena . '">
                 <h2>' . $nazev . '</h2>
@@ -228,7 +227,7 @@
                         <i class="icon_check check p-3"></i>
                     </div>
                     <span class="green_icon align-self-center font22">
-                                Zboží bylo ůspěšně přidíno do košíku
+                                Zboží bylo úspěšně přidíno do košíku
                             </span>
                 </div>
             </div>
@@ -265,19 +264,21 @@
                     <table class="table table-bordered">
                         <tbody>
                         <?php
-                        $sql2 = "SELECT Parametry FROM predmety WHERE ID_P = '" . $_GET["ID_P"] . "'";
-                        $res = mysqli_fetch_all(mysqli_query($conn, $sql2));
+                        $sql2 = "SELECT Parametry 
+                                FROM predmety 
+                                WHERE ID_P = ?";
+                        $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]));
                         $res = $res[0][0];
 
                         $produkt_parameters = json_decode($res, true);
                         foreach ($produkt_parameters as $key => $parameter) {
                             echo '<tr class="table-primary">
-                                        <th colspan="2">' . $key . '</th>
+                                        <th colspan="2">' . htmlspecialchars($key) . '</th>
                                      </tr>';
                             foreach ($parameter as $index => $item) {
                                 echo '<tr>
-                                            <th>' . $index . '</th>
-                                            <td>' . $item . '</td>
+                                            <th>' . htmlspecialchars($index) . '</th>
+                                            <td>' . htmlspecialchars($item) . '</td>
                                           </tr>';
                             }
 
@@ -299,8 +300,10 @@
 
         <?php
         //Hodnoceni
-        $sql2 = "SELECT Hodnoceni FROM recenze WHERE ID_P = '" . $_GET["ID_P"] . "'";
-        $hod_query = mysqli_query($conn, $sql2);
+        $sql2 = "SELECT Hodnoceni 
+                FROM recenze 
+                WHERE ID_P = ?";
+        $hod_query = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
         $hod = 0;
         $pocet = mysqli_num_rows($hod_query);
         $pocethod = array("1" => 0, "2" => 0, "3" => 0, "4" => 0, "5" => 0);
@@ -406,21 +409,23 @@
             <div class="row">
                 <div class="col-md-6 minw-100">');
 
-        $sql2 = "SELECT U.Jmeno , U.Prijmeni , R.Hodnoceni , R.Popis ,R.Zaporne,R.Kladne,R.Obrazek  FROM recenze R ,uzivatel U WHERE R.ID_U=U.ID_U AND ID_P =  '" . $_GET["ID_P"] . "'";
-        $hod_query = mysqli_query($conn, $sql2);
+        $sql2 = "SELECT U.Jmeno , U.Prijmeni , R.Hodnoceni , R.Popis ,R.Zaporne,R.Kladne,R.Obrazek  
+                FROM recenze R ,uzivatel U 
+                WHERE R.ID_U=U.ID_U AND ID_P =  ?";
+        $hod_query = mysqli_execute_query($conn, $sql2, [$_GET["ID_P"]]);
         $modalnumber = 0;
         while ($rov1 = $hod_query->fetch_assoc()) {
 
             echo('
                          <div class="mb-3 border-bottom pb-2">
-                         <h5>' . $rov1["Jmeno"] . ' ' . $rov1["Prijmeni"] . ' </h5>
+                         <h5>' . htmlspecialchars($rov1["Jmeno"]) . ' ' . htmlspecialchars($rov1["Prijmeni"]) . ' </h5>
                           <div class="d-flex align-items-center mb-3">
-                            <div class="star-rating-wrapper" title="Hodnocení ' . $rov1["Hodnoceni"] . '/5">
+                            <div class="star-rating-wrapper" title="Hodnocení ' . htmlspecialchars($rov1["Hodnoceni"]) . '/5">
                                 <div class="empty-stars-element"></div>
                                 <div class="stars-element" style="width:' . ($rov1["Hodnoceni"] * 20) . '%"></div>
                             </div>
                           </div>
-                          <p class="mb-0 minw-100 text-break">' . $rov1["Popis"] . '</p>
+                          <p class="mb-0 minw-100 text-break">' . htmlspecialchars($rov1["Popis"]) . '</p>
                           <div class="container">
                           <div class="row ">
                                 <div class="col pr-5 mt-2">');
@@ -433,7 +438,7 @@
                                                     </svg>
                                               </div>
                                               <div class="col pl-1">
-                                                ' . $value . '
+                                                ' . htmlspecialchars($value) . '
                                               </div>
                                             </div>');
                 }
@@ -450,7 +455,7 @@
                                                 </svg>
                                                 </div>
                                                 <div class="col pl-1">
-                                                ' . $value . '
+                                                ' . htmlspecialchars($value) . '
                                                 </div>
                                             </div>');
                 }
@@ -509,15 +514,17 @@
                 <div class="row row-cols-1">
                     <div style="max-width: fit-content;margin: auto;">
                         <?php
-                        $sql1 = " SELECT Nazev FROM predmety WHERE ID_P= '" . $_GET["ID_P"] . "'";
-                        $res = mysqli_query($conn, $sql1);
+                        $sql1 = " SELECT Nazev 
+                                    FROM predmety 
+                                    WHERE ID_P= ?";
+                        $res = mysqli_execute_query($conn, $sql1, [$_GET["ID_P"]]);
                         $Nazev = $res->fetch_assoc();
                         echo '<div class="m-auto" style="max-width: fit-content">
                                           <img src="./images/' . $himage['H_Obrazek'] . '" alt="' . htmlspecialchars($himage["Nazev"]) . '" class="mh-100 d-inline img-fluid " style="height: 10em;">
                                       </div>
                                       <div class="w-100 text-center pt-2 pb-2 text-muted">
                                       
-                                       ' . $Nazev["Nazev"] . '
+                                       ' . htmlspecialchars($Nazev["Nazev"]) . '
                                        </div>'
                         ?>
 

@@ -1,0 +1,148 @@
+.side-panel {
+    min-width: 22%;
+    width: 22%;
+
+}
+
+.vyber-form {
+    display: flex;
+    flex-flow: column;
+    background: #eef9ff;
+    padding: 15px;
+}
+
+#slider {
+    margin-bottom: 20px;
+    padding: 0 7px;
+}
+
+.sear-kat {
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: #bcd0dc solid 1px;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+
+.input {
+    display: flex;
+}
+
+.num-inp {
+    align-items: center;
+    display: grid;
+    gap: inherit;
+    grid-area: min-input;
+    grid-auto-columns: min-content;
+    grid-auto-flow: column;
+    grid-template: "input" / 1fr;
+}
+
+.num-inp input {
+    min-width: 0;
+    -moz-appearance: textfield;
+}
+
+.num-inp div {
+    margin: 0 5px;
+}
+
+
+.slider-round {
+    height: 10px;
+}
+
+.slider-round .noUi-connect {
+    background: #c0392b;
+}
+
+.slider-round .noUi-handle {
+    height: 18px;
+    width: 18px;
+    top: -5px;
+    right: -9px; /* half the width */
+    border-radius: 9px;
+}
+
+
+.num-inp input[type="number"]::-webkit-inner-spin-button,
+.num-inp input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#input-select,
+#input-number {
+    padding: 7px;
+    margin: 15px 5px 5px;
+    width: 70px;
+}
+
+.noUi-handle.noUi-handle-lower:before, .noUi-handle.noUi-handle-lower:after {
+    display: none;
+}
+
+.noUi-handle.noUi-handle-upper:before, .noUi-handle.noUi-handle-upper:after {
+    display: none;
+}
+
+.noUi-horizontal .noUi-handle {
+    height: 22px !important;
+    width: 22px !important;
+    right: -11px !important;
+    top: -5px !important;
+    border-radius: 50%;
+}
+
+#slider-hide .noUi-tooltip {
+    display: none;
+}
+
+#slider-hide .noUi-active .noUi-tooltip {
+    display: block;
+}
+
+.cont {
+    margin-bottom: 15px;
+}
+
+.empty {
+    filter: grayscale(100%);
+}
+
+.star-count {
+    display: flex;
+}
+
+.stars > div, input {
+    margin-right: 10px;
+}
+
+.stars {
+    display: flex;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.stars > span {
+    margin-left: 0 !important;
+}
+
+.stars:hover > span {
+    font-weight: 500;
+}
+
+.vyrobce > span {
+    margin-left: 0 !important;
+}
+
+.vyrobce {
+    display: flex;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.vyrobce:hover > span {
+    font-weight: 500;
+}

@@ -1,17 +1,20 @@
 <?php
 
-    const MyConst = true;
+const MyConst = true;
 
-    require "connection.php";
-    require "funkce.php";
-    $_POST = json_decode(file_get_contents('php://input'), true);
-    if (array_key_exists("id", $_POST)) {
-        $conn = DbCon();
-        $sql = "SELECT p.Nazev , Poce_kusu , p.ID_P ,p.Cena_Bez_DPH FROM  objednavka_predmet left join predmety p on p.ID_P = objednavka_predmet.ID_P WHERE ID_OB = {$_POST["id"]}";
+require "connection.php";
+require "funkce.php";
+$_POST = json_decode(file_get_contents('php://input'), true);
+if (array_key_exists("id", $_POST)) {
+    $conn = DbCon();
+    $sql = "SELECT p.Nazev , Poce_kusu , p.ID_P ,p.Cena_Bez_DPH 
+                FROM  objednavka_predmet 
+                left join predmety p on p.ID_P = objednavka_predmet.ID_P 
+                WHERE ID_OB = ?";
 
-        $res = mysqli_fetch_all(mysqli_query($conn, $sql), ASSERT_ACTIVE);
-        echo "<div class='table-group'>";
-        echo "<div> 
+    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$_POST["id"]]), ASSERT_ACTIVE);
+    echo "<div class='table-group'>";
+    echo "<div> 
                 <span>Předměty</span>
                 <table> 
                 <thead>
@@ -24,24 +27,24 @@
                     </tr>
                 </thead>
                 <tbody>";
-        foreach ($res as $item) {
-            $cena = number_format(intval($item["Cena_Bez_DPH"]), thousands_separator: ' ');
-            echo "<tr>
+    foreach ($res as $item) {
+        $cena = number_format(intval($item["Cena_Bez_DPH"]), thousands_separator: ' ');
+        echo "<tr>
                     <td>{$item["ID_P"]}</td>
                     <td>{$item["Nazev"]}</td>
                     <td>{$item["Poce_kusu"]}</td>
                     <td>$cena Kč/ks</td>
                   </tr>";
-        }
-        echo "</tbody></table></div>";
+    }
+    echo "</tbody></table></div>";
 
-        $sql = "SELECT du.Telefon , du.Email , du.Jmeno,du.Přijmeni ,du.Mesto,du.Ulice_Cp,du.PSC
+    $sql = "SELECT du.Telefon , du.Email , du.Jmeno,du.Přijmeni ,du.Mesto,du.Ulice_Cp,du.PSC
                 FROM  objednavka 
                 left join dodaci_udaje du on du.ID_DU = objednavka.ID_DU 
-                WHERE ID_OB = {$_POST["id"]}";
+                WHERE ID_OB = ?";
 
-        $res = mysqli_fetch_all(mysqli_query($conn, $sql), ASSERT_ACTIVE)[0];
-        echo "<div> 
+    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$_POST["id"]]), ASSERT_ACTIVE)[0];
+    echo "<div> 
                 <span>Kontaktní údaje</span>
                 <table> 
                 <thead>
@@ -83,5 +86,5 @@
         
         </tbody></table>
         </div>";
-        echo "</div>";
-    }
+    echo "</div>";
+}

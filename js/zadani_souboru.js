@@ -102,6 +102,7 @@ $("#attachment").on('change', function (e) {
 
 const h_obr = new DataTransfer();
 $("#h_obr").on('change', function (e) {
+
     if (this.files.length !== 0) {
         $('label[for="h_obr"]').text('Změnit Obrázek')
         // Přidání nového souboru do seznamu souborů
@@ -162,9 +163,119 @@ $("#h_obr").on('change', function (e) {
 
 });
 
+
+const vyr_obr = new DataTransfer();
+$("#vyr_obr").on('change', function (e) {
+
+    if (this.files.length !== 0) {
+        $('label[for="vyr_obr"]').text('Změnit Obrázek')
+        // Přidání nového souboru do seznamu souborů
+
+        let fileBloc = $('<span/>', {
+                class: 'file-block'
+            }),
+            fileName = $('<span/>', {
+                class: 'name',
+                text: this.files.item(0).name
+            }),
+            fileSize = $('<span/>', {
+                class: 'size',
+                text: formatBytes(this.files.item(0).size)
+            }),
+            filePreview = $('<img/>', {
+                class: 'preview'
+            });
+        fileBloc.append(filePreview)
+            .append(fileName)
+            .append(fileSize)
+            .append('<span class="file-delete">×</span>');
+
+        $("#vyr_obr_filesList").empty().append(fileBloc);
+
+        // Zobrazení náhledu obrázku
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            filePreview.attr('src', e.target.result);
+        };
+        reader.readAsDataURL(this.files[0]);
+
+        // Přidání souboru do objektu datového přenosu pro nahrávání souborů
+        vyr_obr.items.clear();
+        vyr_obr.items.add(this.files[0]);
+
+    }
+
+    this.files = vyr_obr.files;
+
+    // Nastavení události click na ikonu pro smazání souboru
+    $('span.file-delete').click(function (e) {
+
+        // Odstranění bloku souboru ze seznamu souborů
+        $(this).parent().remove();
+
+        // Odstranění souboru z objektu datového přenosu pro nahrávání souborů
+        vyr_obr.items.clear()
+
+        // Aktualizace seznamu souborů v inputu file po smazání souboru
+        document.getElementById('vyr_obr').files = vyr_obr.files;
+        file_size_check_vyrobce($($(e.target)[0].form).find('input[type="file"]'), e)
+        $('label[for="vyr_obr"]').text('Přidat Obrázek')
+
+    });
+
+    file_size_check_vyrobce($($(e.target)[0].form).find('input[type="file"]'), e)
+
+});
+
 $("#produkt").on('submit', function (e) {
     file_size_check($((e.target)[0].form).find('input[type="file"]'), e);
 })
+
+
+function file_size_check_vyrobce(file_inputs, e) {
+    console.log(file_inputs)
+    const error_div = $("#file_block_vyrobce").children().first();
+    let size = 0;
+
+    for (let i = 0; i < file_inputs.length; i++) {
+        let file_liset = file_inputs[i].files
+
+        for (let j = 0; j < file_liset.length; j++) {
+            size += file_liset[j].size
+        }
+    }
+
+    if (error_div.attr('id') === 'file_inv') {
+        $('#file_inv').remove()
+    }
+
+
+    if ($("#vyr_obr")[0].files.length === 0 && e.type === "submit") {
+        $("#file_block_vyrobce").prepend($('<div/>', {
+            class: 'invlaid img-inv',
+            id: 'file_inv',
+            text: 'Obrázek nesmí být prázdný'
+        }))
+        if (e.type === "submit") {
+            e.preventDefault()
+        }
+        $("#vyr_obr").parent().addClass('invalid_file')
+    } else if (size >= 40 * 1024 * 1024) {
+        $("#file_block_vyrobce").prepend($('<div/>', {
+            class: 'invlaid',
+            id: 'file_inv',
+            text: 'Obrázky překročili maximální velikst(40 MB)'
+        }))
+        if (e.type === "submit") {
+            e.preventDefault()
+        }
+        $(".file-input").addClass('invalid_file')
+    } else {
+        $(".file-input").removeClass('invalid_file')
+    }
+
+
+}
 
 function file_size_check(file_inputs, e) {
     console.log(file_inputs)
@@ -182,10 +293,10 @@ function file_size_check(file_inputs, e) {
     if (error_div.attr('id') === 'file_inv') {
         $('#file_inv').remove()
     }
-
+    let error = false;
     if ($("#h_obr")[0].files.length === 0 && e.type === "submit") {
         $("#file_block").prepend($('<div/>', {
-            class: 'invlaid',
+            class: 'invlaid img-inv',
             id: 'file_inv',
             text: 'Hlavní obrázek nesmí být prázdný'
         }))
@@ -193,6 +304,7 @@ function file_size_check(file_inputs, e) {
             e.preventDefault()
         }
         $("#h_obr").parent().addClass('invalid_file')
+        error = true;
     } else {
         $("#h_obr").parent().removeClass('invalid_file')
     }
@@ -207,7 +319,7 @@ function file_size_check(file_inputs, e) {
             e.preventDefault()
         }
         $(".file-input").addClass('invalid_file')
-    } else {
+    } else if (!error) {
         $(".file-input").removeClass('invalid_file')
     }
 
@@ -264,3 +376,91 @@ function on_change_delete(number, count, id) {
     let element = document.getElementById(id);
     element.removeAttribute("onchange");
 }
+
+function error_msg(text, form) {
+    if ($(form.children()[0]).hasClass('error-msg')) {
+        $(form.children()[0]).remove()
+    }
+    let error_div = $('<div>', {
+        class: 'error-msg',
+        text: text
+
+    })
+    form.prepend(error_div)
+    setTimeout(function () {
+        error_div.remove()
+    }, 5000)
+}
+
+function nova_kategorie() {
+
+    let input = $("#new_kategorie")
+    let form = $(input[0].form)
+    let hodnota = (input.val()).toLocaleUpperCase();
+
+
+    axios.post('/pomoc/pridat-vyrobce', {
+        funkce: "kategorie",
+        nazev: hodnota
+    }, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    }).then(function (response) {
+        if (response.data === 1) {
+            location.reload()
+        } else if (response.data === "exist") {
+            error_msg('Tato kategorie již existuje', form)
+
+        } else {
+            error_msg('Omlováme se něco se pokazilo zkuste to později', form)
+        }
+    })
+}
+
+function novy_vyrobce(e) {
+    let input = $("#new_vyrobce")
+    let form = $(input[0].form)
+    let hodnota = (input.val()).toLocaleUpperCase();
+
+
+    axios.post('/pomoc/pridat-vyrobce', {
+        funkce: "vyrobce",
+        nazev: hodnota
+    }, {
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    }).then(function (response) {
+        if (response.data === 1) {
+            form.submit()
+        } else if (response.data === "exist") {
+            error_msg('Tato kategorie již existuje', form)
+            $("#vyrobce_form").one('submit', function (e) {
+                e.preventDefault()
+                file_size_check_vyrobce($((e.target)[0].form).find('input[type="file"]'), e);
+                novy_vyrobce(e)
+            })
+
+        } else {
+            error_msg('Omlováme se něco se pokazilo zkuste to později', form)
+            $("#vyrobce_form").one('submit', function (e) {
+                e.preventDefault()
+                file_size_check_vyrobce($((e.target)[0].form).find('input[type="file"]'), e);
+                novy_vyrobce(e)
+            })
+        }
+    })
+}
+
+$("#kategorie_form").on('submit', function (e) {
+    e.preventDefault()
+    nova_kategorie()
+})
+
+$("#vyrobce_form").one('submit', function (e) {
+    e.preventDefault()
+    file_size_check_vyrobce($((e.target)[0].form).find('input[type="file"]'), e);
+    novy_vyrobce(e)
+})
+
+
+setTimeout(function () {
+    $("#message").remove()
+}, 10000)

@@ -1,33 +1,33 @@
 <?php
 
-    if ((!defined('MyConst'))) {
-        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-            header('Location: ../error/Method-Not-Allowed.php');
-            exit;
-        }
+if ((!defined('MyConst'))) {
+    if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+        header('Location: ../error/Method-Not-Allowed.php');
+        exit;
     }
+}
 
-    $_POST = json_decode(file_get_contents('php://input'), true);
+$_POST = json_decode(file_get_contents('php://input'), true);
 
-    const MyConst = true;
+const MyConst = true;
 
-    require "connection.php";
+require "connection.php";
 
-    if (array_key_exists("moznost", $_POST)) {
+if (array_key_exists("moznost", $_POST)) {
 
-        $moznost = $_POST["moznost"];
-        $id_ob = $_POST["id_ob"];
+    $moznost = $_POST["moznost"];
+    $id_ob = $_POST["id_ob"];
 
-        $conn = DbCon();
+    $conn = DbCon();
 
-        $sql = "UPDATE `objednavka` 
-                SET Stav = '$moznost'
-                WHERE ID_OB = $id_ob";
+    $sql = "UPDATE `objednavka` 
+                SET Stav = ?
+                WHERE ID_OB = ?";
 
-        mysqli_query($conn, $sql);
+    mysqli_execute_query($conn, $sql, [$moznost, $id_ob]);
 
-        echo 0;
+    echo 0;
 
-    } else {
-        echo 1;
-    }
+} else {
+    echo 1;
+}

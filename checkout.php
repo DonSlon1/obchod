@@ -1,15 +1,15 @@
 <?php
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
-    const MyConst = true;
-    require "pomoc/funkce.php";
-    require "pomoc/connection.php";
-    overeni_kosik();
+const MyConst = true;
+require "pomoc/funkce.php";
+require "pomoc/connection.php";
+overeni_kosik();
 ?>
 <!doctype html>
-<html lang="cz">
+<html lang="cs">
 <head>
     <meta name="description" content="Košík">
     <meta charset="UTF-8">
@@ -21,8 +21,8 @@
     <link rel="apple-touch-icon" href="images/icon-apple.png">
     <link rel="manifest" href="manifest.json"/>
     <link rel="stylesheet" href="style/product.css" type="text/css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="style/global.css" type="text/css" crossorigin="anonymous">
     <link rel="stylesheet" href="style/basket_nav.css">
     <link rel="stylesheet" href="style/checkout.css">
@@ -32,20 +32,20 @@
 <?php
 
 
-    require "pomoc/navigace.php";
-    require "pomoc/doprava.php";
-    require "pomoc/platba.php";
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+require "pomoc/navigace.php";
+require "pomoc/doprava.php";
+require "pomoc/platba.php";
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 
-    navigace(0);
+navigace(0);
 
 
-    $form_data = $_SESSION["form_data"]["polozka"];
-    $response_doprava = ziskat_dopravu();
-    $response_platba = ziskat_platbu();
+$form_data = $_SESSION["form_data"]["polozka"];
+$response_doprava = ziskat_dopravu();
+$response_platba = ziskat_platbu();
 
 ?>
 <div class="container h_container  mt-5">
@@ -79,16 +79,16 @@
                 echo($response_platba["id_checked"]);
             } ?>">
                 <?php
-                    if ($response_doprava["checked"]) {
-                        echo($response_platba["html"]);
-                    }
+                if ($response_doprava["checked"]) {
+                    echo($response_platba["html"]);
+                }
                 ?>
             </div>
 
         </div>
         <div class="kosik">
             <?php
-                require "pomoc/kosik.phtml"
+            require "pomoc/kosik.phtml"
             ?>
         </div>
         <div class="bottom">
@@ -104,15 +104,12 @@
 
 <script src="service-worker.js"></script>
 <script src="/node_modules/axios/dist/axios.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
+<script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+
 <script src="/js/checkout.js"></script>
 <script src="/js/global_funcion.js"></script>
 <script src="/js/login.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+<script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
 
 </body>

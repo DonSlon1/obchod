@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="cz">
+<html lang="cs">
 
 <head>
     <meta name="description" content="Košík">
@@ -11,43 +11,37 @@
     <link rel="shortcut icon" href="/images/icon-maskable.png"/>
     <link rel="apple-touch-icon" href="/images/icon-apple.png">
     <link rel="manifest" href="/manifest.json"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
 
     <link>
     <link rel="stylesheet" href="/style/global.css" type="text/css" crossorigin="anonymous">
     <link rel="stylesheet" href="/style/tabulka-obrazek.css" type="text/css" crossorigin="anonymous">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
     <script src="/node_modules/axios/dist/axios.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
             crossorigin="anonymous"></script>
 
     <!-- připojení DataTables -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-
-
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <script src="/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <title>Document</title>
 
 </head>
 <?php
-    const MyConst = true;
+const MyConst = true;
 
-    require "../pomoc/connection.php";
-    require "../pomoc/navigace.php";
-    require "../pomoc/funkce.php";
+require "../pomoc/connection.php";
+require "../pomoc/navigace.php";
+require "../pomoc/funkce.php";
 
-    overeni_uzivatele();
-    navigace(0);
+overeni_uzivatele();
+navigace(0);
 ?>
 <body>
 <div class="modal  fade " id="smazat-produkt" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
@@ -98,26 +92,35 @@
         <?php
 
 
-            $conn = DbCon();
-            $sql = "SELECT recenze.ID_R ,recenze.ID_P  ,recenze.Popis, p.Nazev , Kladne, Zaporne, Obrazek  FROM `recenze` LEFT JOIN predmety p on recenze.ID_P = p.ID_P";
+        $conn = DbCon();
+        $sql = "SELECT recenze.ID_R ,recenze.ID_P  ,recenze.Popis, p.Nazev , Kladne, Zaporne, Obrazek  
+                    FROM `recenze` 
+                    LEFT JOIN predmety p on recenze.ID_P = p.ID_P";
 
-            $res = mysqli_query($conn, $sql);
-            $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
-            foreach ($res as $produkt) {
-                echo("<tr>
-                <td><a href='/produkt?ID_P={$produkt["ID_P"]}'>{$produkt["Nazev"]}</a></td>
-                <td class='text-break'>{$produkt["Kladne"]}</td>
-                <td class='text-break'>{$produkt["Zaporne"]}</td>
-                <td class='text-break'>{$produkt["Popis"]}</td>");
-                if ($produkt["Obrazek"] != "") {
-                    echo("<td><img src=\"/images/{$produkt["Obrazek"]}\" class='hodne-maly'></td>");
-                } else {
-                    echo("<td>žáden není</td>");
-                }
-                echo("
-                <td> <img src='/svg/krizek.svg' class='svg-img' alt='smazat' onclick='smazat_recenzi(\"{$produkt["ID_R"]}\")'></td>
-                </tr>");
+        $res = mysqli_execute_query($conn, $sql);
+        $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
+        foreach ($res as $produkt) {
+            $id_p = htmlspecialchars($produkt["ID_P"]);
+            $Nazev = htmlspecialchars($produkt["Nazev"]);
+            $Kladne = htmlspecialchars($produkt["Kladne"]);
+            $Zaporne = htmlspecialchars($produkt["Zaporne"]);
+            $Popis = htmlspecialchars($produkt["Popis"]);
+            $Obrazek = htmlspecialchars($produkt["Obrazek"]);
+            $ID_R = htmlspecialchars($produkt["ID_R"]);
+            echo("<tr>
+                <td><a href='/produkt?ID_P=$id_p'>$Nazev </a></td>
+                <td class='text-break'>$Kladne</td>
+                <td class='text-break'>$Zaporne</td>
+                <td class='text-break'>$Popis</td>");
+            if ($Obrazek != "") {
+                echo("<td><img src=\"/images/$Obrazek\" class='hodne-maly'></td>");
+            } else {
+                echo("<td>žáden není</td>");
             }
+            echo("
+                <td> <img src='/svg/krizek.svg' class='svg-img' alt='smazat' onclick='smazat_recenzi(\"$ID_R\")'></td>
+                </tr>");
+        }
         ?>
     </table>
 </div>

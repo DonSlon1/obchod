@@ -1,18 +1,7 @@
-<?php
-const MyConst = true;
-
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
-require "pomoc/navigace.php";
-require "pomoc/connection.php";
-$conn = DbCon();
-
-?>
 <!doctype html>
-<html lang="cz">
+<html lang="cs">
 <head>
-    <meta name="description" content="Obchod">
+    <meta name="description" content="Produkt">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
@@ -22,45 +11,88 @@ $conn = DbCon();
     <link rel="apple-touch-icon" href="images/icon-apple.png">
     <link rel="manifest" href="manifest.json"/>
     <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/global.css">
+
+    <link rel="stylesheet" href="style/product.css" type="text/css">
+
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="style/global.css" type="text/css">
+    <link rel="stylesheet" href="style/hledat.css">
+    <link rel="stylesheet" href="node_modules/nouislider/dist/nouislider.css">
+    <script src="/node_modules/nouislider/dist/nouislider.min.js"></script>
+    <script src="/service-worker.js"></script>
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
+            crossorigin="anonymous"></script>
+
 
 </head>
-<body>
-
-
 <?php
+    const MyConst = true;
+
+    require "pomoc/connection.php";
+    require "pomoc/navigace.php";
+    require "pomoc/funkce.php";
+
+    navigace();
+    $conn = DbCon();
 
 
-navigace();
+    $sql = 'SELECT p.ID_P AS  ID_P ,p.Nazev AS Nazev, Cena_Bez_DPH AS Cena , H_Obrazek,
+        COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) AS Hodnocení, p.Popis AS Popis
+        FROM predmety p
+        LEFT JOIN recenze r on p.ID_P = r.ID_P
+        GROUP BY p.ID_P';
 
-$sql1 = "SELECT ID_P, Nazev, Popis, Cena_Bez_DPH, Hodnoceni, H_Obrazek , COUNT(ID_P) FROM predmety ";
-
-$res = mysqli_query($conn, $sql1);
-$myArray = [];
-$count = 0;
-
-
+    $predmety = mysqli_fetch_all(mysqli_execute_query($conn, $sql), ASSERT_ACTIVE);
+    $predmetysave = array();
+    foreach ($predmety as $item) {
+        $predmetysave[] = array_map('htmlspecialchars', $item);
+    }
 ?>
 
-<script src="/service-worker.js"></script>
-<script src="/node_modules/axios/dist/axios.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
+<div class="container h_container searchh">
 
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
+    <div class="main-obsah">
+        <?php
+            foreach ($predmetysave as $item) {
+                $cenna = number_format($item["Cena"], thousands_separator: ' ').' Kč';
+                $hodnocei = $item["Hodnocení"] * 20;
+                echo("
+                <div class='predmet'>
+            <a href='/produkt.php?ID_P={$item["ID_P"]}'>
+                <div class='obrazek'>
+                    <img src='images/{$item["H_Obrazek"]}' alt='{$item["Nazev"]}'>
+                </div>
+
+            </a>
+            <div class='star-rating-wrapper hvezdy'>
+                                    <div class='empty-stars-element'></div>
+                                    <div class='stars-element' style='width:$hodnocei%'></div>
+                                 </div>
+            <div class='informace'>
+                <a href='/produkt.php?ID_P={$item["ID_P"]}'>
+                    <span class='nazev'>{$item["Nazev"]}</span>
+                </a>
+                <span class='cena-produkt'>$cenna</span>
+            </div>
+            <div class='popis'>
+                {$item["Popis"]}
+            </div>
+        </div>");
+            }
+
+        ?>
+
+
+    </div>
+</div>
+
 <script src="/js/global_funcion.js"></script>
 <script src="/js/login.js"></script>
-
-
-</body>
+<script src="/js/Add_To_cart.js"></script>
 
 </html>
-
-
 

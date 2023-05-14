@@ -185,6 +185,8 @@ const recenze = () => {
 
                             }
                         })
+                    } else {
+                        location.reload()
                     }
                 } else if (response.data.response === "rating") {
                     error_div.text("Musíte vybrat počet hvězdiček").css('display', 'block')

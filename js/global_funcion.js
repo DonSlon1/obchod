@@ -110,8 +110,10 @@ $(document).ready(function () {
         this.value = this.value.replace(/\D/g, '');
     });
 
-    $(".reqierd_input").on('blur', function () {
-        check(this)
+    $(".reqierd_input").on('blur', function (event) {
+        if (!$(event.target).hasClass('search-options')) {
+            check(this)
+        }
     }).each(function () {
         if ($(this.form).hasClass("user_logged")) {
             check(this)
@@ -326,27 +328,39 @@ function show(id) {
 }(jQuery));
 
 
-$("#search").on('keyup', function () {
+$("#search").on('input', function () {
     hleadat()
 }).on('click', function () {
     if ($("#search-resoult").text() !== '') {
-        $("#h_nav").addClass('active')
-        $("#search-resoult").addClass('active')
-        $("#search-nav").addClass('active')
-
+        enable()
     }
 
+}).on('keydown', function (e) {
+    if (e.key === 'Escape') {
+        $("#h_nav").removeClass('active')
+        $("#search-nav").removeClass('active')
+        $("#search-resoult").removeClass('active')
+    }
 })
 $("#search-form").on('reset', function () {
     $("#search-resoult").empty()
 })
 
+function enable() {
+    $("#h_nav").addClass('active')
+    $("#search-resoult").addClass('active')
+    $("#search-nav").addClass('active')
+}
 
 function hleadat() {
     let search = $("#search").val()
     let search_resoult = $("#search-resoult")
+    let predmet = $("#predmet")
+    let kategorie = $("#kategorie-hledani")
+    let vyrobce = $("#vyrobce-hledani")
     let search_nav = $("#search-nav")
-    search_resoult.empty()
+    predmet.empty()
+    let emptyp = false
     let h_nav = $("#h_nav")
     if (search !== "") {
         axios.post('/pomoc/hledat', {
@@ -354,10 +368,18 @@ function hleadat() {
         }, {
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         }).then(function (response) {
-            console.log(response)
-            search_resoult.append(response.data)
-            let data = response.data
+            console.log(response.data.predmet)
+            predmet.append(response.data.predmet)
+            let data = response.data.predmet
             if (data.length > 0) {
+
+                enable()
+                predmet.empty()
+                let h = $('<span>', {
+                    text: "Produkty",
+                    class: "Nazev"
+                })
+                predmet.append(h)
                 data.forEach(item => {
                     let obrazek = $('<img/>', {
                             src: "/images/" + item.H_Obrazek,
@@ -371,24 +393,27 @@ function hleadat() {
                             href: "/produkt?ID_P=" + item.ID_P
                         })
 
+
                     container.append(obrazek).append(text)
-                    console.log(obrazek)
                     h_nav.addClass('active')
-                    search_nav.addClass('active')
-                    search_resoult.append(container).addClass('active')
+                    predmet.addClass('active')
+                    predmet.append(container).addClass('active')
 
                 })
 
             } else {
-                h_nav.removeClass('active')
-                search_resoult.empty()
-                search_nav.removeClass('active')
+                emptyp = true;
+            }
 
+
+            if (emptyp) {
+                h_nav.removeClass('active')
+                search_nav.removeClass('active')
             }
 
         })
     } else {
-        search_resoult.empty().removeClass('active')
+        search_resoult.removeClass('active')
         h_nav.removeClass('active')
         search_nav.removeClass('active')
 

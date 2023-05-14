@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="cz">
+<html lang="cs">
 
 <head>
     <meta name="description" content="Košík">
@@ -11,31 +11,24 @@
     <link rel="shortcut icon" href="/images/icon-maskable.png"/>
     <link rel="apple-touch-icon" href="/images/icon-apple.png">
     <link rel="manifest" href="/manifest.json"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
 
     <link>
     <link rel="stylesheet" href="/style/global.css" type="text/css" crossorigin="anonymous">
     <link rel="stylesheet" href="/style/tabulka-obrazek.css" type="text/css" crossorigin="anonymous">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
     <script src="/node_modules/axios/dist/axios.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
             crossorigin="anonymous"></script>
 
-    <!-- připojení DataTables -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-
-
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <script src="/node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <title>Document</title>
 
 </head>
@@ -46,8 +39,8 @@
     require "../pomoc/navigace.php";
     require "../pomoc/funkce.php";
 
-    navigace(0);
     overeni_uzivatele();
+    navigace(0);
 ?>
 <body>
 <div class="modal  fade " id="smazat-produkt" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
@@ -96,21 +89,30 @@
 
 
             $conn = DbCon();
-            $sql = "SELECT Cena_Bez_DPH,H_Obrazek,Nazev,ID_P FROM `predmety` ";
-            $res = mysqli_query($conn, $sql);
+            $sql = "SELECT Cena_Bez_DPH,H_Obrazek,Nazev,ID_P 
+                    FROM `predmety` ";
+
+            $res = mysqli_execute_query($conn, $sql);
             $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
             foreach ($res as $produkt) {
+                $ID_P = $produkt["ID_P"];
+                $Nazev = htmlspecialchars($produkt["Nazev"]);
+                $H_Obrazek = htmlspecialchars($produkt["H_Obrazek"]);
+                $Cena_Bez_DPH = number_format(htmlspecialchars($produkt["Cena_Bez_DPH"]), thousands_separator: ' ').' Kč';
+
                 echo("<tr>
-                <td><a href='/produkt?ID_P={$produkt["ID_P"]}'><img src=\"/images/{$produkt["H_Obrazek"]}\" class='tabulka-obrazek'>{$produkt["Nazev"]}</a></td>
-                <td>{$produkt["Cena_Bez_DPH"]}</td>
-                <td><a href='uprava?ID_P={$produkt["ID_P"]}'><img src='/svg/tuzka.svg' class='svg-img' alt='upravit' ></a> <img src='/svg/krizek.svg' class='svg-img' alt='smazat' onclick='smazat(\"{$produkt["ID_P"]}\")'></td>
+                <td><a href='/produkt?ID_P=$ID_P'><img src=\"/images/$H_Obrazek\" class='tabulka-obrazek'>$Nazev</a></td>
+                <td>$Cena_Bez_DPH</td>
+                <td><a href='uprava?ID_P=$ID_P'><img src='/svg/tuzka.svg' class='svg-img' alt='upravit' ></a> <img src='/svg/krizek.svg' class='svg-img' alt='smazat' onclick='smazat(\"$ID_P\")'></td>
                 </tr>");
             }
         ?>
     </table>
 </div>
 <script src="/js/prehled-produktu.js"></script>
+<script src="/js/global_funcion.js"></script>
+<script src="/js/login.js"></script>
 <script>
     inicializace_produkt()
 </script>

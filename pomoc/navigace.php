@@ -24,15 +24,25 @@ function navigace(?int $full = 1): void
         echo('
             <div class=" form_dov" id="search-nav">
 
-                <form class="form-inline my-2 my-lg-0 w-100 search" autocomplete="off" id="search-form" method="post" action="/hledat">
+                <form class="form-inline my-2 my-lg-0 w-100 search" autocomplete="off" id="search-form" method="get" action="/hledat.php">
                     <div class="search-div">
-                        <input class=" search_bar" id="search" type="text" placeholder="Search" >
+                        <input class=" search_bar" id="search" type="text" placeholder="Search" name="Nazev" >
                         <button class="  submit-button" type="submit">Hledat</button>
                        
                     </div>
                     <input class="reset-button" type="reset" value="X">
                 </form>
-                <div id="search-resoult"></div>
+                <div id="search-resoult">
+                    <div id="predmet" >
+                    
+                    </div>
+                    <div id="kategorie-hledani" >
+                    
+                    </div>
+                    <div id="vyrobce-hledani" >
+                    
+                    </div>
+                </div>
             </div>
             ');
     }
@@ -40,7 +50,7 @@ function navigace(?int $full = 1): void
         <div class="user_info">
             <div>
                 <div class="h-fit w-fitcontent pr-3">
-                    <a class="position-relative w-fitcontent " href="/basket.php">
+                    <a class="position-relative w-fitcontent " href="/basket.php" title="Košík">
                         <i class="basket_icon" ></i>
                         <span class="count" style="display: none;bottom: -8px !important;" id="count"></span>
                     </a>

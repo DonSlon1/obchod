@@ -1,16 +1,16 @@
 <?php
 
-if ((!defined('MyConst'))) {
-    if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
-        header('Location: ../error/Method-Not-Allowed.php');
-        exit;
+    if ((!defined('MyConst'))) {
+        if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) {
+            header('Location: ../error/Method-Not-Allowed.php');
+            exit;
+        }
     }
-}
 
-function error_msg(?string $type = 'Unknown'): void
-{
-    if ($type == 'Login') {
-        echo "<div class='error-kosik error-user' >
+    function error_msg(?string $type = 'Unknown') : void
+    {
+        if ($type == 'Login') {
+            echo "<div class='error-kosik error-user' >
                     <div>
                         <span><b>Omlováme se ale pro přístup na tuto stránku musíte být přihlášen</b></span>
                         <div>
@@ -19,22 +19,22 @@ function error_msg(?string $type = 'Unknown'): void
                         </div>
                     </div>
                 </div>";
-    } elseif ($type == 'Neexistuje') {
-        echo "<div class='error-kosik error-user' >
+        } elseif ($type == 'Neexistuje') {
+            echo "<div class='error-kosik error-user' >
                     <div>
                         <span><b>Omlováme se ale vypadá to že tento produkt nexistuje</b></span>
                             <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
                     </div>
                 </div>";
-    } elseif ($type == 'Good') {
-        echo "<div class='error-kosik error-user' >
+        } elseif ($type == 'Good') {
+            echo "<div class='error-kosik error-user' >
                     <div>
                         <span><b>Vaše změny byly uloženy úspěšně</b></span>
                             <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
                     </div>
                 </div>";
-    } else {
-        echo "<div class='error-kosik error-user' >
+        } else {
+            echo "<div class='error-kosik error-user' >
                     <div>
                         <span><b>Omlováme se ale něco se nepovedlo</b></span>
                         <div>
@@ -42,102 +42,106 @@ function error_msg(?string $type = 'Unknown'): void
                         </div>
                     </div>
                 </div>";
+        }
+
     }
 
-}
+    function getParametry(mixed $vlastnosti, array &$json_parametry) : void
+    {
+        foreach ($vlastnosti as $index => $item) {
 
-function getParametry(mixed $vlastnosti, array &$json_parametry): void
-{
-    foreach ($vlastnosti as $index => $item) {
-
-        $pomoc_array = array();
-        if ($item == "") {
-            continue;
-        }
-        foreach ($_POST[$index . "N"] as $poradi => $name) {
-            if ($name != "" && $_POST[$index . "J"][$poradi] != "") {
-                $pomoc_array[htmlspecialchars($name, ENT_QUOTES)] = htmlspecialchars($_POST[$index . "J"][$poradi], ENT_QUOTES);
+            $pomoc_array = array();
+            if ($item == "") {
+                continue;
             }
+            foreach ($_POST[$index."N"] as $poradi => $name) {
+                if ($name != "" && $_POST[$index."J"][$poradi] != "") {
+                    $pomoc_array[htmlspecialchars($name, ENT_QUOTES)] = htmlspecialchars($_POST[$index."J"][$poradi], ENT_QUOTES);
+                }
+            }
+            $json_parametry[htmlspecialchars($item, ENT_QUOTES)] = $pomoc_array;
         }
-        $json_parametry[htmlspecialchars($item, ENT_QUOTES)] = $pomoc_array;
+        $json_parametry = json_encode($json_parametry, JSON_UNESCAPED_UNICODE);
     }
-    $json_parametry = json_encode($json_parametry, JSON_UNESCAPED_UNICODE);
-}
 
 
-function overeni_uzivatele(): void
-{
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-    if (isset($_SESSION['role'])) {
-        if ($_SESSION["role"] != "Admin") {
+    function overeni_uzivatele() : void
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['role'])) {
+            if ($_SESSION["role"] != "Admin") {
 
+                header('Location: ../error/Forbidden.php');
+                exit;
+            }
+        } else {
             header('Location: ../error/Forbidden.php');
             exit;
         }
-    } else {
-        header('Location: ../error/Forbidden.php');
-        exit;
     }
-}
 
-function overeni_kosik(): void
-{
+    function overeni_kosik() : void
+    {
 
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-    $error = false;
-    $conn = DbCon();
-
-    if (!array_key_exists("basket", $_SESSION)) {
-        $error = true;
-
-    } else if ($_SESSION["basket"] == "[]") {
-        $error = true;
-    } else {
-        $overene_itemy = array();
-        if (isset($_SESSION["basket"])) {
-            $basket = json_decode($_SESSION["basket"], true);
-
-            foreach ($basket as $item) {
-                $sql = "SELECT H_Obrazek,Nazev FROM predmety WHERE ID_P='{$item["Id_p"]}'";
-
-                $res = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-                if ($res != null) {
-                    $overene_itemy[] = $item;
-                }
-            }
-            $_SESSION["basket"] = json_encode($overene_itemy, JSON_UNESCAPED_UNICODE);
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
         }
+        $error = false;
+        $conn = DbCon();
 
-        if (isset($_SESSION["form_data"]["polozka"])) {
+        if (!array_key_exists("basket", $_SESSION)) {
+            $error = true;
+
+        } else if ($_SESSION["basket"] == "[]") {
+            $error = true;
+        } else {
             $overene_itemy = array();
-            $basket = $_SESSION["form_data"]["polozka"];
+            if (isset($_SESSION["basket"])) {
+                $basket = json_decode($_SESSION["basket"], true);
 
-            foreach ($basket as $item) {
-                $sql = "SELECT H_Obrazek,Nazev FROM predmety WHERE ID_P='{$item["ID_P"]}'";
+                foreach ($basket as $item) {
+                    $sql = "SELECT H_Obrazek,Nazev 
+                        FROM predmety 
+                        WHERE ID_P= ?";
 
-                $res = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-                if ($res != null) {
-                    $overene_itemy[] = $item;
+                    $res = mysqli_fetch_assoc(mysqli_execute_query($conn, $sql, [$item["Id_p"]]));
+                    if ($res != null) {
+                        $overene_itemy[] = $item;
+                    }
                 }
+                $_SESSION["basket"] = json_encode($overene_itemy, JSON_UNESCAPED_UNICODE);
             }
-            $_SESSION["form_data"]["polozka"] = $overene_itemy;
-        }
-    }
 
-    if ($_SERVER["SCRIPT_NAME"] != "/basket.php" && $error) {
-        $_SESSION["site_error"] = true;
-        header('Location: ./basket.php');
-        exit();
-    }
-    if ($error) {
-        if (array_key_exists("site_error", $_SESSION)) {
-            if ($_SESSION["site_error"]) {
-                unset($_SESSION["site_error"]);
-                echo "<div class='error-msg'>
+            if (isset($_SESSION["form_data"]["polozka"])) {
+                $overene_itemy = array();
+                $basket = $_SESSION["form_data"]["polozka"];
+
+                foreach ($basket as $item) {
+                    $sql = "SELECT H_Obrazek,Nazev 
+                        FROM predmety 
+                        WHERE ID_P=?";
+
+                    $res = mysqli_fetch_assoc(mysqli_execute_query($conn, $sql, [$item["ID_P"]]));
+                    if ($res != null) {
+                        $overene_itemy[] = $item;
+                    }
+                }
+                $_SESSION["form_data"]["polozka"] = $overene_itemy;
+            }
+        }
+
+        if ($_SERVER["SCRIPT_NAME"] != "/basket.php" && $error) {
+            $_SESSION["site_error"] = true;
+            header('Location: ./basket.php');
+            exit();
+        }
+        if ($error) {
+            if (array_key_exists("site_error", $_SESSION)) {
+                if ($_SESSION["site_error"]) {
+                    unset($_SESSION["site_error"]);
+                    echo "<div class='error-msg'>
                     <div>
                         <img alt='error'  src='/svg/krizek.svg'>
                         V průběhu nákupu došlo ke změnám, je potřeba znovu nastavit údaje. 
@@ -146,10 +150,10 @@ function overeni_kosik(): void
                     </div>    
                     <script src='/js/bs-pre.js'></script>
                     ";
+                }
             }
-        }
 
-        echo "<div class='error-kosik' >
+            echo "<div class='error-kosik' >
                     <span>Váš nákupní <b>košík je prázdný.</b></span>
                     <a class='btn btn-primary' href='/'>Zpět do Obchodu</a>
                 </div>
@@ -157,23 +161,23 @@ function overeni_kosik(): void
                 <script src='/js/login.js'></script>
                 <script src='/js/basket.js'></script>";
 
-        exit();
-    }
-}
-
-function prihlaseny_uzivatel(): void
-{
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
+            exit();
+        }
     }
 
-    if (!isset($_SESSION["user_id"])) {
-        header('Location: ../error/Unauthorized.php');
-        exit;
+    function prihlaseny_uzivatel() : void
+    {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION["user_id"])) {
+            header('Location: ../error/Unauthorized.php');
+            exit;
+        }
     }
-}
 
-function zobrazit_predmet(array $data): void
-{
+    function zobrazit_predmet(array $data) : void
+    {
 
-}
+    }

@@ -11,15 +11,26 @@
     $conn = DbCon();
     $id_p = $_POST["ID_P"];
     $error = 0;
-
-    if (array_key_exists("vlasnoti", $_POST)) {
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    if (array_key_exists("vlasnoti", $_POST) && $_SESSION["role"] == "Admin") {
         $vlastnosti = $_POST["vlasnoti"];
         $json_parametry = array();
         getParametry($vlastnosti, $json_parametry);
+        $vyrobce = $_POST["vyrobce"] ?? 0;
+        $kategorie = $_POST["kategorie"] ?? 0;
 
+        $sql = "UPDATE  `predmety` 
+                SET  `Nazev` = ? 
+                , `Popis` = ?
+                , `Cena_Bez_DPH` = ? 
+                , `Parametry` = ? 
+                , `ID_K` = ?
+                , `ID_V` = ?
+                WHERE ID_P = ?";
 
-        $sql = "UPDATE  `predmety` SET  `Nazev` = '{$_POST["nazev"]}' , `Popis` = '{$_POST["popis"]}' , `Cena_Bez_DPH` = {$_POST["cena"]} , `Parametry` = '$json_parametry' WHERE ID_P = {$id_p}";
-        if (!mysqli_query($conn, $sql)) {
+        if (!mysqli_execute_query($conn, $sql, [$_POST["nazev"], $_POST["popis"], $_POST["cena"], $json_parametry, $kategorie, $vyrobce, $id_p])) {
             $error = 1;
             echo "\"Something went wrong! :(";
         }

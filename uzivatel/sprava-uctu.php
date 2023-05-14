@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="cz">
+<html lang="cs">
 
 <head>
     <meta name="description" content="Dodaci udaje">
@@ -11,8 +11,8 @@
     <link rel="apple-touch-icon" href="/images/icon-apple.png">
     <link rel="manifest" href="/manifest.json"/>
     <link rel="stylesheet" href="/style/product.css" type="text/css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="/style/global.css" type="text/css" crossorigin="anonymous">
     <link rel="stylesheet" href="/style/basket_nav.css">
     <link rel="stylesheet" href="/style/checkout.css">
@@ -20,12 +20,9 @@
 
     <script src="/service-worker.js"></script>
     <script src="/node_modules/axios/dist/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    <script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
             crossorigin="anonymous"></script>
 
     <title>Document</title>
@@ -34,49 +31,49 @@
 <body>
 <?php
 
-    const MyConst = true;
+const MyConst = true;
 
-    require "../pomoc/connection.php";
-    require "../pomoc/navigace.php";
-    require "../pomoc/funkce.php";
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+require "../pomoc/connection.php";
+require "../pomoc/navigace.php";
+require "../pomoc/funkce.php";
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 
-    navigace(0);
-    prihlaseny_uzivatel();
-    $con = DbCon();
+navigace(0);
+prihlaseny_uzivatel();
+$con = DbCon();
 
-    if (isset($_SESSION["error"])) {
-        error_msg($_SESSION["error_msg"]);
-        unset($_SESSION["error"]);
-        unset($_SESSION["error_msg"]);
-        echo '<script src="/js/global_funcion.js"></script>
+if (isset($_SESSION["error"])) {
+    error_msg($_SESSION["error_msg"]);
+    unset($_SESSION["error"]);
+    unset($_SESSION["error_msg"]);
+    echo '<script src="/js/global_funcion.js"></script>
               <script src="/js/login.js"></script>';
-        exit();
-    }
+    exit();
+}
 
-    $sql = "SELECT   Jmeno, Prijmeni, Telefon, Mesto, Ulice, PSC
+$sql = "SELECT   Jmeno, Prijmeni, Telefon, Mesto, Ulice, PSC
             FROM uzivatel 
             LEFT JOIN adresa a ON a.ID_A = uzivatel.ID_A 
-            WHERE ID_U={$_SESSION["user_id"]}";
+            WHERE ID_U= ?";
 
-    $res = mysqli_query($con, $sql);
-    if (mysqli_num_rows($res) == 1) {
-        $res = mysqli_fetch_all($res, ASSERT_ACTIVE)[0];
-    } else {
-        error_msg();
-        echo '<script src="/js/global_funcion.js"></script>
+$res = mysqli_execute_query($con, $sql, [$_SESSION["user_id"]]);
+if (mysqli_num_rows($res) == 1) {
+    $res = mysqli_fetch_all($res, ASSERT_ACTIVE)[0];
+} else {
+    error_msg();
+    echo '<script src="/js/global_funcion.js"></script>
               <script src="/js/login.js"></script>';
-        exit();
-    }
+    exit();
+}
 
-    if (isset($_SESSION["good"])) {
-        error_msg($_SESSION["good_msg"]);
-        unset($_SESSION["good"]);
-        unset($_SESSION["good_msg"]);
-    }
+if (isset($_SESSION["good"])) {
+    error_msg($_SESSION["good_msg"]);
+    unset($_SESSION["good"]);
+    unset($_SESSION["good_msg"]);
+}
 ?>
 
 <div class="container h_container  mt-5">
@@ -144,7 +141,10 @@
         </div>
 
 
-        <button type="submit" class="btn btn-primary btn-block validate">Sign Up</button>
+        <div class="end-div">
+            <a href="/" class="btn btn-secondary btn-lg btn-block">Zruřšit změny</a>
+            <button type="submit" class="btn btn-primary btn-block validate">Uložit</button>
+        </div>
     </form>
 
 </div>
@@ -157,4 +157,4 @@
 
 </html>
 <?php
-    mysqli_close($con);
+mysqli_close($con);

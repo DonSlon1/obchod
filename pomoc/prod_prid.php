@@ -25,8 +25,12 @@
             move_uploaded_file($_FILES["h_obr"]["tmp_name"], "../images/".$H_OB);
         }
 
-        $sql = "INSERT INTO `predmety` ( `Nazev`, `Popis`, `Cena_Bez_DPH`, `H_Obrazek`, `Parametry`) VALUES ('{$_POST["nazev"]}','{$_POST["popis"]}' , {$_POST["cena"]} , '$H_OB' , '$json_parametry')";
-        if (!mysqli_query($conn, $sql)) {
+        $vyrobce = $_POST["vyrobce"] ?? 0;
+        $kategorie = $_POST["kategorie"] ?? 0;
+
+        $sql = "INSERT INTO `predmety` ( `Nazev`, `Popis`, `Cena_Bez_DPH`, `H_Obrazek`, `Parametry`,`ID_V`,`ID_K`) 
+                VALUES (?,?,?,?,?,?,?)";
+        if (!mysqli_execute_query($conn, $sql, [$_POST["nazev"], $_POST["popis"], $_POST["cena"], $H_OB, $json_parametry, $vyrobce, $kategorie])) {
             $error = 1;
             echo "\"Something went wrong! :(";
             return "error";
@@ -46,9 +50,10 @@
                     }
                     move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../images/".$nazev_obrazku);
 
-                    $sql = "INSERT INTO `obrazky` (Obrazek, Nazev, ID_P) VALUES ('$nazev_obrazku' , '{$_FILES["file"]["name"][$i]}' , $id_p)";
+                    $sql = "INSERT INTO `obrazky` (Obrazek, Nazev, ID_P) 
+                        VALUES (?,?,?)";
 
-                    mysqli_query($conn, $sql);
+                    mysqli_execute_query($conn, $sql, [$nazev_obrazku, $_FILES["file"]["name"][$i], $id_p]);
                 } else {
                     $error = 1;
                     echo "s obrázkem ".$_FILES["file"]["name"][$i]."je něco špatně";

@@ -5,7 +5,7 @@
 }
 
 @media only screen  and (min-width: 1061px) {
-    .h_container {
+    .h_container:not(.searchh) {
 
         width: 85%
 
@@ -784,10 +784,15 @@
     position: absolute;
     display: none;
     z-index: 100;
+
 }
 
 #search-resoult.active {
     display: block;
+}
+
+#search-resoult > * > a, span {
+    margin-left: 10px !important;
 }
 
 #h_nav::before {
@@ -823,4 +828,150 @@
     min-width: fit-content;
     display: flex;
     gap: 10px;
+}
+
+.modal-toggle {
+    cursor: pointer;
+
+}
+
+.close:focus, .close:focus-visible {
+    outline: none;
+}
+
+.close:hover > span {
+    font-weight: 800;
+}
+
+.Nazev {
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.searchh {
+    display: flex;
+}
+
+.main-obsah {
+    margin-left: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+
+.predmet {
+    width: 33.3333333333%;
+}
+
+
+.predmet .obrazek > img {
+    width: 72%;
+    min-width: 220px;
+}
+
+.obrazek {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.hvezdy {
+    margin-top: 5px;
+    margin-left: 20px;
+
+}
+
+.nazev {
+    margin-left: 0 !important;
+    font-weight: 400;
+    color: #20648b;
+
+}
+
+.cena-produkt {
+    font-weight: 500;
+    font-size: 1.2em;
+    margin-right: 20px;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.informace {
+    display: flex;
+    flex-flow: column;
+
+}
+
+.informace > a {
+    margin-left: 20px;
+}
+
+.searchh {
+    min-width: 90% !important;
+    margin-top: 48px;
+
+}
+
+@media only screen and (min-width: 801px) {
+    .main-obsah > div.predmet:nth-child(3n-1) {
+        border-left: 1px #9d9d9d solid;
+        border-right: 1px #9d9d9d solid;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .predmet {
+        width: 50% !important;
+    }
+
+    .main-obsah > div.predmet:nth-child(2n-1) {
+        border-right: 1px #9d9d9d solid;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .predmet {
+        width: 100% !important;
+    }
+
+    .main-obsah > div.predmet:nth-child(2n-1) {
+        border-right: none;
+    }
+}
+
+.main-obsah > div.predmet {
+    padding-top: 15px;
+    border-bottom: 1px #9d9d9d solid;
+}
+
+@media only screen and (max-width: 1126px) {
+    .searchh {
+        flex-direction: column;
+    }
+
+    .side-panel {
+        width: 100% !important;
+    }
+
+    .main-obsah {
+        max-width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    .searchh {
+        padding: 0 !important;
+        margin-top: 0 !important;
+    }
+}
+
+.zobrazit {
+    cursor: pointer;
+}
+
+.popis {
+    margin: 10px 20px;
 }
