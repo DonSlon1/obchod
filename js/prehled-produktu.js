@@ -42,7 +42,6 @@ function inicializace_recenze(group = 1) {
             var api = this.api();
             var rows = api.rows({page: 'current'}).nodes();
             var last = null;
-            console.log(rows)
             api
                 .column([0], {page: 'current'})
                 .data()

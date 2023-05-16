@@ -58,70 +58,13 @@
 
     $min_search = $_GET["Min"] ?? $cena["Min"];
     $max_search = $_GET["Max"] ?? $cena["Max"];
-
-    $nazev_search = $_GET["Nazev"] ?? '';
-    $nazev_search = '%'.$nazev_search.'%';
-    $vyrobce_search = isset($_GET['Vyrobce']) ? explode(',', $_GET['Vyrobce']) : array();
-    $hodnoceni = $_GET["Hodnoceni"] ?? 0;
-
-
-    $parametry = array();
-    $parametry[] = $nazev_search;
-
-    //    parametry pro vyrobce
-    $placeholders = array_fill(0, count($vyrobce_search), '?');
-    $placeholders = implode(',', $placeholders);
-    foreach ($vyrobce_search as $value) {
-        $parametry[] = $value;
-    }
-    $parametry[] = $min_search;
-    $parametry[] = $max_search;
-    $parametry[] = $hodnoceni;
-
-    $sql_vyrobce = "";
-    if (!empty($vyrobce_search)) {
-        $sql_vyrobce = "p.ID_V IN ($placeholders) AND";
-    }
-
-    //stránkování
-
-    $page = isset($_GET['Stranka']) && is_numeric($_GET['Stranka']) ? $_GET['Stranka'] : 1;
     $num_results_on_page = 20;
-    $sql = "SELECT COUNT(*) AS Pocet
-            FROM (SELECT COUNT(*) AS Pocet
-                    FROM predmety p
-                    LEFT JOIN recenze r on p.ID_P = r.ID_P
-                    WHERE p.Nazev LIKE ? AND
-                          $sql_vyrobce
-                          Cena_Bez_DPH BETWEEN ? AND ?
-                    GROUP BY p.ID_P
-                    HAVING COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) >= ?
-                ) as po";
+    $page = isset($_GET['Stranka']) && is_numeric($_GET['Stranka']) ? $_GET['Stranka'] : 1;
 
-    $total_pages = mysqli_fetch_row(mysqli_execute_query($conn, $sql, $parametry))[0] ?? 0;
-    $calc_page = ($page - 1) * $num_results_on_page;
-    $parametry[] = $calc_page;
-    $parametry[] = $num_results_on_page;
+    $vysledek = vyhledani_predmetu($conn, $_GET, $cena, $num_results_on_page);
+    $predmetysave = $vysledek[0] ?? null;
+    $total_pages = $vysledek[1]["Celkem_Stranke"] ?? 0;
 
-    $sql = "SELECT p.ID_P AS  ID_P ,p.Nazev AS Nazev, Cena_Bez_DPH AS Cena ,H_Obrazek,
-                COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) AS Hodnocení ,p.ID_V ,p.Popis AS Popis
-                FROM predmety p
-                LEFT JOIN recenze r on p.ID_P = r.ID_P 
-                WHERE
-                    p.Nazev LIKE ? AND
-                    $sql_vyrobce
-                    Cena_Bez_DPH BETWEEN ? AND ?
-                GROUP BY p.ID_P , p.Nazev
-                HAVING Hodnocení >= ?
-                ORDER BY p.Nazev
-                LIMIT ?,?
-                ";
-    $predmety = mysqli_fetch_all(mysqli_execute_query($conn, $sql, $parametry), ASSERT_ACTIVE);
-
-    $predmetysave = array();
-    foreach ($predmety as $item) {
-        $predmetysave[] = array_map('htmlspecialchars', $item);
-    }
 ?>
 
 <div class="container h_container searchh">
@@ -151,6 +94,7 @@
                     <h3 class="sear-kat">Výrobce</h3>
                     <div class="cont" id="vyrobce">
                         <?php
+
                             foreach ($vyrobce as $item) {
                                 echo "
                                         <label class='vyrobce' for='vyrobce-{$item['ID_V']}'>
@@ -214,33 +158,36 @@
                 </form>
             </div>
         </div>
-        <div class="main-obsah">
+        <div class="main-obsah" id="main-obsah">
             <?php
+                if (empty($predmetysave)) {
+                    echo "<span class='Info_msg'>Nic takového jsme nenašli</span>";
+                }
+
                 foreach ($predmetysave as $item) {
-                    $hodnocei = $item["Hodnocení"] * 20;
-                    $cenna = number_format($item["Cena"], thousands_separator: ' ').' Kč';
+                    $hodnocei = $item["Hodnocenii"] * 20;
                     echo("
                 <div class='predmet'>
-            <a href='/produkt.php?ID_P={$item["ID_P"]}'>
-                <div class='obrazek'>
-                    <img src='images/{$item["H_Obrazek"]}' alt='{$item["Nazev"]}'>
-                </div>
-
-            </a>
-            <div class='star-rating-wrapper hvezdy'>
-                                    <div class='empty-stars-element'></div>
-                                    <div class='stars-element' style='width:$hodnocei%'></div>
-                                 </div>
-            <div class='informace'>
-                <a href='/produkt.php?ID_P={$item["ID_P"]}'>
-                    <span class='nazev'>{$item["Nazev"]}</span>
-                </a>
-                <span class='cena-produkt'>$cenna</span>
-            </div>
-            <div class='popis'>
-                {$item["Popis"]}
-            </div>
-        </div>");
+                    <a href='/produkt.php?ID_P={$item["ID_P"]}'>
+                        <div class='obrazek'>
+                            <img src='/images/{$item["H_Obrazek"]}' alt='{$item["Nazev"]}'>
+                        </div>
+        
+                    </a>
+                    <div class='star-rating-wrapper hvezdy'>
+                        <div class='empty-stars-element'></div>
+                        <div class='stars-element' style='width:$hodnocei%'></div>
+                    </div>
+                    <div class='informace'>
+                        <a href='/produkt.php?ID_P={$item["ID_P"]}'>
+                            <span class='nazev'>{$item["Nazev"]}</span>
+                        </a>
+                        <span class='cena-produkt'>{$item["Cena"]}</span>
+                    </div>
+                    <div class='popis'>
+                        {$item["Popis"]}
+                    </div>
+                </div>");
                 }
 
             ?>
@@ -249,46 +196,7 @@
         </div>
     </div>
 
-    <?php if (ceil($total_pages / $num_results_on_page) > 0): ?>
-        <ul class="muj-pagination">
-            <?php if ($page > 1): ?>
-                <li class="prev page" data-page="<?php echo $page - 1 ?>"><span></span></li>
-            <?php endif; ?>
-
-            <?php if ($page > 3): ?>
-                <li class="start page" data-page="1"><span>1</span></li>
-                <li class="dots">...</li>
-            <?php endif; ?>
-
-            <?php if ($page - 2 > 0): ?>
-            <li class="page" data-page="<?php echo $page - 2 ?>"><span><?php echo $page - 2 ?></span>
-                </li><?php endif; ?>
-            <?php if ($page - 1 > 0): ?>
-            <li class="page" data-page="<?php echo $page - 1 ?>"><span><?php echo $page - 1 ?></span>
-                </li><?php endif; ?>
-
-            <li class="currentpage page" id="currentpage" data-page="<?php echo $page ?>"><span
-                ><?php echo $page ?></span></li>
-
-            <?php if ($page + 1 < ceil($total_pages / $num_results_on_page) + 1): ?>
-            <li class="page" data-page="<?php echo $page + 1 ?>"><span><?php echo $page + 1 ?></span>
-                </li><?php endif; ?>
-            <?php if ($page + 2 < ceil($total_pages / $num_results_on_page) + 1): ?>
-            <li class="page" data-page="<?php echo $page + 2 ?>"><span><?php echo $page + 2 ?></span>
-                </li><?php endif; ?>
-
-            <?php if ($page < ceil($total_pages / $num_results_on_page) - 2): ?>
-                <li class="dots">...</li>
-                <li class="end page" data-page="<?php echo ceil($total_pages / $num_results_on_page) ?>"><span
-                    ><?php echo ceil($total_pages / $num_results_on_page) ?></span>
-                </li>
-            <?php endif; ?>
-
-            <?php if ($page < ceil($total_pages / $num_results_on_page)): ?>
-                <li class="next page" data-page="<?php echo $page + 1 ?>"><span></span></li>
-            <?php endif; ?>
-        </ul>
-    <?php endif; ?>
+    <?php strankovani($total_pages, $num_results_on_page, $page); ?>
 
 </div>
 

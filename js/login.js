@@ -27,10 +27,8 @@ const login = () => {
         headers: {'X-Requested-With': 'XMLHttpRequest'}
     }).then(function (response) {
         if (response.data === "good") {
-            console.log("good");
             location.reload();
         } else if (response.data === "notexist") {
-            console.log(4598)
             $("#ptih_h1_div").css('display', 'block')
             $("#loginEmail").one('change', function () {
                 $("#ptih_h1_div").css('display', 'none')

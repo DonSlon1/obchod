@@ -67,11 +67,10 @@
 <div class="container h_container searchh">
     <div class="lajna">
 
-        <div class="main-obsah">
+        <div class="main-obsah" id="main-obsah">
             <?php
                 foreach ($predmetysave as $item) {
                     $hodnocei = $item["Hodnocení"] * 20;
-                    $cenna = number_format($item["Cena"], thousands_separator: ' ').' Kč';
                     echo("
                 <div class='predmet'>
             <a href='/produkt.php?ID_P={$item["ID_P"]}'>
@@ -88,7 +87,7 @@
                 <a href='/produkt.php?ID_P={$item["ID_P"]}'>
                     <span class='nazev'>{$item["Nazev"]}</span>
                 </a>
-                <span class='cena-produkt'>$cenna</span>
+                <span class='cena-produkt'>{$item["Cena"]}</span>
             </div>
             <div class='popis'>
                 {$item["Popis"]}
@@ -102,46 +101,7 @@
         </div>
     </div>
 
-    <?php if (ceil($total_pages / $num_results_on_page) > 0): ?>
-        <ul class="muj-pagination">
-            <?php if ($page > 1): ?>
-                <li class="prev page" data-page="<?php echo $page - 1 ?>"><span></span></li>
-            <?php endif; ?>
-
-            <?php if ($page > 3): ?>
-                <li class="start page" data-page="1"><span>1</span></li>
-                <li class="dots">...</li>
-            <?php endif; ?>
-
-            <?php if ($page - 2 > 0): ?>
-            <li class="page" data-page="<?php echo $page - 2 ?>"><span><?php echo $page - 2 ?></span>
-                </li><?php endif; ?>
-            <?php if ($page - 1 > 0): ?>
-            <li class="page" data-page="<?php echo $page - 1 ?>"><span><?php echo $page - 1 ?></span>
-                </li><?php endif; ?>
-
-            <li class="currentpage page" id="currentpage" data-page="<?php echo $page ?>"><span
-                ><?php echo $page ?></span></li>
-
-            <?php if ($page + 1 < ceil($total_pages / $num_results_on_page) + 1): ?>
-            <li class="page" data-page="<?php echo $page + 1 ?>"><span><?php echo $page + 1 ?></span>
-                </li><?php endif; ?>
-            <?php if ($page + 2 < ceil($total_pages / $num_results_on_page) + 1): ?>
-            <li class="page" data-page="<?php echo $page + 2 ?>"><span><?php echo $page + 2 ?></span>
-                </li><?php endif; ?>
-
-            <?php if ($page < ceil($total_pages / $num_results_on_page) - 2): ?>
-                <li class="dots">...</li>
-                <li class="end page" data-page="<?php echo ceil($total_pages / $num_results_on_page) ?>"><span
-                    ><?php echo ceil($total_pages / $num_results_on_page) ?></span>
-                </li>
-            <?php endif; ?>
-
-            <?php if ($page < ceil($total_pages / $num_results_on_page)): ?>
-                <li class="next page" data-page="<?php echo $page + 1 ?>"><span></span></li>
-            <?php endif; ?>
-        </ul>
-    <?php endif; ?>
+    <?php strankovani($total_pages, $num_results_on_page, $page); ?>
 
 </div>
 

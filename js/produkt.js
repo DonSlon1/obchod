@@ -103,7 +103,6 @@ function add_new_textarea(element) {
     div = document.createElement("div");
     div.classList.add('col', 'm-auto')
     div.appendChild(textarea)
-    console.log(element)
     elem.appendChild(div)
     parent.appendChild(elem)
 
@@ -141,7 +140,6 @@ const recenze = () => {
 
     const ID_P = document.getElementById("ID_P").value
     let file = document.querySelector("#img").files
-    console.log(file)
     let data = {
         negative: negativarray,
         positive: positivarray,
@@ -166,7 +164,6 @@ const recenze = () => {
                     $("#myModal1").modal('hide')
                     if ('ID_O' in response.data) {
                         const myNewFile = new File([file], response.data.ID_O, {type: file.type});
-                        console.log(file.name)
                         formData.append("file", myNewFile);
                         axios({
                                 method: "post",

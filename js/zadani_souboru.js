@@ -13,7 +13,6 @@ $(".preview").on('change', function (e) {
             }
         } while (container)
         if (!container) {
-            console.error('Nebyl nalezen div s class imagePreview')
             return;
         }
         for (let i = 0; i < this.files.length; i++) {
@@ -233,7 +232,6 @@ $("#produkt").on('submit', function (e) {
 
 
 function file_size_check_vyrobce(file_inputs, e) {
-    console.log(file_inputs)
     const error_div = $("#file_block_vyrobce").children().first();
     let size = 0;
 
@@ -278,7 +276,6 @@ function file_size_check_vyrobce(file_inputs, e) {
 }
 
 function file_size_check(file_inputs, e) {
-    console.log(file_inputs)
     const error_div = $("#file_block").children().first();
     let size = 0;
 
@@ -350,8 +347,6 @@ function parametr_d(number, count, parrent_div) {
         nazev_label = $('<label/>', {for: number + 'N' + count, text: "Název Parametru:"})
 
     nazecv_input.one('change', function () {
-        console.log(number)
-        console.log(count)
         parametr_d(number, (parseInt(count) + 1).toString(), parrent_div)
     })
 

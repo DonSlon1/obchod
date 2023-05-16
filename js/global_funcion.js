@@ -128,7 +128,6 @@ $(document).ready(function () {
 $(".validate").click(function (e) {
     const inputs = ($(e.target)[0].form).querySelectorAll('.reqierd_input')
     inputs.forEach(input => {
-        console.log(input.type, input)
         if (input.type !== "file") {
             check(input)
         }
@@ -368,7 +367,6 @@ function hleadat() {
         }, {
             headers: {'X-Requested-With': 'XMLHttpRequest'}
         }).then(function (response) {
-            console.log(response.data.predmet)
             predmet.append(response.data.predmet)
             let data = response.data.predmet
             if (data.length > 0) {
@@ -460,31 +458,126 @@ function remove_parametr(name) {
     }
 }
 
-$(".page").on('click', function () {
-    let target = $(this)
-    let hodnota = parseInt(target.attr('data-page'))
-    let current = parseInt($('#currentpage').attr('data-page'))
-    /*if (hodnota === current) {
+function update_predmet(response, data) {
+    $("html, body").animate({scrollTop: 0}, "slow");
+    let obsah = $("#main-obsah")
+    let error_span = $('<span>', {
+        text: 'Nic takového jsme nenašli',
+        class: 'Info_msg'
+    })
+    if (response.length === 0) {
+        obsah.empty().append(error_span)
         return;
-    }*/
-    if (current === undefined || isNaN(current)) {
-        current = 1
     }
-    if (hodnota === undefined || hodnota < 1 || isNaN(hodnota)) {
-        hodnota = 1
-    }
-    if (target.hasClass('next')) {
-        console.log(current)
-        set_parametr('Stranka', current + 1)
-    } else if (target.hasClass('prev')) {
-        set_parametr('Stranka', current - 1)
+    obsah.empty()
+    for (let predmet of response) {
+        let zobrazeni_predmetu = $('<div>', {class: 'predmet'}),
+            odkaz_obrezek_predmet = $('<a>', {href: '/produkt.php?ID_P=' + predmet.ID_P.toString()}),
+            obrezek_predmet = $('<img>', {src: '/images/' + predmet.H_Obrazek.toString(), alt: predmet.Nazev})
 
-    } else {
-        set_parametr('Stranka', hodnota)
-    }
-    axios.get('/pomoc/produkt_hledat' + window.location.search)
-        .then(function (responce) {
-            console.log(responce)
-        })
+        odkaz_obrezek_predmet.append($('<div>', {class: 'obrazek'}).append(obrezek_predmet))
+        zobrazeni_predmetu.append(odkaz_obrezek_predmet)
 
-})
+        odkaz_obrezek_predmet = $('<a>', {href: '/produkt.php?ID_P=' + predmet.ID_P.toString()})
+
+        let div = $('<div>', {class: 'star-rating-wrapper hvezdy'})
+        div.append($('<div>', {class: 'empty-stars-element'}))
+        div.append($('<div>', {
+            class: 'stars-element',
+            style: 'width:' + (parseInt(predmet.Hodnocenii) * 20).toString() + '%'
+        }))
+        zobrazeni_predmetu.append(div)
+
+        div = $('<div>', {class: 'informace'})
+
+        let nazev = $('<span>', {class: 'nazev', html: predmet.Nazev})
+        odkaz_obrezek_predmet.append(nazev)
+        div.append(odkaz_obrezek_predmet)
+        div.append($('<span>', {class: 'cena-produkt', text: predmet.Cena}))
+        zobrazeni_predmetu.append(div)
+        div = $('<div>', {class: 'popis', html: predmet.Popis})
+        zobrazeni_predmetu.append(div)
+        obsah.append(zobrazeni_predmetu)
+    }
+    strankovani(data)
+}
+
+function strankovani(data) {
+    let total_pages = data.Celkem_Stranke,
+        num_results_on_page = data.Vysledku_Na_Strance,
+        page = data.Aktualni_Stranka
+
+    if (Math.ceil(total_pages / num_results_on_page) > 0) {
+        let pagination = $('<ul class="muj-pagination" id="muj-pagination"></ul>');
+
+        if (page > 1) {
+            pagination.append('<li class="prev page" data-page="' + (page - 1) + '"><span></span></li>');
+        }
+
+        if (page > 3) {
+            pagination.append('<li class="start page" data-page="1"><span>1</span></li>');
+            pagination.append('<li class="dots">...</li>');
+        }
+
+        if (page - 2 > 0) {
+            pagination.append('<li class="page" data-page="' + (page - 2) + '"><span>' + (page - 2) + '</span></li>');
+        }
+
+        if (page - 1 > 0) {
+            pagination.append('<li class="page" data-page="' + (page - 1) + '"><span>' + (page - 1) + '</span></li>');
+        }
+
+        pagination.append('<li class="currentpage page" id="currentpage" data-page="' + page + '"><span>' + page + '</span></li>');
+
+        if (page + 1 < Math.ceil(total_pages / num_results_on_page) + 1) {
+            pagination.append('<li class="page" data-page="' + (page + 1) + '"><span>' + (page + 1) + '</span></li>');
+        }
+
+        if (page + 2 < Math.ceil(total_pages / num_results_on_page) + 1) {
+            pagination.append('<li class="page" data-page="' + (page + 2) + '"><span>' + (page + 2) + '</span></li>');
+        }
+
+        if (page < Math.ceil(total_pages / num_results_on_page) - 2) {
+            pagination.append('<li class="dots">...</li>');
+            pagination.append('<li class="end page" data-page="' + Math.ceil(total_pages / num_results_on_page) + '"><span>' + Math.ceil(total_pages / num_results_on_page) + '</span></li>');
+        }
+
+        if (page < Math.ceil(total_pages / num_results_on_page)) {
+            pagination.append('<li class="next page" data-page="' + (page + 1) + '"><span></span></li>');
+        }
+
+        $('#muj-pagination').empty().append(pagination);
+        pohyb_mezi_strankami()
+    }
+}
+
+function pohyb_mezi_strankami() {
+    $(".page").on('click', function () {
+        let target = $(this)
+        let hodnota = parseInt(target.attr('data-page'))
+        let current = parseInt($('#currentpage').attr('data-page'))
+
+        if (current === undefined || isNaN(current)) {
+            current = 1
+        }
+        if (hodnota === undefined || hodnota < 1 || isNaN(hodnota)) {
+            hodnota = 1
+        }
+        if (target.hasClass('next')) {
+            set_parametr('Stranka', current + 1)
+        } else if (target.hasClass('prev')) {
+            set_parametr('Stranka', current - 1)
+
+        } else {
+            set_parametr('Stranka', hodnota)
+        }
+        axios.get('/pomoc/produkt_hledat' + window.location.search)
+            .then(function (response) {
+                update_predmet(response.data[0], response.data[1])
+                strankovani(response.data[1])
+            })
+
+    })
+}
+
+pohyb_mezi_strankami()

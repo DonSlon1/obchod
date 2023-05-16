@@ -180,7 +180,7 @@
     /**
      * @param mysqli $conn
      * @param array|null $get
-     * @param array $cena
+     * @param array|null $cena
      * @param int $num_results_on_page
      * @return array
      */
@@ -241,12 +241,13 @@
         $total_pages = mysqli_fetch_row(mysqli_execute_query($conn, $sql, $parametry))[0] ?? 0;
 
         $page = isset($get['Stranka']) && is_numeric($get['Stranka']) ? $get['Stranka'] : 1;
+        $page = intval($page);
         $calc_page = ($page - 1) * $num_results_on_page;
         $parametry[] = $calc_page;
         $parametry[] = $num_results_on_page;
 
         $sql = "SELECT p.ID_P AS  ID_P ,p.Nazev AS Nazev, Cena_Bez_DPH AS Cena ,H_Obrazek,
-                COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) AS Hodnocení ,p.ID_V ,p.Popis AS Popis
+                COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) AS Hodnocenii ,p.ID_V ,p.Popis AS Popis
                 FROM predmety p
                 LEFT JOIN recenze r on p.ID_P = r.ID_P 
                 WHERE
@@ -254,7 +255,7 @@
                     $sql_vyrobce
                     $sql_cena
                 GROUP BY p.ID_P , p.Nazev
-                HAVING Hodnocení >= ?
+                HAVING Hodnocenii >= ?
                 ORDER BY p.Nazev
                 LIMIT ?,?
                 ";
@@ -262,9 +263,63 @@
 
         $predmetysave = array();
         foreach ($predmety as $item) {
+            $item["Cena"] = number_format($item["Cena"], thousands_separator: ' ').' Kč';
             $predmetysave[] = array_map('htmlspecialchars', $item);
         }
 
-        return [$predmetysave, $total_pages];
+        $stranky["Celkem_Stranke"] = $total_pages;
+        $stranky["Aktualni_Stranka"] = $page;
+        $stranky["Vysledku_Na_Strance"] = $num_results_on_page;
+        return [$predmetysave, $stranky];
 
+    }
+
+    /**
+     * @param mixed $total_pages
+     * @param int $num_results_on_page
+     * @param int $page
+     * @return void
+     */
+    function strankovani(mixed $total_pages, int $num_results_on_page, int $page) : void
+    {
+        if (ceil($total_pages / $num_results_on_page) > 0): ?>
+            <ul class="muj-pagination" id="muj-pagination">
+                <?php if ($page > 1): ?>
+                    <li class="prev page" data-page="<?php echo $page - 1 ?>"><span></span></li>
+                <?php endif; ?>
+
+                <?php if ($page > 3): ?>
+                    <li class="start page" data-page="1"><span>1</span></li>
+                    <li class="dots">...</li>
+                <?php endif; ?>
+
+                <?php if ($page - 2 > 0): ?>
+                <li class="page" data-page="<?php echo $page - 2 ?>"><span><?php echo $page - 2 ?></span>
+                    </li><?php endif; ?>
+                <?php if ($page - 1 > 0): ?>
+                <li class="page" data-page="<?php echo $page - 1 ?>"><span><?php echo $page - 1 ?></span>
+                    </li><?php endif; ?>
+
+                <li class="currentpage page" id="currentpage" data-page="<?php echo $page ?>"><span
+                    ><?php echo $page ?></span></li>
+
+                <?php if ($page + 1 < ceil($total_pages / $num_results_on_page) + 1): ?>
+                <li class="page" data-page="<?php echo $page + 1 ?>"><span><?php echo $page + 1 ?></span>
+                    </li><?php endif; ?>
+                <?php if ($page + 2 < ceil($total_pages / $num_results_on_page) + 1): ?>
+                <li class="page" data-page="<?php echo $page + 2 ?>"><span><?php echo $page + 2 ?></span>
+                    </li><?php endif; ?>
+
+                <?php if ($page < ceil($total_pages / $num_results_on_page) - 2): ?>
+                    <li class="dots">...</li>
+                    <li class="end page" data-page="<?php echo ceil($total_pages / $num_results_on_page) ?>"><span
+                        ><?php echo ceil($total_pages / $num_results_on_page) ?></span>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($page < ceil($total_pages / $num_results_on_page)): ?>
+                    <li class="next page" data-page="<?php echo $page + 1 ?>"><span></span></li>
+                <?php endif; ?>
+            </ul>
+        <?php endif;
     }

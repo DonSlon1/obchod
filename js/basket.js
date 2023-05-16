@@ -30,7 +30,6 @@ function Get_Input() {
 //? veme value z inputu v basketu a posle ji na server kde se zmeni pocet polozek
 function update_basket(Id_p, element) {
 
-    console.log(Id_p, typeof (element.value))
     if (element.value === "0" || element.value === "") {
         Get_Input().then(function (result) {
             if (result === "Save") {

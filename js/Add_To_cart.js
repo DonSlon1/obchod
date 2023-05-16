@@ -25,7 +25,6 @@ function add_To_cart() {
     }, {
         headers: {'X-Requested-With': 'XMLHttpRequest'}
     }).then(function (response) {
-        console.log(response)
         if (response.data === 0) {
             axios.post('/pomoc/Add_To_cart', {
                 function: "new",

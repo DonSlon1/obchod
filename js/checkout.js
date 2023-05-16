@@ -9,7 +9,6 @@ function validate() {
     } else {
         form_button.removeClass('complete')
         $("input[required]").change(function () {
-            console.log(form[0].checkValidity())
             if (form[0].checkValidity()) {
                 form_button.addClass('complete')
             }

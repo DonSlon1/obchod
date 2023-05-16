@@ -84,18 +84,30 @@ star_inputs.on('change', function (e) {
     } else {
         remove_parametr('Hodnoceni')
     }
-    window.location.reload()
+    axios.get('/pomoc/produkt_hledat' + window.location.search)
+        .then(function (response) {
+            update_predmet(response.data[0], response.data[1])
+            strankovani(response.data[1])
+        })
 
 })
 
 min_num.on('change', function (e) {
     set_parametr('Min', $(e.target).val())
-    window.location.reload()
+    axios.get('/pomoc/produkt_hledat' + window.location.search)
+        .then(function (response) {
+            update_predmet(response.data[0], response.data[1])
+            strankovani(response.data[1])
+        })
 })
 
 max_num.on('change', function (e) {
     set_parametr('Max', $(e.target).val())
-    window.location.reload()
+    axios.get('/pomoc/produkt_hledat' + window.location.search)
+        .then(function (response) {
+            update_predmet(response.data[0], response.data[1])
+            strankovani(response.data[1])
+        })
 })
 
 function setsearch(vyrobce, hodnoceni) {
@@ -106,7 +118,6 @@ function setsearch(vyrobce, hodnoceni) {
     if (vyrobce) {
         let values = vyrobce.split(',')
         values.forEach(function (value) {
-            console.log(value)
             $("#vyrobce-" + value).prop('checked', true)
         })
     }
@@ -122,7 +133,6 @@ $('.vyrobce-nazev').on('change', function (e) {
         } else {
             let pattern = RegExp('Vyrobce=([^&#]*)');
             let atributs = pattern.exec(currentUrl)
-            console.log(atributs)
             if (atributs.length === 2) {
                 atributs[1] = atributs[1] + ',' + target.val()
                 set_parametr('Vyrobce', atributs[1])
@@ -151,7 +161,11 @@ $('.vyrobce-nazev').on('change', function (e) {
             }
         }
     }
-    window.location.reload()
+    axios.get('/pomoc/produkt_hledat' + window.location.search)
+        .then(function (response) {
+            update_predmet(response.data[0], response.data[1])
+            strankovani(response.data[1])
+        })
 
 })
 
