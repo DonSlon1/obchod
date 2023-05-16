@@ -428,3 +428,63 @@ $(document).on('click', function (event) {
         $("#search-resoult").removeClass('active')
     }
 });
+
+function set_parametr(name, value) {
+
+    let currentUrl = window.location.href;
+
+    if (currentUrl.indexOf(name + "=") !== -1) {
+        let pattern = new RegExp('\\b(' + name + '=).*?(&|#|$)');
+
+        let newUrl = currentUrl.replace(pattern, '$1' + value + '$2');
+
+        // let newUrl = currentUrl.replace(pattern, name + '=' + value);
+        window.history.pushState({}, '', newUrl);
+    } else {
+        let newUrl = currentUrl
+        if (window.location.search === "") {
+            newUrl = currentUrl + '?' + name + '=' + value;
+        } else {
+            newUrl = currentUrl + '&' + name + '=' + value;
+        }
+        window.history.pushState({}, '', newUrl);
+    }
+}
+
+function remove_parametr(name) {
+    let currentUrl = window.location.href;
+    if (currentUrl.indexOf(name + "=") !== -1) {
+        let pattern = new RegExp('\\b&?' + name + '=([^&#]*)\\b');
+        let newUrl = currentUrl.replace(pattern, '');
+        window.history.pushState({}, '', newUrl);
+    }
+}
+
+$(".page").on('click', function () {
+    let target = $(this)
+    let hodnota = parseInt(target.attr('data-page'))
+    let current = parseInt($('#currentpage').attr('data-page'))
+    /*if (hodnota === current) {
+        return;
+    }*/
+    if (current === undefined || isNaN(current)) {
+        current = 1
+    }
+    if (hodnota === undefined || hodnota < 1 || isNaN(hodnota)) {
+        hodnota = 1
+    }
+    if (target.hasClass('next')) {
+        console.log(current)
+        set_parametr('Stranka', current + 1)
+    } else if (target.hasClass('prev')) {
+        set_parametr('Stranka', current - 1)
+
+    } else {
+        set_parametr('Stranka', hodnota)
+    }
+    axios.get('/pomoc/produkt_hledat' + window.location.search)
+        .then(function (responce) {
+            console.log(responce)
+        })
+
+})

@@ -68,36 +68,6 @@ slider.noUiSlider.on('set', function (values, handle) {
 
 $(".noUi-tooltip").css('display', 'none')
 
-function set_parametr(name, value) {
-
-    let currentUrl = window.location.href;
-
-    if (currentUrl.indexOf(name + "=") !== -1) {
-        let pattern = new RegExp('\\b(' + name + '=).*?(&|#|$)');
-
-        let newUrl = currentUrl.replace(pattern, '$1' + value + '$2');
-
-        // let newUrl = currentUrl.replace(pattern, name + '=' + value);
-        window.history.pushState({}, '', newUrl);
-    } else {
-        let newUrl = currentUrl
-        if (window.location.search === "") {
-            newUrl = currentUrl + '?' + name + '=' + value;
-        } else {
-            newUrl = currentUrl + '&' + name + '=' + value;
-        }
-        window.history.pushState({}, '', newUrl);
-    }
-}
-
-function remove_parametr(name) {
-    let currentUrl = window.location.href;
-    if (currentUrl.indexOf(name + "=") !== -1) {
-        let pattern = new RegExp('\\b&?' + name + '=([^&#]*)\\b');
-        let newUrl = currentUrl.replace(pattern, '');
-        window.history.pushState({}, '', newUrl);
-    }
-}
 
 const star_inputs = $('.stars > input[type="checkbox"]')
 star_inputs.on('change', function (e) {
@@ -219,5 +189,4 @@ if (vyrobce_child.length > 5) {
     })
     vyrobce.append(role_div)
 }
-
 

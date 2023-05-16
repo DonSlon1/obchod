@@ -177,7 +177,94 @@
         }
     }
 
-    function zobrazit_predmet(array $data) : void
+    /**
+     * @param mysqli $conn
+     * @param array|null $get
+     * @param array $cena
+     * @param int $num_results_on_page
+     * @return array
+     */
+    function vyhledani_predmetu(mysqli $conn, ?array $get, ?array $cena, int $num_results_on_page) : array
     {
+
+        $min_search = $get["Min"] ?? $cena["Min"];
+        $max_search = $get["Max"] ?? $cena["Max"];
+
+        $nazev_search = $get["Nazev"] ?? '';
+        $nazev_search = '%'.$nazev_search.'%';
+        $vyrobce_search = isset($get['Vyrobce']) ? explode(',', $get['Vyrobce']) : array();
+        $hodnoceni = $get["Hodnoceni"] ?? 0;
+
+
+        $parametry = array();
+        $parametry[] = $nazev_search;
+
+        //    parametry pro vyrobce
+        $placeholders = array_fill(0, count($vyrobce_search), '?');
+        $placeholders = implode(',', $placeholders);
+        foreach ($vyrobce_search as $value) {
+            $parametry[] = $value;
+        }
+        $sql_cena = '';
+        if (!is_null($min_search) && !is_null($max_search)) {
+            $sql_cena = 'Cena_Bez_DPH BETWEEN ? AND ?';
+            $parametry[] = $min_search;
+            $parametry[] = $max_search;
+
+        } elseif (!is_null($min_search)) {
+            $sql_cena = 'Cena_Bez_DPH > ?';
+            $parametry[] = $min_search;
+
+        } elseif (!is_null($max_search)) {
+            $sql_cena = 'Cena_Bez_DPH < ?';
+            $parametry[] = $max_search;
+        }
+        $parametry[] = $hodnoceni;
+
+        $sql_vyrobce = "";
+        if (!empty($vyrobce_search)) {
+            $sql_vyrobce = "p.ID_V IN ($placeholders) AND";
+        }
+
+        //stránkování
+        $sql = "SELECT COUNT(*) AS Pocet
+            FROM (SELECT COUNT(*) AS Pocet
+                    FROM predmety p
+                    LEFT JOIN recenze r on p.ID_P = r.ID_P
+                    WHERE p.Nazev LIKE ? AND
+                          $sql_vyrobce
+                          $sql_cena
+                    GROUP BY p.ID_P
+                    HAVING COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) >= ?
+                ) as po";
+
+        $total_pages = mysqli_fetch_row(mysqli_execute_query($conn, $sql, $parametry))[0] ?? 0;
+
+        $page = isset($get['Stranka']) && is_numeric($get['Stranka']) ? $get['Stranka'] : 1;
+        $calc_page = ($page - 1) * $num_results_on_page;
+        $parametry[] = $calc_page;
+        $parametry[] = $num_results_on_page;
+
+        $sql = "SELECT p.ID_P AS  ID_P ,p.Nazev AS Nazev, Cena_Bez_DPH AS Cena ,H_Obrazek,
+                COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) AS Hodnocení ,p.ID_V ,p.Popis AS Popis
+                FROM predmety p
+                LEFT JOIN recenze r on p.ID_P = r.ID_P 
+                WHERE
+                    p.Nazev LIKE ? AND
+                    $sql_vyrobce
+                    $sql_cena
+                GROUP BY p.ID_P , p.Nazev
+                HAVING Hodnocení >= ?
+                ORDER BY p.Nazev
+                LIMIT ?,?
+                ";
+        $predmety = mysqli_fetch_all(mysqli_execute_query($conn, $sql, $parametry), ASSERT_ACTIVE);
+
+        $predmetysave = array();
+        foreach ($predmety as $item) {
+            $predmetysave[] = array_map('htmlspecialchars', $item);
+        }
+
+        return [$predmetysave, $total_pages];
 
     }
