@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="white">
-    <link rel="shortcut icon" href="images/icon-maskable.png"/>
-    <link rel="apple-touch-icon" href="images/icon-apple.png">
-    <link rel="manifest" href="manifest.json"/>
-    <link rel="stylesheet" href="style/product.css" type="text/css" crossorigin="anonymous">
+    <link rel="shortcut icon" href="/images/icon-maskable.png"/>
+    <link rel="apple-touch-icon" href="/images/icon-apple.png">
+    <link rel="manifest" href="/manifest.json"/>
+    <link rel="stylesheet" href="/style/product.css" type="text/css" crossorigin="anonymous">
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="style/global.css" type="text/css" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/basket_nav.css">
-    <link rel="stylesheet" href="style/checkout.css">
-    <link rel="stylesheet" href="style/dodaci-udaje.css">
+    <link rel="stylesheet" href="/style/global.css" type="text/css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style/basket_nav.css">
+    <link rel="stylesheet" href="/style/checkout.css">
+    <link rel="stylesheet" href="/style/dodaci-udaje.css">
 
     <title>Document</title>
 </head>
@@ -35,8 +35,6 @@ if (session_status() != PHP_SESSION_ACTIVE) {
 
 navigace(0);
 $con = DbCon();
-
-// print_r(json_encode($_SESSION, JSON_HEX_QUOT))
 
 ?>
 
@@ -119,23 +117,25 @@ $con = DbCon();
                     <label for="PSC">PSČ:</label>
 
                 </div>
-
+                <div class="captcha">
+                    <div class="form-input full-input">
+                        <input type="text" class="reqierd_input" id="captcha" name="captcha" required>
+                        <label for="captcha">Zadejte CAPTCHU:</label>
+                    </div>
+                    <img src="/pomoc/captcha.php" alt="CAPTCHA Image" id="captch_img">
+                </div>
             </div>
 
 
         </div>
 
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="reg_keep-logged-in" name="reg_keep-logged-in">
-            <label class="form-check-label" for="reg_keep-logged-in">Keep me logged in</label>
-        </div>
 
-        <button type="submit" class="btn btn-primary btn-block validate">Sign Up</button>
+        <button type="submit" class="btn btn-primary btn-block ">Registrovat Se</button>
     </form>
 
 </div>
 
-<script src="service-worker.js"></script>
+<script src="/service-worker.js"></script>
 <script src="/node_modules/axios/dist/axios.min.js"></script>
 <script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
 <script src="/js/global_funcion.js"></script>

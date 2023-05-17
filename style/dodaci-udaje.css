@@ -52,9 +52,33 @@
     border: #20648b 2px solid !important;
 }
 
-.form-input input {
+.form-input input:not(#captcha) {
     max-width: 60% !important;
 
+}
+
+.captcha {
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (max-width: 430px) {
+    .captcha {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    #captch_img {
+        margin-top: 10px !important;
+        height: 100% !important;
+        aspect-ratio: 5/2 !important;
+    }
+
+}
+
+#captch_img {
+    margin-top: 10px;
+    height: 60px;
 }
 
 .form-input input:not(.invalid) {

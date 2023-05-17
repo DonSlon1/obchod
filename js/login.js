@@ -55,13 +55,12 @@ const registration = () => {
     const Mesto = document.getElementById("Mesto").value
     const Telefon = document.getElementById("telefon").value
     const PSC = document.getElementById("PSC").value
-    const keepLogin = document.getElementById("reg_keep-logged-in").checked
     const em_div = document.getElementById("registerEmail")
+    const captcha = $("#captcha"), img_captcha = $("#captch_img")
 
 
     axios.post('/login', {
         log_reg: 'registration',
-        keepLogin: keepLogin,
         email: email,
         Password: password,
         Telefon: Telefon,
@@ -69,12 +68,14 @@ const registration = () => {
         prijmeni: prijmeni,
         Ulice: Ulice,
         Mesto: Mesto,
-        PSC: PSC
+        PSC: PSC,
+        Captcha: captcha.val()
 
     }, {
         headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
         .then(function (response) {
+            console.log(response)
             if (response.data === "good_reg") {
                 location.replace("/")
             } else if (response.data === "email_nonempty") {
@@ -84,6 +85,11 @@ const registration = () => {
                 }
                 $(em_div.parentElement).append("<div class='invalid_text'>Tato adresa je již používána.\n" +
                     "Pokud chcete, můžete se přihlásit, nebo obnovit zapomenuté heslo.</div>")
+            } else if (response.data === "captcha") {
+                captcha.val("")
+                captcha.addClass('invalid')
+                $(captcha[0].parentElement).append("<div class='invalid_text'>CAPTCHA nebyla správná</div>")
+                img_captcha.prop('src', '/pomoc/captcha.php')
             }
         })
         .catch(function (error) {

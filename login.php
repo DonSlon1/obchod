@@ -46,6 +46,10 @@ if (!empty($_POST)) {
         }
     } else if ($_POST["log_reg"] == "registration") {
 
+        if ($_SESSION['captcha_text'] != $_POST["Captcha"]) {
+            echo "captcha";
+            exit();
+        }
         $email = $_POST["email"];
 
 
