@@ -107,6 +107,7 @@ $nazev = htmlspecialchars($res["Nazev"])
         </div>
     </div>
 </div>
+<!-- TODO přidat ověření uživatele -->
 <form id="recene" method="post" action="/pomoc/r_update">
     <div class="container mt-4 ">
         <?php
@@ -142,7 +143,7 @@ $nazev = htmlspecialchars($res["Nazev"])
                                 <svg class="rev-icon pos-icon " focusable="false" viewBox="0 0 24 24"
                                      aria-hidden="true">
                                     <path
-                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-3v3c0 .55-.45 1-1 1s-1-.45-1-1v-3H8c-.55 0-1-.45-1-1s.45-1 1-1h3V8c0-.55.45-1 1-1s1 .45 1 1v3h3c.55 0 1 .45 1 1s-.45 1-1 1z"></path>
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-3v3c0 .55-.45 1-1 1s-1-.45-1-1v-3H8c-.55 0-1-.45-1-1s.45-1 1-1h3V8c0-.55.45-1 1-1s1 .45 1 1v3h3c.55 0 1 .45 1 1s-.45 1-1 1z"></path>
                                 </svg>
                             </div>
                             <div class="col m-auto">
@@ -181,7 +182,7 @@ $nazev = htmlspecialchars($res["Nazev"])
                                 <svg class="rev-icon neg-icon " focusable="false" viewBox="0 0 24 24"
                                      aria-hidden="true">
                                     <path
-                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11H8c-.55 0-1-.45-1-1s.45-1 1-1h8c.55 0 1 .45 1 1s-.45 1-1 1z"></path>
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11H8c-.55 0-1-.45-1-1s.45-1 1-1h8c.55 0 1 .45 1 1s-.45 1-1 1z"></path>
                                 </svg>
                             </div>
                             <div class="col">

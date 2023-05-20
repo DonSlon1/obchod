@@ -136,7 +136,7 @@ const recenze = () => {
 
     const rating = document.getElementById("rating-value").value
     const zkusenost = document.getElementById("zkusenost").value
-
+    const csrf_token = $("#csrf-token").val()
 
     const ID_P = document.getElementById("ID_P").value
     let file = document.querySelector("#img").files
@@ -145,7 +145,8 @@ const recenze = () => {
         positive: positivarray,
         zkusenost: zkusenost,
         ID_P: ID_P,
-        rating: rating
+        rating: rating,
+        csrf_token: csrf_token
     }
 
     if (file.length > 0) {

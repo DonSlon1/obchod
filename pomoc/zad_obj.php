@@ -4,7 +4,7 @@ const MyConst = true;
 if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
 }
-
+// TODO přidat csrf_token
 if (isset($_POST["email_dou"]) && isset($_SESSION["platba"]) && isset($_SESSION["doprava"]) && isset($_SESSION["form_data"]["polozka"])) {
     require "connection.php";
 

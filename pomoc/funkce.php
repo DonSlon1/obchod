@@ -274,6 +274,13 @@
 
     }
 
+    function generateCSRFToken()
+    {
+        $token = bin2hex(random_bytes(32)); // Generate a random token
+        $_SESSION['csrf_token'] = $token; // Store the token in a session variable
+        return $token;
+    }
+
     /**
      * @param mixed $total_pages
      * @param int $num_results_on_page

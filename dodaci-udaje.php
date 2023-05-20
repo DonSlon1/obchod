@@ -1,15 +1,15 @@
 <?php
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
+    if (session_status() != PHP_SESSION_ACTIVE) {
+        session_start();
+    }
 
-if (!isset($_SESSION["platba"]) || !isset($_SESSION["doprava"])) {
-    header('Location: ./basket.php');
-}
-const MyConst = true;
-require "pomoc/funkce.php";
-require "pomoc/connection.php";
-overeni_kosik();
+    if (!isset($_SESSION["platba"]) || !isset($_SESSION["doprava"])) {
+        header('Location: ./basket.php');
+    }
+    const MyConst = true;
+    require "pomoc/funkce.php";
+    require "pomoc/connection.php";
+    overeni_kosik();
 ?>
 <!doctype html>
 <html lang="cs">
@@ -37,16 +37,16 @@ overeni_kosik();
 <?php
 
 
-require "pomoc/navigace.php";
-require "pomoc/doprava.php";
-require "pomoc/platba.php";
+    require "pomoc/navigace.php";
+    require "pomoc/doprava.php";
+    require "pomoc/platba.php";
 
 
-$response_doprava = ziskat_dopravu();
-$response_platba = ziskat_platbu();
+    $response_doprava = ziskat_dopravu();
+    $response_platba = ziskat_platbu();
 
-navigace(0);
-$con = DbCon();
+    navigace(0);
+    $con = DbCon();
 
 ?>
 
@@ -78,10 +78,10 @@ $con = DbCon();
             </h2>
             <div class="main-block">
                 <?php
-                $response = array();
-                if (!array_key_exists("logged_in", $_SESSION)) {
+                    $response = array();
+                    if (!array_key_exists("logged_in", $_SESSION)) {
 
-                    echo('
+                        echo('
     
                             <div id="chete-se-prihlasit">
                                 <a class="btn btn-primary" data-toggle="modal" data-target="#LoginModal">
@@ -93,17 +93,17 @@ $con = DbCon();
                             </div>
                             ');
 
-                } else {
-                    $ID_U = $_SESSION["user_id"];
-                    $sql = "select Email ,Jmeno,Prijmeni ,Telefon , Mesto,Ulice,PSC FROM uzivatel LEFT JOIN adresa a on a.ID_A = uzivatel.ID_A WHERE ID_U = ?";
-                    $response = mysqli_fetch_all(mysqli_execute_query($con, $sql, [$ID_U]), ASSERT_ACTIVE)[0];
+                    } else {
+                        $ID_U = $_SESSION["user_id"];
+                        $sql = "select Email ,Jmeno,Prijmeni ,Telefon , Mesto,Ulice,PSC FROM uzivatel LEFT JOIN adresa a on a.ID_A = uzivatel.ID_A WHERE ID_U = ?";
+                        $response = mysqli_fetch_all(mysqli_execute_query($con, $sql, [$ID_U]), ASSERT_ACTIVE)[0];
 
-                }
+                    }
                 ?>
                 <div class="form-input full-input">
                     <input type="email" class="reqierd_input email" maxlength="50" name="email_dou" id="email_dou"
                         <?php if (array_key_exists("Email", $response)) {
-                            echo 'value="' . $response["Email"] . '"';
+                            echo 'value="'.$response["Email"].'"';
                         } ?> required>
                     <label for="email_dou full-input">E-mail:</label>
 
@@ -111,7 +111,7 @@ $con = DbCon();
                 <div class="form-input full-input">
                     <input type="tel" class="reqierd_input phone" pattern="\d{3}\d{3}\d{3}" name="tel_dou" id="tel_dou"
                         <?php if (array_key_exists("Telefon", $response)) {
-                            echo 'value="' . $response["Telefon"] . '"';
+                            echo 'value="'.$response["Telefon"].'"';
                         } ?> required>
                     <label for="tel_dou">Telefon:</label>
 
@@ -119,7 +119,7 @@ $con = DbCon();
                 <div class="form-input full-input">
                     <input type="text" class="reqierd_input jmeno" maxlength="25" name="jmeno_dou" id="jmeno_dou"
                         <?php if (array_key_exists("Jmeno", $response)) {
-                            echo 'value="' . $response["Jmeno"] . '"';
+                            echo 'value="'.$response["Jmeno"].'"';
                         } ?> required>
                     <label for="jmeno_dou">Jméno:</label>
 
@@ -128,7 +128,7 @@ $con = DbCon();
                     <input type="text" class="reqierd_input prijmeni" maxlength="25" name="prijmeni_dou"
                            id="prijmeni_dou"
                         <?php if (array_key_exists("Prijmeni", $response)) {
-                            echo 'value="' . $response["Prijmeni"] . '"';
+                            echo 'value="'.$response["Prijmeni"].'"';
                         } ?> required>
                     <label for="prijmeni_dou">Příjmení:</label>
 
@@ -145,7 +145,7 @@ $con = DbCon();
                     <input type="text" class="reqierd_input ulice" name="ulice_dou" id="ulice_dou"
                            pattern="^[0-9a-zA-Zá-žÁ-Ž\s]+[\s]+[\d]+[\/]*[\d]*$" maxlength="33"
                         <?php if (array_key_exists("Ulice", $response)) {
-                            echo 'value="' . $response["Ulice"] . '"';
+                            echo 'value="'.$response["Ulice"].'"';
                         } ?> required>
                     <label for="ulice_dou">Ulice a č. p.:</label>
 
@@ -154,7 +154,7 @@ $con = DbCon();
                     <input type="text" class="reqierd_input obec" name="obec_dou" id="obec_dou" minlength="2"
                            maxlength="40"
                         <?php if (array_key_exists("Mesto", $response)) {
-                            echo 'value="' . $response["Mesto"] . '"';
+                            echo 'value="'.$response["Mesto"].'"';
                         } ?> required>
                     <label for="obec_dou">Obec:</label>
 
@@ -162,7 +162,7 @@ $con = DbCon();
                 <div class="form-input full-input">
                     <input type="text" class="reqierd_input psc" name="psc_dou" id="psc_dou" pattern="\d{5}"
                            minlength="5" <?php if (array_key_exists("PSC", $response)) {
-                        echo 'value="' . $response["PSC"] . '"';
+                        echo 'value="'.$response["PSC"].'"';
                     } ?> required>
                     <label for="psc_dou">PSČ:</label>
 
@@ -175,7 +175,7 @@ $con = DbCon();
 
         <div class="kosik">
             <?php
-            require "pomoc/kosik.phtml"
+                require "pomoc/kosik.phtml"
             ?>
         </div>
 
@@ -199,7 +199,6 @@ $con = DbCon();
 <script src="/js/login.js"></script>
 <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
-<script src="/js/dodaci_udaje.js"></script>
 
 </body>
 

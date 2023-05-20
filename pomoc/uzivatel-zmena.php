@@ -10,6 +10,7 @@ if (session_status() != PHP_SESSION_ACTIVE) {
 
 if (isset($_POST["user_id"]) && $_SESSION["user_id"] == $_POST["user_id"]) {
 
+//    TODO toto by nemělo fungovat
     $conn = DbCon();
     $sql = "UPDATE uzivatel 
                 LEFT JOIN adresa a on uzivatel.ID_A = a.ID_A 

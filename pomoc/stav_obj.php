@@ -7,6 +7,13 @@ if ((!defined('MyConst'))) {
     }
 }
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+if ($_SESSION["role"] !== "Admin") {
+    echo "1";
+    exit();
+}
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 const MyConst = true;

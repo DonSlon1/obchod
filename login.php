@@ -45,10 +45,17 @@ if (!empty($_POST)) {
             echo "notexist";
         }
     } else if ($_POST["log_reg"] == "registration") {
-
+        if (!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $_POST['csrf_token']) {
+            unset($_SESSION['csrf_token']);
+            echo "csrf_token";
+            exit();
+        }
+        unset($_SESSION['csrf_token']);
         if ($_SESSION['captcha_text'] != $_POST["Captcha"]) {
             echo "captcha";
             exit();
+        } else {
+            unset($_SESSION['captcha_text']);
         }
         $email = $_POST["email"];
 

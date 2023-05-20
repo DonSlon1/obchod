@@ -35,13 +35,15 @@ if (session_status() != PHP_SESSION_ACTIVE) {
 
 navigace(0);
 $con = DbCon();
-
+$token = bin2hex(random_bytes(32));
+$_SESSION["csrf_token"] = $token;
 ?>
 
 <div class="container h_container  mt-5">
 
 
     <form class=" preventDefault" autocomplete="off" method="post" id="formular" onsubmit="registration()">
+        <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $token ?>">
         <div class="moznosti">
             <h2 class="nadpis">
                 Kontakní Ůdaje
@@ -142,8 +144,6 @@ $con = DbCon();
 <script src="/js/login.js"></script>
 <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
-<script src="/js/dodaci_udaje.js"></script>
-
 </body>
 
 </html>

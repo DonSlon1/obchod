@@ -25,7 +25,7 @@
         if ($item["pocet"] != 1) {
             echo $item["pocet"].'×';
         }
-        echo(' <a class="sede" href="produkt?ID_P='.$item["ID_P"].'" >'.$item["Nazev"].'</a></h3>
+        echo(' <a class="sede" href="produkt?ID_P='.$item["ID_P"].'" >'.htmlspecialchars($item["Nazev"]).'</a></h3>
                         <div class="cena">
                             '.number_format($item["Cena"] * $item["pocet"], thousands_separator: ' ').' Kč
                         </div>

@@ -56,7 +56,8 @@ const registration = () => {
     const Telefon = document.getElementById("telefon").value
     const PSC = document.getElementById("PSC").value
     const em_div = document.getElementById("registerEmail")
-    const captcha = $("#captcha"), img_captcha = $("#captch_img")
+    const captcha = $("#captcha"), img_captcha = $("#captch_img"),
+        token = $("#csrf_token").val()
 
 
     axios.post('/login', {
@@ -69,7 +70,8 @@ const registration = () => {
         Ulice: Ulice,
         Mesto: Mesto,
         PSC: PSC,
-        Captcha: captcha.val()
+        Captcha: captcha.val(),
+        csrf_token: token
 
     }, {
         headers: {'X-Requested-With': 'XMLHttpRequest'}
