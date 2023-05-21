@@ -135,7 +135,7 @@ navigace();
                         $sql = "SELECT * 
                                     FROM vyrobce 
                                     WHERE ID_V !=0";
-                        $res = mysqli_fetch_all(mysqli_execute_query($con, $sql), ASSERT_ACTIVE);
+                        $res = mysqli_fetch_all(mysqli_query($con, $sql), ASSERT_ACTIVE);
                         foreach ($res as $item) {
                             echo "<li class='vyrobce-li' data-id='{$item["ID_V"]}'>
                                         <img src='/images/{$item["Obrazek"]}'> <span>{$item["Nazev"]}</span>
@@ -160,7 +160,7 @@ navigace();
                         $sql = "SELECT * 
                                     FROM kategorie 
                                     WHERE ID_K != 0";
-                        $res = mysqli_fetch_all(mysqli_execute_query($con, $sql), ASSERT_ACTIVE);
+                        $res = mysqli_fetch_all(mysqli_query($con, $sql), ASSERT_ACTIVE);
                         foreach ($res as $item) {
                             $nazev = htmlspecialchars($item["Nazev"]);
                             echo "<li class='vyrobce-li' data-id='{$item["ID_K"]}' role='option'>

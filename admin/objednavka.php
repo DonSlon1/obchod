@@ -36,15 +36,15 @@
 </head>
 <?php
 
-    const MyConst = true;
+const MyConst = true;
 
-    require "../pomoc/connection.php";
-    require "../pomoc/navigace.php";
-    require "../pomoc/funkce.php";
+require "../pomoc/connection.php";
+require "../pomoc/navigace.php";
+require "../pomoc/funkce.php";
 
-    overeni_uzivatele();
+overeni_uzivatele();
 
-    navigace(0);
+navigace(0);
 
 ?>
 <body>
@@ -70,18 +70,18 @@
 
         <?php
 
-            $conn = DbCon();
-            $sql = "SELECT objednavka.ID_OB , Stav,platba ,Datum_prijeti ,doprava ,p.Cena_Bez_DPH* op.Poce_kusu AS cena
+        $conn = DbCon();
+        $sql = "SELECT objednavka.ID_OB , Stav,platba ,Datum_prijeti ,doprava ,p.Cena_Bez_DPH* op.Poce_kusu AS cena
                     FROM `objednavka` 
                     LEFT JOIN objednavka_predmet op on objednavka.ID_OB = op.ID_OB 
                     LEFT JOIN predmety p on op.ID_P = p.ID_P
                     GROUP BY objednavka.ID_OB, Stav, Datum_prijeti";
-            $res = mysqli_execute_query($conn, $sql);
-            $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
+        $res = mysqli_query($conn, $sql);
+        $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
-            foreach ($res as $objednavka) {
-                $cena = number_format(intval($objednavka["cena"]), thousands_separator: ' ');
-                echo("<tr id='{$objednavka["ID_OB"]}'>
+        foreach ($res as $objednavka) {
+            $cena = number_format(intval($objednavka["cena"]), thousands_separator: ' ');
+            echo("<tr id='{$objednavka["ID_OB"]}'>
                 <td >{$objednavka["ID_OB"]}</td>
                 <td>
                     
@@ -89,31 +89,31 @@
                         <input type='hidden' value='{$objednavka["ID_OB"]}' class='id_ob'>
                         <select class='zdodani' > ");
 
-                if ($objednavka["Stav"] == 'Přijatá') {
-                    echo "<option selected value = 'Přijatá'  > Přijatá</option>";
-                } else {
-                    echo "<option value = 'Přijatá' > Přijatá</option>";
-                }
+            if ($objednavka["Stav"] == 'Přijatá') {
+                echo "<option selected value = 'Přijatá'  > Přijatá</option>";
+            } else {
+                echo "<option value = 'Přijatá' > Přijatá</option>";
+            }
 
-                if ($objednavka["Stav"] == 'Na Cestě') {
-                    echo "<option selected value = 'Na Cestě' > Na Cestě</option>";
-                } else {
-                    echo "<option value = 'Na Cestě' > Na Cestě</option>";
-                }
+            if ($objednavka["Stav"] == 'Na Cestě') {
+                echo "<option selected value = 'Na Cestě' > Na Cestě</option>";
+            } else {
+                echo "<option value = 'Na Cestě' > Na Cestě</option>";
+            }
 
-                if ($objednavka["Stav"] == 'Zrušená') {
-                    echo "<option selected value = 'Zrušená' > Zrušená</option>";
-                } else {
-                    echo "<option value = 'Zrušená' > Zrušená</option>";
-                }
+            if ($objednavka["Stav"] == 'Zrušená') {
+                echo "<option selected value = 'Zrušená' > Zrušená</option>";
+            } else {
+                echo "<option value = 'Zrušená' > Zrušená</option>";
+            }
 
-                if ($objednavka["Stav"] == 'Vyřízená') {
-                    echo "<option selected value = 'Vyřízená' > Vyřízená</option>";
-                } else {
-                    echo "<option value = 'Vyřízená' > Vyřízená</option>";
-                }
+            if ($objednavka["Stav"] == 'Vyřízená') {
+                echo "<option selected value = 'Vyřízená' > Vyřízená</option>";
+            } else {
+                echo "<option value = 'Vyřízená' > Vyřízená</option>";
+            }
 
-                echo("    
+            echo("    
                     </select> 
                 </div>
                 </td>
@@ -125,7 +125,7 @@
                 
                 </tr>
 ");
-            }
+        }
         ?>
     </table>
 </div>

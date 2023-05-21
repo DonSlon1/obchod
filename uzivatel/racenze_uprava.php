@@ -55,7 +55,10 @@ $sql = "SELECT ID_R,recenze.Popis,Kladne,Zaporne,recenze.Hodnoceni,p.Nazev,p.H_O
             FROM recenze 
             LEFT JOIN predmety p on recenze.ID_P = p.ID_P
             WHERE ID_R= ? AND ID_U = ? ";
-$res = mysqli_execute_query($conn, $sql, [$_GET["ID_R"], $_SESSION["user_id"]]);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $_GET["ID_R"], $_SESSION["user_id"]);
+$stmt->execute();
+$res = $stmt->get_result();
 
 if (0 >= mysqli_num_rows($res)) {
     error_msg("Neexistuje");

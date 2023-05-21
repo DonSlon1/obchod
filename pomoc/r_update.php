@@ -27,7 +27,11 @@ if (isset($_POST["ID_R"])) {
                     ,Popis = ?
                 WHERE ID_R = ? ";
 
-    if (!mysqli_execute_query($conn, $sql, [$_POST["rating"], $positive, $positive, $_POST["zkusenost"], $_POST["ID_R"]])) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("isssi", $_POST["rating"], $positive, $negative, $_POST["zkusenost"], $_POST["ID_R"]);
+
+
+    if (!$stmt->execute()) {
         print_r("Omlováme se něco se nepovedlo");
     }
     mysqli_close($conn);

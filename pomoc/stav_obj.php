@@ -30,8 +30,10 @@ if (array_key_exists("moznost", $_POST)) {
     $sql = "UPDATE `objednavka` 
                 SET Stav = ?
                 WHERE ID_OB = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("si", $moznost, $id_ob);
+    $stmt->execute();
 
-    mysqli_execute_query($conn, $sql, [$moznost, $id_ob]);
 
     echo 0;
 

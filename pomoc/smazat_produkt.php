@@ -10,6 +10,15 @@ const MyConst = true;
 require "connection.php";
 $smazani = json_decode(file_get_contents('php://input'), true);
 
+function sql_get_idp(mysqli $conn, string $sql, int $id_p): mysqli_result
+{
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_p);
+    $stmt->execute();
+    return $stmt->get_result();
+
+}
+
 $conn = DbCon();
 if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
@@ -20,7 +29,8 @@ if (array_key_exists("ID_P", $smazani) && $_SESSION["role"] == "Admin") {
                 FROM obrazky 
                 WHERE ID_P = ?";
 
-    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$smazani["ID_P"]]), ASSERT_ACTIVE);
+    $res = sql_get_idp($conn, $sql, $smazani["ID_P"]);
+    $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
     foreach ($res as $re) {
         if (file_exists("../images/{$re["Obrazek"]}") && $re["Obrazek"] != "") {
@@ -32,7 +42,9 @@ if (array_key_exists("ID_P", $smazani) && $_SESSION["role"] == "Admin") {
     $sql = "DELETE FROM obrazky 
                 WHERE ID_P = ?";
 
-    if (!mysqli_execute_query($conn, $sql, [$smazani["ID_P"]])) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $smazani["ID_P"]);
+    if (!$stmt->execute()) {
         echo "1";
         exit();
     }
@@ -41,7 +53,8 @@ if (array_key_exists("ID_P", $smazani) && $_SESSION["role"] == "Admin") {
                 FROM recenze 
                 WHERE ID_P = ?";
 
-    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$smazani["ID_P"]]), ASSERT_ACTIVE);
+    $res = sql_get_idp($conn, $sql, $smazani["ID_P"]);
+    $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
     foreach ($res as $re) {
         if (file_exists("../images/{$re["Obrazek"]}") && $re["Obrazek"] != "") {
@@ -52,16 +65,19 @@ if (array_key_exists("ID_P", $smazani) && $_SESSION["role"] == "Admin") {
 
     $sql = "DELETE FROM recenze 
                 WHERE ID_P = ?";
+    $stmt = $conn->prepare($sql);
 
-    if (!mysqli_execute_query($conn, $sql, [$smazani["ID_P"]])) {
+    $stmt->bind_param("i", $smazani["ID_P"]);
+    if (!$stmt->execute()) {
         echo "1";
         exit();
     }
 
     $sql = "DELETE FROM objednavka_predmet 
                 WHERE ID_P = ?";
-
-    if (!mysqli_execute_query($conn, $sql, [$smazani["ID_P"]])) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $smazani["ID_P"]);
+    if (!$stmt->execute()) {
         echo "1";
         exit();
     }
@@ -69,8 +85,8 @@ if (array_key_exists("ID_P", $smazani) && $_SESSION["role"] == "Admin") {
     $sql = "SELECT H_Obrazek 
                 FROM predmety 
                 WHERE ID_P = ?";
-
-    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$smazani["ID_P"]]), ASSERT_ACTIVE);
+    $res = sql_get_idp($conn, $sql, $smazani["ID_P"]);
+    $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
     foreach ($res as $re) {
         if (file_exists("../images/{$re["H_Obrazek"]}") && $re["H_Obrazek"] != "")
@@ -79,8 +95,9 @@ if (array_key_exists("ID_P", $smazani) && $_SESSION["role"] == "Admin") {
 
     $sql = "DELETE FROM predmety 
                 WHERE ID_P = ?";
-
-    if (!mysqli_execute_query($conn, $sql, [$smazani["ID_P"]])) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $smazani["ID_P"]);
+    if (!$stmt->execute()) {
         echo "1";
         exit();
     }

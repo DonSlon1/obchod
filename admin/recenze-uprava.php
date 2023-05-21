@@ -96,8 +96,7 @@ navigace(0);
         $sql = "SELECT recenze.ID_R ,recenze.ID_P  ,recenze.Popis, p.Nazev , Kladne, Zaporne, Obrazek  
                     FROM `recenze` 
                     LEFT JOIN predmety p on recenze.ID_P = p.ID_P";
-
-        $res = mysqli_execute_query($conn, $sql);
+        $res = mysqli_query($conn, $sql);
         $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
         foreach ($res as $produkt) {
             $id_p = htmlspecialchars($produkt["ID_P"]);

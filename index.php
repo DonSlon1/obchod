@@ -30,25 +30,25 @@
 
 </head>
 <?php
-    const MyConst = true;
+const MyConst = true;
 
-    require "pomoc/connection.php";
-    require "pomoc/navigace.php";
-    require "pomoc/funkce.php";
+require "pomoc/connection.php";
+require "pomoc/navigace.php";
+require "pomoc/funkce.php";
 
-    navigace();
-    $conn = DbCon();
+navigace();
+$conn = DbCon();
 
-    $page = isset($_GET['Stranka']) && is_numeric($_GET['Stranka']) ? $_GET['Stranka'] : 1;
-    $num_results_on_page = 20;
-    $sql = "SELECT COUNT(*) AS Pocet FROM predmety";
+$page = isset($_GET['Stranka']) && is_numeric($_GET['Stranka']) ? $_GET['Stranka'] : 1;
+$num_results_on_page = 20;
+$sql = "SELECT COUNT(*) AS Pocet FROM predmety";
 
-    $total_pages = mysqli_fetch_row(mysqli_execute_query($conn, $sql))[0] ?? 0;
-    $calc_page = ($page - 1) * $num_results_on_page;
-    $parametry[] = $calc_page;
-    $parametry[] = $num_results_on_page;
+$total_pages = mysqli_fetch_row(mysqli_query($conn, $sql))[0] ?? 0;
+$calc_page = ($page - 1) * $num_results_on_page;
+$parametry[] = $calc_page;
+$parametry[] = $num_results_on_page;
 
-    $sql = "SELECT p.ID_P AS  ID_P ,p.Nazev AS Nazev, Cena_Bez_DPH AS Cena ,H_Obrazek,
+$sql = "SELECT p.ID_P AS  ID_P ,p.Nazev AS Nazev, Cena_Bez_DPH AS Cena ,H_Obrazek,
                     p.Popis AS Popis , COALESCE(SUM(r.Hodnoceni) / COUNT(r.ID_R),0) AS Hodnocení
                 FROM predmety p
                 LEFT JOIN recenze r on p.ID_P = r.ID_P 
@@ -56,12 +56,17 @@
                 ORDER BY p.Nazev
                 LIMIT ?,?
                 ";
-    $predmety = mysqli_fetch_all(mysqli_execute_query($conn, $sql, $parametry), ASSERT_ACTIVE);
 
-    $predmetysave = array();
-    foreach ($predmety as $item) {
-        $predmetysave[] = array_map('htmlspecialchars', $item);
-    }
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, 'ii', ...$parametry);
+mysqli_stmt_execute($stmt);
+$predmety = mysqli_fetch_all(mysqli_stmt_get_result($stmt), ASSERT_ACTIVE);
+
+
+$predmetysave = array();
+foreach ($predmety as $item) {
+    $predmetysave[] = array_map('htmlspecialchars', $item);
+}
 ?>
 
 <div class="container h_container searchh">
@@ -69,9 +74,9 @@
 
         <div class="main-obsah" id="main-obsah">
             <?php
-                foreach ($predmetysave as $item) {
-                    $hodnocei = $item["Hodnocení"] * 20;
-                    echo("
+            foreach ($predmetysave as $item) {
+                $hodnocei = $item["Hodnocení"] * 20;
+                echo("
                 <div class='predmet'>
             <a href='/produkt.php?ID_P={$item["ID_P"]}'>
                 <div class='obrazek'>
@@ -93,7 +98,7 @@
                 {$item["Popis"]}
             </div>
         </div>");
-                }
+            }
 
             ?>
 

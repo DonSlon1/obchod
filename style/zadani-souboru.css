@@ -78,6 +78,7 @@ textarea:focus + label {
 }
 
 .popis {
+    margin: 0 0 8px 0 !important;
     top: 1px;
     left: 1px;
     padding-left: 10px;

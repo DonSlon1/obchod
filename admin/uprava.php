@@ -59,7 +59,11 @@ $sql = "SELECT *
             FROM predmety 
             WHERE ID_P=?";
 
-$res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$produkt]), ASSERT_ACTIVE);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $produkt);
+$stmt->execute();
+$res = $stmt->get_result();
+$res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
 if (count($res) > 0) {
     $res = $res[0];
@@ -136,7 +140,11 @@ $parametry = json_decode($res["Parametry"], true);
                         $sql2 = "SELECT Nazev 
                                     FROM vyrobce
                                     WHERE ID_V = ?";
-                        $ress = mysqli_fetch_assoc(mysqli_execute_query($conn, $sql2, [$id_v]))["Nazev"]
+                        $stmt = $conn->prepare($sql2);
+                        $stmt->bind_param("i", $id_v);
+                        $stmt->execute();
+                        $res_tmp = $stmt->get_result();
+                        $ress = mysqli_fetch_assoc($res_tmp)["Nazev"]
                         ?>
                         <input type="text" class="reqierd_input search-options" name="vyrobce_nazev" id="vyrobce_nazev"
                                required value="<?php echo $ress ?>">
@@ -149,7 +157,7 @@ $parametry = json_decode($res["Parametry"], true);
                         $sql2 = "SELECT * 
                                     FROM vyrobce 
                                     WHERE ID_V !=0";
-                        $ress = mysqli_fetch_all(mysqli_execute_query($conn, $sql2), ASSERT_ACTIVE);
+                        $ress = mysqli_fetch_all(mysqli_query($conn, $sql2), ASSERT_ACTIVE);
                         foreach ($ress as $item) {
                             $nazev = htmlspecialchars($item["Nazev"]);
                             echo "<li class='vyrobce-li' data-id='{$item["ID_V"]}'>
@@ -172,7 +180,12 @@ $parametry = json_decode($res["Parametry"], true);
                         $sql2 = "SELECT Nazev 
                                     FROM kategorie
                                     WHERE ID_K = ?";
-                        $ress = mysqli_fetch_assoc(mysqli_execute_query($conn, $sql2, [$id_k]))["Nazev"]
+
+                        $stmt = $conn->prepare($sql2);
+                        $stmt->bind_param("i", $id_k);
+                        $stmt->execute();
+                        $res_tmp = $stmt->get_result();
+                        $ress = mysqli_fetch_assoc($res_tmp)["Nazev"]
                         ?>
                         <input type="text" class="reqierd_input search-options" name="skupina_nazev" id="skupina_nazev"
                                required value="<?php echo $ress ?>">
@@ -183,7 +196,7 @@ $parametry = json_decode($res["Parametry"], true);
                         $sql2 = "SELECT * 
                                     FROM kategorie 
                                     WHERE ID_K != 0";
-                        $ress = mysqli_fetch_all(mysqli_execute_query($conn, $sql2), ASSERT_ACTIVE);
+                        $ress = mysqli_fetch_all(mysqli_query($conn, $sql2), ASSERT_ACTIVE);
                         foreach ($ress as $item) {
                             $nazev = htmlspecialchars($item["Nazev"]);
                             echo "<li class='vyrobce-li' data-id='{$item["ID_K"]}' role='option'>

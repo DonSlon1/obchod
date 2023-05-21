@@ -30,10 +30,14 @@ if (!empty($_POST)) {
     if ($_POST["log_reg"] == "login") {
         $email = $_POST["email"];
         $Password = $_POST["Password"];
-        $sql = "SELECT Email FROM uzivatel WHERE Email= ? ";
-        if (1 == mysqli_num_rows(mysqli_execute_query($conn, $sql, [$email]))) {
-            $sql = "SELECT Password,ID_U,Role FROM uzivatel WHERE Email= ? ";
-            $res = (mysqli_execute_query($conn, $sql, [$email])->fetch_assoc());
+        $sql = "SELECT Email,Password,ID_U,Role
+                FROM uzivatel WHERE Email= ? ";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        if (1 == mysqli_num_rows($res)) {
+            $res = mysqli_fetch_assoc($res);
             if (password_verify($Password, $res["Password"])) {
 
                 set_cookie($res["ID_U"], $res["Role"]);
@@ -50,7 +54,7 @@ if (!empty($_POST)) {
             echo "csrf_token";
             exit();
         }
-        unset($_SESSION['csrf_token']);
+
         if ($_SESSION['captcha_text'] != $_POST["Captcha"]) {
             echo "captcha";
             exit();
@@ -60,8 +64,13 @@ if (!empty($_POST)) {
         $email = $_POST["email"];
 
 
-        $sql = "SELECT Email FROM uzivatel WHERE Email= ? ";
-        if (0 == mysqli_num_rows(mysqli_execute_query($conn, $sql, [$email]))) {
+        $sql = "SELECT Email
+                FROM uzivatel WHERE Email= ? ";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        if (0 == mysqli_num_rows($res)) {
             if ($_POST["Password"] == "") {
 
                 echo "emptypassword";
@@ -75,16 +84,22 @@ if (!empty($_POST)) {
                 $Telefon = $_POST["Telefon"];
 
 
-                $sql = "INSERT INTO adresa ( Mesto, Ulice, PSC) VALUE (?,?,?)";
-                mysqli_execute_query($conn, $sql, [$Mesto, $Ulice, $PSC]);
-                $ID_A = mysqli_insert_id($conn);
+                $sql = "INSERT INTO adresa ( Mesto, Ulice, PSC) 
+                        VALUE (?,?,?)";
+                $stmt = mysqli_prepare($conn, $sql);
+                $stmt->bind_param("ssi", $Mesto, $Ulice, $PSC);
+                $stmt->execute();
+                $ID_A = $stmt->insert_id;
 
-                $ID_U = generateRandomString(10) . "_" . uniqid(generateRandomString(10) . time(), true);
-                $sql = "INSERT INTO uzivatel (ID_U, Jmeno, Prijmeni, Email,Telefon, Role, Password,ID_A) 
-                            VALUE ( ? , ? , ? , ? ,?,'Uzivatel',?,?)";
-                mysqli_execute_query($conn, $sql, [$ID_U, $jmeno, $prijmeni, $email, $Telefon, $Password, $ID_A]);
+                $sql = "INSERT INTO uzivatel ( Jmeno, Prijmeni, Email,Telefon, Role, Password,ID_A) 
+                            VALUE (  ? , ? , ? ,?,'Uzivatel',?,?)";
+                $stmt = mysqli_prepare($conn, $sql);
+                $stmt->bind_param("sssssi", $jmeno, $prijmeni, $email, $Telefon, $Password, $ID_A);
+                $stmt->execute();
+                $ID_U = $stmt->insert_id;
 
                 set_cookie($ID_U, "Uzivatel");
+                unset($_SESSION['csrf_token']);
                 echo "good_reg";
             }
         } else {

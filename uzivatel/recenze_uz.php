@@ -98,7 +98,10 @@ navigace(0);
                     LEFT JOIN predmety p on recenze.ID_P = p.ID_P 
                     WHERE ID_U=?";
 
-        $res = mysqli_execute_query($conn, $sql, [$_SESSION["user_id"]]);
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $_SESSION["user_id"]);
+        $stmt->execute();
+        $res = $stmt->get_result();
         $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
         foreach ($res as $produkt) {
             $id_r = htmlspecialchars($produkt["ID_R"]);

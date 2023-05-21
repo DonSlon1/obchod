@@ -59,7 +59,10 @@ $sql = "SELECT   Jmeno, Prijmeni, Telefon, Mesto, Ulice, PSC
             LEFT JOIN adresa a ON a.ID_A = uzivatel.ID_A 
             WHERE ID_U= ?";
 
-$res = mysqli_execute_query($con, $sql, [$_SESSION["user_id"]]);
+$stmt = $con->prepare($sql);
+$stmt->bind_param("i", $_SESSION["user_id"]);
+$stmt->execute();
+$res = $stmt->get_result();
 if (mysqli_num_rows($res) == 1) {
     $res = mysqli_fetch_all($res, ASSERT_ACTIVE)[0];
 } else {

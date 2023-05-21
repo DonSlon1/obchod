@@ -14,7 +14,12 @@ if (array_key_exists("email", $email)) {
     $sql = "SELECT Email 
                 FROM uzivatel 
                 WHERE Email= ? ";
-    if (0 == mysqli_num_rows(mysqli_execute_query($conn, $sql, [$email]))) {
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $num_rows = mysqli_num_rows($result);
+    if (0 == $num_rows) {
         echo "1";
     } else {
         echo "0";

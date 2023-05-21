@@ -20,9 +20,12 @@ if (isset($_POST["user_id"]) && $_SESSION["user_id"] == $_POST["user_id"]) {
                     ,Ulice = ?
                     ,PSC = ?
                     ,Mesto = ?
+                WHERE ID_U = ?
                     ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssisisi", $_POST["jmeno"], $_POST["prijmeni"], $_POST["telefon"], $_POST["Ulice"], $_POST["PSC"], $_POST["Mesto"], $_SESSION["user_id"]);
 
-    if (mysqli_execute_query($conn, $sql, [$_POST["jmeno"], $_POST["prijmeni"], $_POST["telefon"], $_POST["Ulice"], $_POST["PSC"], $_POST["Mesto"]])) {
+    if ($stmt->execute()) {
         $_SESSION["good"] = 1;
         $_SESSION["good_msg"] = 'Good';
 
@@ -31,13 +34,11 @@ if (isset($_POST["user_id"]) && $_SESSION["user_id"] == $_POST["user_id"]) {
         $_SESSION["error_msg"] = 'Unknown';
     }
     mysqli_close($conn);
-    header('Location: /uzivatel/sprava-uctu.php');
-    exit();
 
 
 } else {
     $_SESSION["error"] = 1;
     $_SESSION["error_msg"] = 'Unknown';
-    header('Location: /uzivatel/sprava-uctu.php');
-    exit();
 }
+header('Location: /uzivatel/sprava-uctu.php');
+exit();

@@ -33,14 +33,14 @@
 
 </head>
 <?php
-    const MyConst = true;
+const MyConst = true;
 
-    require "../pomoc/connection.php";
-    require "../pomoc/navigace.php";
-    require "../pomoc/funkce.php";
+require "../pomoc/connection.php";
+require "../pomoc/navigace.php";
+require "../pomoc/funkce.php";
 
-    overeni_uzivatele();
-    navigace(0);
+overeni_uzivatele();
+navigace(0);
 ?>
 <body>
 <div class="modal  fade " id="smazat-produkt" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
@@ -88,25 +88,25 @@
         <?php
 
 
-            $conn = DbCon();
-            $sql = "SELECT Cena_Bez_DPH,H_Obrazek,Nazev,ID_P 
+        $conn = DbCon();
+        $sql = "SELECT Cena_Bez_DPH,H_Obrazek,Nazev,ID_P 
                     FROM `predmety` ";
+        $res = mysqli_query($conn, $sql);
+        $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
-            $res = mysqli_execute_query($conn, $sql);
-            $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
+        foreach ($res as $produkt) {
+            $produkt = array_map('htmlspecialchars', $produkt);
+            $ID_P = $produkt["ID_P"];
+            $Nazev = $produkt["Nazev"];
+            $H_Obrazek = $produkt["H_Obrazek"];
+            $Cena_Bez_DPH = number_format($produkt["Cena_Bez_DPH"], thousands_separator: ' ') . ' Kč';
 
-            foreach ($res as $produkt) {
-                $ID_P = $produkt["ID_P"];
-                $Nazev = htmlspecialchars($produkt["Nazev"]);
-                $H_Obrazek = htmlspecialchars($produkt["H_Obrazek"]);
-                $Cena_Bez_DPH = number_format(htmlspecialchars($produkt["Cena_Bez_DPH"]), thousands_separator: ' ').' Kč';
-
-                echo("<tr>
+            echo("<tr>
                 <td><a href='/produkt?ID_P=$ID_P'><img src=\"/images/$H_Obrazek\" class='tabulka-obrazek'>$Nazev</a></td>
                 <td>$Cena_Bez_DPH</td>
                 <td><a href='uprava?ID_P=$ID_P'><img src='/svg/tuzka.svg' class='svg-img' alt='upravit' ></a> <img src='/svg/krizek.svg' class='svg-img' alt='smazat' onclick='smazat(\"$ID_P\")'></td>
                 </tr>");
-            }
+        }
         ?>
     </table>
 </div>

@@ -31,7 +31,10 @@ if (array_key_exists("vlasnoti", $_POST)) {
 
     $sql = "INSERT INTO `predmety` ( `Nazev`, `Popis`, `Cena_Bez_DPH`, `H_Obrazek`, `Parametry`,`ID_V`,`ID_K`) 
                 VALUES (?,?,?,?,?,?,?)";
-    if (!mysqli_execute_query($conn, $sql, [$_POST["nazev"], $_POST["popis"], $_POST["cena"], $H_OB, $json_parametry, $vyrobce, $kategorie])) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssdssii", $_POST["nazev"], $_POST["popis"], $_POST["cena"], $H_OB, $json_parametry, $vyrobce, $kategorie);
+
+    if (!$stmt->execute()) {
         $error = 1;
         echo "\"Something went wrong! :(";
         return "error";
@@ -53,8 +56,9 @@ if (array_key_exists("vlasnoti", $_POST)) {
 
                 $sql = "INSERT INTO `obrazky` (Obrazek, Nazev, ID_P) 
                         VALUES (?,?,?)";
-
-                mysqli_execute_query($conn, $sql, [$nazev_obrazku, $_FILES["file"]["name"][$i], $id_p]);
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssi", $nazev_obrazku, $_FILES["file"]["name"][$i], $id_p);
+                $stmt->execute();
             } else {
                 $error = 1;
                 echo "s obrázkem " . $_FILES["file"]["name"][$i] . "je něco špatně";

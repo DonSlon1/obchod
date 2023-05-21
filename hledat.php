@@ -30,40 +30,49 @@
 
 </head>
 <?php
-    const MyConst = true;
+const MyConst = true;
 
-    require "pomoc/connection.php";
-    require "pomoc/navigace.php";
-    require "pomoc/funkce.php";
+require "pomoc/connection.php";
+require "pomoc/navigace.php";
+require "pomoc/funkce.php";
 
-    navigace();
-    $conn = DbCon();
+navigace();
+$conn = DbCon();
 
-    $sql = 'SELECT MIN(Cena_Bez_DPH) AS Min, MAX(Cena_Bez_DPH) AS Max 
+$sql = 'SELECT MIN(Cena_Bez_DPH) AS Min, MAX(Cena_Bez_DPH) AS Max 
         FROM predmety
         WHERE Nazev LIKE ?
         ';
 
-    $hodnoty = $_GET["Nazev"] ?? '';
-    $cena = mysqli_fetch_assoc(mysqli_execute_query($conn, $sql, ["%".$hodnoty."%"]));
+$hodnoty = $_GET["Nazev"] ?? '';
+$hodnoty = "%" . $hodnoty . "%";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $hodnoty);
+mysqli_stmt_execute($stmt);
+$res = mysqli_stmt_get_result($stmt);
+$cena = mysqli_fetch_assoc($res);
 
-    $sql = 'SELECT v.Nazev AS Vyrobce , v.ID_V AS ID_V
+$sql = 'SELECT v.Nazev AS Vyrobce , v.ID_V AS ID_V
         FROM predmety p
         LEFT JOIN vyrobce v on p.ID_V = v.ID_V
         WHERE p.Nazev LIKE ?
         GROUP BY Vyrobce';
 
-    $vyrobce = mysqli_fetch_all(mysqli_execute_query($conn, $sql, ["%".$hodnoty."%"]), ASSERT_ACTIVE);
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $hodnoty);
+mysqli_stmt_execute($stmt);
+$res = mysqli_stmt_get_result($stmt);
+$vyrobce = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
 
-    $min_search = $_GET["Min"] ?? $cena["Min"];
-    $max_search = $_GET["Max"] ?? $cena["Max"];
-    $num_results_on_page = 20;
-    $page = isset($_GET['Stranka']) && is_numeric($_GET['Stranka']) ? $_GET['Stranka'] : 1;
+$min_search = $_GET["Min"] ?? $cena["Min"];
+$max_search = $_GET["Max"] ?? $cena["Max"];
+$num_results_on_page = 20;
+$page = isset($_GET['Stranka']) && is_numeric($_GET['Stranka']) ? $_GET['Stranka'] : 1;
 
-    $vysledek = vyhledani_predmetu($conn, $_GET, $cena, $num_results_on_page);
-    $predmetysave = $vysledek[0] ?? null;
-    $total_pages = $vysledek[1]["Celkem_Stranke"] ?? 0;
+$vysledek = vyhledani_predmetu($conn, $_GET, $cena, $num_results_on_page);
+$predmetysave = $vysledek[0] ?? null;
+$total_pages = $vysledek[1]["Celkem_Stranke"] ?? 0;
 
 ?>
 
@@ -95,8 +104,8 @@
                     <div class="cont" id="vyrobce">
                         <?php
 
-                            foreach ($vyrobce as $item) {
-                                echo "
+                        foreach ($vyrobce as $item) {
+                            echo "
                                         <label class='vyrobce' for='vyrobce-{$item['ID_V']}'>
                                             <input class='vyrobce-nazev' id='vyrobce-{$item['ID_V']}' 
                                                     type='checkbox' value='{$item["ID_V"]}'
@@ -104,7 +113,7 @@
                                             <span>{$item["Vyrobce"]}</span>
                                         </label>
                                         ";
-                            }
+                        }
                         ?>
                     </div>
 
@@ -160,13 +169,13 @@
         </div>
         <div class="main-obsah" id="main-obsah">
             <?php
-                if (empty($predmetysave)) {
-                    echo "<span class='Info_msg'>Nic takového jsme nenašli</span>";
-                }
+            if (empty($predmetysave)) {
+                echo "<span class='Info_msg'>Nic takového jsme nenašli</span>";
+            }
 
-                foreach ($predmetysave as $item) {
-                    $hodnocei = $item["Hodnocenii"] * 20;
-                    echo("
+            foreach ($predmetysave as $item) {
+                $hodnocei = $item["Hodnocenii"] * 20;
+                echo("
                 <div class='predmet'>
                     <a href='/produkt.php?ID_P={$item["ID_P"]}'>
                         <div class='obrazek'>
@@ -188,7 +197,7 @@
                         {$item["Popis"]}
                     </div>
                 </div>");
-                }
+            }
 
             ?>
 

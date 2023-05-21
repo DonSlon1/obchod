@@ -12,7 +12,11 @@ if (array_key_exists("id", $_POST)) {
                 left join predmety p on p.ID_P = objednavka_predmet.ID_P 
                 WHERE ID_OB = ?";
 
-    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$_POST["id"]]), ASSERT_ACTIVE);
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $_POST["id"]);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
     echo "<div class='table-group'>";
     echo "<div> 
                 <span>Předměty</span>
@@ -28,6 +32,7 @@ if (array_key_exists("id", $_POST)) {
                 </thead>
                 <tbody>";
     foreach ($res as $item) {
+        $item = array_map('htmlspecialchars', $item);
         $cena = number_format(intval($item["Cena_Bez_DPH"]), thousands_separator: ' ');
         echo "<tr>
                     <td>{$item["ID_P"]}</td>
@@ -43,7 +48,15 @@ if (array_key_exists("id", $_POST)) {
                 left join dodaci_udaje du on du.ID_DU = objednavka.ID_DU 
                 WHERE ID_OB = ?";
 
-    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$_POST["id"]]), ASSERT_ACTIVE)[0];
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $_POST["id"]);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $res = mysqli_fetch_assoc($res);
+    if (is_null($res)) {
+        exit();
+    }
+    $res = array_map('htmlspecialchars', $res);
     echo "<div> 
                 <span>Kontaktní údaje</span>
                 <table> 

@@ -23,7 +23,11 @@ if (array_key_exists("ID_R", $smazani) && isset($_SESSION["user_id"])) {
         $sql = "SELECT ID_U 
                 FROM recenze 
                 WHERE ID_R=? ";
-        $res = mysqli_fetch_row(mysqli_execute_query($conn, $sql, [$smazani["ID_R"]]));
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $smazani["ID_R"]);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $res = mysqli_fetch_row($res);
         if ($res[0] == $_SESSION["user_id"]) {
             $povoleni = true;
         }
@@ -40,7 +44,11 @@ if (array_key_exists("ID_R", $smazani) && isset($_SESSION["user_id"])) {
                 FROM recenze 
                 WHERE ID_R=? ";
 
-    $res = mysqli_fetch_all(mysqli_execute_query($conn, $sql, [$smazani["ID_R"]]), ASSERT_ACTIVE);
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $smazani["ID_R"]);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $res = mysqli_fetch_all($res, ASSERT_ACTIVE);
 
     foreach ($res as $re) {
         if (file_exists("../images/{$re["Obrazek"]}") && $re["Obrazek"] != "") {
@@ -51,8 +59,9 @@ if (array_key_exists("ID_R", $smazani) && isset($_SESSION["user_id"])) {
 
     $sql = "DELETE FROM recenze 
                 WHERE ID_R=?";
-
-    if (!mysqli_execute_query($conn, $sql, [$smazani["ID_R"]])) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $smazani["ID_R"]);
+    if (!$stmt->execute()) {
         echo "1";
         exit();
     }
